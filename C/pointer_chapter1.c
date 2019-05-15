@@ -1,0 +1,18 @@
+#include "stdio.h"
+
+// output:
+// ptr = 0061FF18 *ptr = 20
+// ptr = 0061FF18 *ptr = 21
+int main() {
+    int a = 20;
+
+    int *ptr = &a;
+
+    printf("ptr = %p *ptr = %d \n", ptr, *ptr);
+
+    a ++;
+
+    printf("ptr = %p *ptr = %d \n", ptr, *ptr);
+
+    return 0;
+}
