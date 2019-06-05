@@ -1,6 +1,4 @@
 
-import java.util.ArrayList
-
 fun foo(bar: Int = 0, baz: Int = 1, qux: () -> Unit) {}
 
 fun foo(vararg strings: String) { strings.forEach { println(it) } }
@@ -60,3 +58,10 @@ fun main() {
 
     println(sum(23, 34))
 }
+
+var o: (Int) -> Int = { it + 2 }
+
+fun sum(a: Int, b: Int, term: (Int) -> Int): String = "${term(a + b)}"
+
+sum(1, 2, o) // 5
+
