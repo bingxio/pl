@@ -1,0 +1,3 @@
+/home/turaiiao/repository-of-learning/Compiler/Virtual Machine/CMakeFiles/rebuild_cache.dir
+/home/turaiiao/repository-of-learning/Compiler/Virtual Machine/CMakeFiles/learnC.dir
+/home/turaiiao/repository-of-learning/Compiler/Virtual Machine/CMakeFiles/edit_cache.dir

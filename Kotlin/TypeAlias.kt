@@ -8,4 +8,8 @@ fun main() {
 
     println(a)
     println(b("12"))
+
+    val plus: (Int, Int) -> String = { a: Int, b: Int -> "$a$b" }
+
+    println(plus(23, 43))
 }

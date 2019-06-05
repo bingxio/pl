@@ -1,4 +1,6 @@
 
+import java.util.ArrayList
+
 fun foo(bar: Int = 0, baz: Int = 1, qux: () -> Unit) {}
 
 fun foo(vararg strings: String) { strings.forEach { println(it) } }
