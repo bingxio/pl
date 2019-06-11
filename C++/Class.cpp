@@ -18,6 +18,13 @@ class Box {
         int width;
 };
 
+/**
+ * Characteristics in inheritance, change access attributes of base class members:
+ *
+ * public:    { public, private, protected -> public,    none,    protected }
+ * private:   { public, private, protected -> private,   none,    private   }
+ * protected: { public, private, protected -> protected, none,    protected }
+ */
 class SmallBox : public Box {
     public:
         void setWidth(int w);
@@ -50,7 +57,7 @@ int main(int argc, char** argv) {
     
     a.setAddress("China");
     
-    std::cout << "username = " << a.username << ", password = " << a.password << std::endl;
+    std::cout << "username = " << a.username << ", password = " << a.password << std;
     std::cout << ", address = " << a.getAddress() << std::endl;
     
     SmallBox b;
