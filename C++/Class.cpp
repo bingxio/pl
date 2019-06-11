@@ -29,8 +29,8 @@ int main() {
     
     a.setAddress("China");
     
-    std::cout << "username = " << a.username << ", password = " << a.password << endl;
-    std::cout << ", address = " << a.getAddress() << endl;
+    std::cout << "username = " << a.username << ", password = " << a.password << std::endl;
+    std::cout << ", address = " << a.getAddress() << std::endl;
     
     return 0;
 }
