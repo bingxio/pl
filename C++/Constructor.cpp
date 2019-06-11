@@ -9,12 +9,18 @@ class Line {
         int getLength();
         
         explicit Line(int len);
+    
+        ~Line();
     private:
         int length;
 };
 
-Line:Line(int len) : length(len) {
-    cout << "Object is being created, length = " << len << endl;
+Line : Line(int len) : length(len) {
+    cout << "Object is being created." << endl;
+}
+
+Line : ~Line() {
+    cout << "Object is being deleted." << endl;
 }
 
 void setLength(int len) {
