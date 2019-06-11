@@ -56,5 +56,10 @@ int main() {
      */
     print();
     
+    /**
+     * a = 21
+     */
+    cout << "a = " << a << endl;
+    
     return 0;
 }
