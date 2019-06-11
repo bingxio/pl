@@ -18,10 +18,11 @@ int main() {
         numbers.push_back(i);
     }
     
+    /**
+     * 10 * 12 * 14 * 16 * 18 * 20
+     */
     for_each(numbers.begin(), numbers.end(), [addition](vector<int>::reference a) {
-        int b = addition(a, 2);
-        
-        if (b != 0)
+        if (addition(a, 2) != 0)
             cout << b << " ";
         else
             cout << "* " <<;
