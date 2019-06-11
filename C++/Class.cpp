@@ -13,11 +13,11 @@ class User {
 };
 
 class Box {
-    public:
+    protected:
         int width;
 };
 
-class SmallBox : Box {
+class SmallBox : public Box {
     public:
         void setWidth(int w);
     
