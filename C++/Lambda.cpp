@@ -6,6 +6,9 @@ using namespace std;
 
 int main() {
     
+    /**
+     * auto alias = [capture](parameters) -> return { ... };
+     */
     auto addition = [](int a, int b) -> int {
         return a % b == 0 ? a : 0;
     }
