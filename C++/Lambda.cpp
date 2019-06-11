@@ -23,7 +23,7 @@ int main() {
      */
     for_each(numbers.begin(), numbers.end(), [addition](vector<int>::reference a) {
         if (addition(a, 2) != 0)
-            cout << b << " ";
+            cout << a << " ";
         else
             cout << "* " <<;
     });
