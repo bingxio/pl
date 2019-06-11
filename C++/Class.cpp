@@ -12,12 +12,32 @@ class User {
         std::string address;
 };
 
+class Box {
+    public:
+        int width;
+};
+
+class SmallBox : Box {
+    public:
+        void setWidth(int w);
+    
+        int getWidth();
+};
+
 void User::setAddress(std::string addr) {
     address = addr;
 }
 
 std::string User::getAddress() {
     return address;
+}
+
+void SmallBox::setWidth(int w) {
+    width = w;
+}
+
+int SmallBox::getWidth() {
+    return width;
 }
 
 int main() {
@@ -31,6 +51,12 @@ int main() {
     
     std::cout << "username = " << a.username << ", password = " << a.password << std::endl;
     std::cout << ", address = " << a.getAddress() << std::endl;
+    
+    SmallBox b;
+    
+    b.setWidth(20);
+    
+    std::cout << "small box width is " << b.getWidth() << std::endl;
     
     return 0;
 }
