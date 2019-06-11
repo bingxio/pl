@@ -30,4 +30,31 @@ int main() {
         else
             cout << "* " <<;
     });
+    
+    cout << endl;
+    
+    int a = 20;
+    
+    auto val = [=] {
+        return a + 1;
+    }
+    
+    auto ref = [&] {
+        return a += 1;
+    }
+    
+    auto print = [=] {
+        cout << "a = " << val() << endl;
+        cout << "a = " << ref() << endl;
+        cout << "a = " << a << endl;
+    }
+    
+    /**
+     * a = 21
+     * a = 21
+     * a = 20
+     */
+    print();
+    
+    return 0;
 }
