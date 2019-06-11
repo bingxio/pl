@@ -1,21 +1,29 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
 int main() {
     
     auto addition = [](int a, int b) -> int {
-        if (a % 2 == 0) {
-            return a + b;
-        }
+        return a % b == 0 ? a : 0;
     }
     
-    vector<int> a;
+    vector<int> numbers;
     
-    a.reserve(20);
+    numbers.reserve(10);
     
-    for (int i = 0; i < 20; i ++) {
-        a.push_back(i);
+    for (int i = 10; i <= 20; i ++) {
+        numbers.push_back(i);
     }
+    
+    for_each(numbers.begin(), numbers.end(), [addition](vector<int>::reference a) {
+        int b = addition(a, 2);
+        
+        if (b != 0)
+            cout << b << " ";
+        else
+            cout << "* " <<;
+    });
 }
