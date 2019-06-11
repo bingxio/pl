@@ -1,4 +1,5 @@
 #include <iostream>
+#include <utility>
 
 class User {
     public:
@@ -25,7 +26,7 @@ class SmallBox : public Box {
 };
 
 void User::setAddress(std::string addr) {
-    address = addr;
+    address = std::move(addr);
 }
 
 std::string User::getAddress() {
