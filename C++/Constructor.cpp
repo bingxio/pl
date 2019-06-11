@@ -15,11 +15,11 @@ class Line {
         int length;
 };
 
-Line : Line(int len) : length(len) {
+Line:Line(int len) : length(len) {
     cout << "Object is being created." << endl;
 }
 
-Line : ~Line() {
+Line:~Line() {
     cout << "Object is being deleted." << endl;
 }
 
