@@ -40,7 +40,7 @@ int SmallBox::getWidth() {
     return width;
 }
 
-int main() {
+int main(int argc, char** argv) {
 
     User a;
     
