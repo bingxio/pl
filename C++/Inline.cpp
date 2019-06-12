@@ -6,7 +6,7 @@ using namespace std;
  * Inline function:
  *
  * 1.Call the inline function to paste the expression directly !
- * 2.Cannot use loop statements.
+ * 2.Can't use loop and multi-branching statements.
  */
 inline int max(int x, int y) {
     return x > y ? x : y;
