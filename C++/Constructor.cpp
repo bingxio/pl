@@ -8,26 +8,59 @@ class Line {
         
         int getLength();
         
-        explicit Line(int len);
+        /**
+         * Ordinary constructive function.
+         */
+        Line(int len);
     
+        /**
+         * Copy constructor function.
+         */
+        Line(const Line &obj);
+    
+        /**
+         * Destructive function.
+         *
+         * function must be declared with no arguments.
+         */
         ~Line();
     private:
         int length;
+        int *ptr;
+    
+        bool init;
 };
 
-Line:Line(int len) : length(len) {
-    cout << "Object is being created." << endl;
+/**
+ * Initialization lists are used to initialize field;
+ */
+Line::Line(int len) : length(len), init(true) {
+    cout << "-> Object is being created." << endl;
 }
 
-Line:~Line() {
-    cout << "Object is being deleted." << endl;
+Line::Line(const Line &obj) {
+    cout << "-> Object is being init." << endl;
+    
+    ptr = new int;
+    
+    *ptr = 3000;
+    
+    *obj.ptr = *ptr;
+    
+    cout << "-> Object private param ptr value: " << *obj.ptr << endl;
 }
 
-void setLength(int len) {
+Line::~Line() {
+    cout << "-> Object is being deleted." << endl;
+    
+    delete ptr;
+}
+
+void Line::setLength(int len) {
     length = len;
 }
 
-int getLength() {
+int Line::getLength() {
     return length;
 }
 
@@ -40,6 +73,11 @@ int main() {
     line.setLength(20);
     
     cout << "length of line: " << line.getLength() << endl;
+    
+    /**
+     * Copying variable, it will call copy function.
+     */
+    Line line2 = line;
     
     return 0;
 }
