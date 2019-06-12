@@ -13,7 +13,28 @@ class Box {
             
             return box;
         }
+    
+        friend void print(int a);
+    
+        friend void print(const char* a);
+    
+        friend void print(bool a);
 };
+
+void print(int a) {
+    cout << a << endl;
+}
+
+void print(const char* a) {
+    cout << a << endl;
+}
+
+void print(bool a) {
+    if (a)
+        cout << "true" << endl;
+    else
+        cout << "false" << endl;
+}
 
 int main() {
 
@@ -29,6 +50,10 @@ int main() {
     cout << "width of box 1: " << box1.width << endl;
     cout << "width of box 2: " << box2.width << endl;
     cout << "width of box 3: " << box3.width << endl;
+    
+    print(123);
+    print("Meet Programming Language");
+    print(true);
 
     return 0;
 }
