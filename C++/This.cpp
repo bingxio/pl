@@ -4,9 +4,13 @@ using namespace std;
 
 class User {
     public:
+        static int money;
+    
         User(string name = "turaiiao", string pass = "12345678") {
             username = name;
             password = pass;
+            
+            money ++;
         }
         
         bool compare(User user);
@@ -14,6 +18,8 @@ class User {
         string username;
         string password;
 };
+
+int User::money = 10000;
 
 bool User::compare(User user) {
     return this->username == user.username;
@@ -29,6 +35,8 @@ int main() {
     } else {
         cout << "User name of User 1 is different from User 2." << endl;
     }
+    
+    cout << User::money << endl;
     
     return 0;
 }
