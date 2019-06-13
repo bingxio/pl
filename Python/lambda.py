@@ -13,19 +13,19 @@ d = lambda a, b: a if a < b else b
 
 if __name__ == '__main__'
     print('12 + 43 + 1 = %d' % a(12, 43, 1))
-	  print(b())
-	  print('max (12, -23) = %d' % c(12, -23))
-	  print('min (12, -23) = %d' % d(12, -23))
+    print(b())
+    print('max (12, -23) = %d' % c(12, -23))
+    print('min (12, -23) = %d' % d(12, -23))
 
-	  list = []
+    list = []
 	
-	  for i in range(0, 20):
-		  list.append(i)
+    for i in range(0, 20):
+        list.append(i)
 		
-	  print(list)
+    print(list)
 	
-	  a = filter(lambda x: x % 2 == 0, list)
-	  b = map(lambda x: x + 5, a)
+    a = filter(lambda x: x % 2 == 0, list)
+    b = map(lambda x: x + 5, a)
 	
-	  print(a)
-	  print(b)
+    print(a)
+    print(b)
