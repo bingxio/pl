@@ -8,11 +8,17 @@ import (
 func main() {
     ticker := time.NewTicker(time.Second * 300)
     
+    counter := 0
+    
     go func() {
         for range ticker.C {
-            fmt.Println("call at ticker !")
+            fmt.Printf("call ticker for %d count. \n", counter)
             
-            ticker.Stop()
+            counter ++
+            
+            if counter == 5 {
+                ticker.Stop()
+            }
         }
     }()
 }
