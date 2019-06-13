@@ -13,7 +13,7 @@ func main() {
     c := cron.New()
     
     c.AddFunc(code, func() {
-        currentTime := time.Now().Format("2006-01-02 15:06")
+        currentTime := time.Now().Format("2006-01-02 15:04")
         
         fmt.Println(currentTime)
     })
