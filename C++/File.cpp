@@ -20,6 +20,8 @@ int main() {
 
 
     std::cout << source << std::endl;
+    
+    fileStream.close();
 
     return 0;
 }
