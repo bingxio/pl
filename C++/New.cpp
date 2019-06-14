@@ -4,7 +4,7 @@ using namespace std;
 
 class User {
     public:
-        string username;
+	string username;
 	string password;
 	
 	User(string name, string pass);
