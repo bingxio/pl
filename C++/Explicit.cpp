@@ -8,7 +8,7 @@ class Male {
         /**
          * If use explicit keyword, represents that this function is an explicit transformation.
          */
-        explict Male(int a);
+        explicit Male(int a);
         
         ~Male();
 };
@@ -21,7 +21,9 @@ Male::~Male() {
     cout << "object is deleted." << endl;
 }
 
-void fun(Male* male) {}
+void fun(Male* male) {
+    cout << "call fun" << endl;
+}
 
 int main() {
 
