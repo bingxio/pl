@@ -11,6 +11,16 @@ class Point {
             y = b;
         }
         
+        /**
+         * No meaningful definition of virtual function is given in the base class.
+         *
+         * Leave definition to derived class: { virtual double area() = 0; }
+         *
+         * Abstract class: 
+         * 1.Class containing pure virtual functions are called abstract class.
+         * 2.An abstract class has at least one pure imaginary function.
+         * 3.An abstract class can only be derived as a base class.
+         */
         virtual double area() {
             return 0;
         }
