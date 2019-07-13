@@ -1,107 +1,118 @@
 fn main() {
-    // fn largest<T>(list: &[T]) -> T {
-    //     let mut a = list.get(0);
-
-    //     for &item in list.iter() {
-    //         if item > a {
-    //             a = item;
-    //         }
-    //     }
-
-    //     a
-    // }
-
-    // let a = vec![12, 43, 53, 22, 67, 84];
-    // let b = largest(&a);
-
-    // println!("max is = {}", b);
-
-    struct Point<T, U> {
-        x: T,
-        y: U
-    }
-
-    let a = Point { x: 12.5, y: 12 };
-    let b = Point {
-        x: 1.3,
-        y: String::from("Hello World")
-    };
-
-    println!("x = {}, y = {}", a.x, a.y);
-    println!("x = {}, y = {}", b.x, b.y);
-
-    // enum Option<T> {
-    //     Some(T),
-    //     None
-    // }
-
-    struct User<T> {
-        name: T,
-        addr: T
-    }
-
-    impl<T> User<T> {
-        fn name(&self) -> &T {
-            &self.name
-        }
-    }
-
-    let a = User { name: "turaiiao", addr: "chongqing" };
-
-    println!("a.name = {}", a.name());
-
-    impl<T, U> Point<T, U> {
-        fn mixup<V, W>(self, other: Point<V, W>) -> Point<T, W> {
-            Point {
-                x: self.x,
-                y: other.y
-            }
-        }
-    }
-
-    let a = Point { x: 5, y: 10.4 };
-    let b = Point { x: "Hello", y: 'c' };
-    let c = a.mixup(b);
-
-    println!("x = {}, y = {}", c.x, c.y);
-
-    struct Person {
-        name: String,
-        age: u8
-    }
-
-    trait HasVoiceBox {
-        // speak
-        fn speak(&self);
-        // check if can speak
-        fn can_speak(&self) -> bool;
-    }
-
-    impl HasVoiceBox for Person {
-        fn speak(&self) {
-            println!("Hello, my name is {}", self.name);
-        }
-
-        fn can_speak(&self) -> bool {
-            return self.age > 0;
-        }
-    }
-
-    let a = Person {
-        name: String::from("Bob"),
-        age: 42
-    };
-
-    println!("Person {} can speak ? {}", a.name, a.can_speak());
-
-    let mut a = 20;
+    let x;
 
     {
-        let dom = &mut a;
-        *dom += 1;
+        let y = 5;
+        x = &y;
+
+        println!("x = {}", x);
+
+        // `y` dropped here.
     }
 
-    println!("a = {}", a); // 21
+    // error: borrowed value deos not live long enough.
+    // println!("x = {}", x);
 
+    // life time annotation:
+    // 
+    // explicit lifecycle reference.
+    // &'a i32
+    // explicit lifecycle variable reference.
+    // &'a mut i32
+
+    fn longest<'a>(x: &'a str, y:&'a str) -> &'a str {
+        if x.len() > y.len() {
+            x
+        } else {
+            y
+        }
+    }
+
+    let a = String::from("abcd");
+    let b = "xyz";
+
+    println!("the longest string is {}.", longest(a.as_str(), b));
+
+    // life time in the structure.
+    struct ImportantExcerpt<'a> {
+        part: &'a str
+    }
+
+    let novel = String::from("call me ishmael. some years ago...");
+    let first_sentence = novel.split('.').next().expect("could not find a '.'");
+
+    let i = ImportantExcerpt { part: first_sentence };
+
+    println!("i = {}", i.part);
+
+    // life time elision rules.
+    // we know every referene has a life time, we need in order to used function or
+    // structure to designated life time.
+    // all right, this function not use life time, but it works well, why ?
+    fn first_word(s: &str) -> &str {
+        let bytes = s.as_bytes();
+
+        for (i, &item) in bytes.iter().enumerate() {
+            if item == b' ' || item == b',' {
+                return &s[0..i];
+            }
+        }
+
+        &s[..]
+    }
+
+    let a = "hello, my name is turaiiao, i am a 17 age coder.";
+    let b = first_word(a);
+
+    println!("b = {}", b);
+
+    // the pattern of citation analysis is called 'lifetime elision rules',
+    // this is not a rule that the programmers need to follow.
+    // this rules are a series of specific scenarios.
+    // at this point the compiler will consider, if the code matches these scenarios, 
+    // it no need to explicitly specify the lifetime.
+
+    // lifetime in method defintion.
+    impl <'a> ImportantExcerpt<'a> {
+        fn level(&self) -> i32 {
+            12
+        }
+
+        fn announce_and_return_part(&self, announcement: &str) -> &str {
+            println!("attention please: {}", announcement);
+
+            self.part
+        }
+    }
+
+    println!("i level = {}, part = {}", i.level(), i.announce_and_return_part("OK"));
+
+    // static lifetime.
+    // if defined static, it survive between programs.
+    // every string literal was static lifetime.
+    // also, we can write this code:
+    let a: &'static str = "i have a static lifetime.";
+
+    println!("a = {}", a);
+
+    // generic param and trait bounds lifetime.
+    use std::fmt::Display;
+
+    fn longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str where T: Display {
+        println!("announcement! {}", ann);
+
+        if x.len() > y.len() {
+            x
+        } else {
+            y
+        }
+    }
+
+    // the name `ann` type is generic T, why ?
+
+    let (a, b) = ("1234", "56789");
     
+    let c = longest_with_an_announcement(a, b, "why? why? what is lifetime ?");
+
+    println!("c = {}", c);
 }
