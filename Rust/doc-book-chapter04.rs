@@ -41,15 +41,23 @@ fn main() {
     let (c, d, e) = (&a[..], &a[0..2], &a[3..a.len()]);
 
     println!("c = {}, d = {}, e = {}", c, d, e);
+    
+    let a = String::from("Hello, World !");
+    
+    takes_ownership(a);
+    
+    // `a` is moved to function.
+    println!("{}", a);
+    
+    let a = 23;
+    let b = a;
+    
+    println!("{} {}", a, b);
 }
 
-fn takes_ownership(x: String) {
-    println!("x = {}", x);
-}
+fn takes_ownership(x: String) {}
 
-fn makes_copy(y: i32) {
-    println!("y = {}", y);
-}
+fn makes_copy(y: i32) {}
 
 fn gives_ownership() -> String {
     String::from("hello")
