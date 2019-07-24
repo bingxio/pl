@@ -40,3 +40,5 @@ let g:NERDTreeIndicatorMapCustom = {
     \ 'Ignored'   : '☒',
     \ "Unknown"   : "?"
     \ }
+
+nnoremap <F6> :exe 'NERDTreeToggle'<CR>
