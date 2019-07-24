@@ -21,10 +21,9 @@ set nobackup
 set autochdir
 set backupcopy=yes
 
-
 colorscheme dracula
 
-highlight CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+highlight CursorLine cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
 
 autocmd vimenter * NERDTree
 let NERDTreeShowHidden=1
