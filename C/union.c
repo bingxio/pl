@@ -5,8 +5,8 @@ typedef struct {
     int precdence;
 	
     union {
-      bool boolean;
-      double number;
+      	bool boolean;
+      	double number;
     } as;
 } Value;
 
@@ -17,4 +17,6 @@ int main() {
 	
     printf("precdence = %d \n", a.precdence);
     printf("it number = %f \n", a.as.number);
+	
+	return 0;
 }
