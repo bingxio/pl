@@ -5,8 +5,8 @@ typedef struct {
     int precedence;
 
     union {
-	    bool isNumber;
-	    double value;
+        bool isNumber;
+        double value;
     } as;
 } Value;
 
