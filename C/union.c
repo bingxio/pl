@@ -2,12 +2,12 @@
 #include<stdbool.h>
 
 typedef struct {
-  int precedence;
+    int precedence;
 
-	union {
-		bool isNumber;
-		double value;
-	} as;
+    union {
+	    bool isNumber;
+	    double value;
+    } as;
 } Value;
 
 int main() {
