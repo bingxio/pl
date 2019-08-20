@@ -1,22 +1,25 @@
-#include <stdio.h>
-#include <stdbool.h>
+#include<stdio.h>
+#include<stdbool.h>
 
 typedef struct {
-	int precdence;
-	
+	int precedence;
+
 	union {
-		bool boolean;
-		double number;
-    } as;
+		bool isNumber;
+		double value;
+	} as;
 } Value;
 
-#define NUMBER_VAL(value) ((Value) { 1, { .number = value } })
-
 int main() {
-	Value a = NUMBER_VAL(12.5);
-	
-	printf("precdence = %d \n", a.precdence);
-	printf("it number = %f \n", a.as.number);
-	
+	Value a = { 23, {
+			.isNumber = false,
+			.value = 2.4
+		},
+	};
+
+	if (a.as.isNumber) {
+		printf("%d %d %f\n", a.precedence, a.as.isNumber, a.as.value);
+	}
+
 	return 0;
 }
