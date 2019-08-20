@@ -16,6 +16,6 @@ int main() {
     if (a.as.isNumber) {
         printf("%d %d %f\n", a.precedence, a.as.isNumber, a.as.value);
     }
-
-	return 0;
+    
+    return 0;
 }
