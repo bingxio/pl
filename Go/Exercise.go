@@ -27,7 +27,6 @@ func (u User) validate(username, password string) string {
 }
 
 func main() {
-
 	a := User{
 		Username: "turaiiao",
 		Password: "12345678",
