@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+  </head>
+  <style>
+    div {
+      margin: 100px;
+      background-color: green;
+      width: 80px;
+      height: 30px;
+      border: 30px;
+    }
+  </style>
+  <body style="background-color: white">
+    <h1 style="color: red;margin: 25px">Hello World</h1>
+    <div id="btn">
+      BUTTON
+    </div>
+  </body>
+  <script>
+    const add = document.querySelector('#add')
+    const ipc = require('electron').ipcRenderer
+    add.onclick = () => {
+      ipc.send('add')
+    }
+  </script>
+</html>
