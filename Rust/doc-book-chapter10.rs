@@ -97,14 +97,15 @@ fn main() {
   // generic param and trait bounds lifetime.
   use std::fmt::Display;
 
-  fn longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str where T: Display {
-    println!("announcement! {}", ann);
+  fn longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str 
+    where T: Display {
+      println!("announcement! {}", ann);
 
-    if x.len() > y.len() {
-      x
-    } else {
-      y
-    }
+      if x.len() > y.len() {
+        x
+      } else {
+        y
+      }
   }
 
   // the name `ann` type is generic T, why ?
