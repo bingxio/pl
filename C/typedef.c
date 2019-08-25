@@ -4,15 +4,15 @@
 typedef int (* function) (char* message);
 
 int test(char* message) {
-    return strlen(message);
+  return strlen(message);
 }
 
 int main() {
-    function a = test;
+  function a = test;
 	
-    int len = a("hello world");
+  int len = a("hello world");
 	
-    printf("byte = %d \n", len + 1);
+  printf("byte = %d \n", len + 1);
 	
-    return 0;
+  return 0;
 }

@@ -1,15 +1,15 @@
 #include "stdio.h"
 
 int main() {
-    int a = 20;
+  int a = 20;
 
-    int *ptr = &a;
+  int *ptr = &a;
 
-    printf("ptr = %p *ptr = %d \n", ptr, *ptr);
+  printf("ptr = %p *ptr = %d \n", ptr, *ptr);
 
-    a ++;
+  a ++;
 
-    printf("ptr = %p *ptr = %d \n", ptr, *ptr);
+  printf("ptr = %p *ptr = %d \n", ptr, *ptr);
 
-    return 0;
+  return 0;
 }

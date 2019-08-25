@@ -2,41 +2,41 @@
 #include "stdlib.h"
 
 int plus(int a, int b) {
-    return a + b;
+  return a + b;
 }
 
 struct Book {
-    int id;
-    char *name;
+  int id;
+  char *name;
 };
 
 typedef struct Book c_primer_plus;
 
 void edit_book_name(c_primer_plus *book, char *name) {
-    book->id = book->id + 1;
-    book->name = name;
+  book->id = book->id + 1;
+  book->name = name;
 }
 
 int main() {
-    unsigned char a = 'm';
-    unsigned char *b = &a;
+  unsigned char a = 'm';
+  unsigned char *b = &a;
 
-    printf("%p %c \n", b, *b);
+  printf("%p %c \n", b, *b);
 
-    int c = plus(12, 6);
+  int c = plus(12, 6);
 
-    int *d = &c;
+  int *d = &c;
 
-    printf("%d \n", *d);
+  printf("%d \n", *d);
 
-    c_primer_plus *book = malloc(sizeof (c_primer_plus));
+  c_primer_plus *book = malloc(sizeof (c_primer_plus));
 
-    book->id = 1;
-    book->name = "the meet programming language";
+  book->id = 1;
+  book->name = "the meet programming language";
 
-    printf("%d %s \n", book->id, book->name);
+  printf("%d %s \n", book->id, book->name);
 
-    edit_book_name(book, "the java programming language");
+  edit_book_name(book, "the java programming language");
 
-    printf("%d %s \n", book->id, book->name);
+  printf("%d %s \n", book->id, book->name);
 }

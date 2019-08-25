@@ -16,47 +16,47 @@ private val minus: (Int, Int) -> Int = { x, y -> x - y }
 val sum = fun Int.(other: Int): Int = this + other
 
 fun main() {
-    foo(1) { println("hello") }
-    foo(qux = { println("hello") })
-    foo { println("hello") }
+  foo(1) { println("hello") }
+  foo(qux = { println("hello") })
+  foo { println("hello") }
 
-    foo(strings = *arrayOf("a", "b", "c"))
+  foo(strings = *arrayOf("a", "b", "c"))
 
-    val items = listOf(1, 2, 3, 4, 5, 6)
+  val items = listOf(1, 2, 3, 4, 5, 6)
 
-    items.fold(0, {
-        acc: Int, i: Int ->
-            print("acc = $acc, i = $i, ")
-        println("result = ${acc + i}")
+  items.fold(0, {
+    acc: Int, i: Int ->
+      print("acc = $acc, i = $i, ")
+      println("result = ${acc + i}")
 
-        acc + i
-    })
+      acc + i
+  })
 
-    val a = { i: Int -> i + 1 }
+  val a = { i: Int -> i + 1 }
 
-    println(a(2))
+  println(a(2))
 
-    val b: (Int, Int) -> Boolean = { x: Int, y: Int -> x > y }
+  val b: (Int, Int) -> Boolean = { x: Int, y: Int -> x > y }
 
-    @Suppress("NAME_SHADOWING") val c: (List<Any>) -> List<Any> = { i: List<Any> ->
-        val items = ArrayList<Any>()
+  @Suppress("NAME_SHADOWING") val c: (List<Any>) -> List<Any> = { i: List<Any> ->
+    val items = ArrayList<Any>()
 
-        for (v in 5 downTo 0) {
-            items.add(i[v])
-        }
-
-        items
+    for (v in 5 downTo 0) {
+      items.add(i[v])
     }
 
-    println(b(2, 6))
-    println(c(items))
+    items
+  }
 
-    items.filter { it > 2 }.forEach { println(it) }
+  println(b(2, 6))
+  println(c(items))
 
-    println(runTransformation(repeatFun))
-    println(stringPlus("hello ", "world"))
+  items.filter { it > 2 }.forEach { println(it) }
 
-    println(sum(23, 34))
+  println(runTransformation(repeatFun))
+  println(stringPlus("hello ", "world"))
+
+  println(sum(23, 34))
 }
 
 var o: (Int) -> Int = { it + 2 }

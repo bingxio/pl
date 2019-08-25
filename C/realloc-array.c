@@ -3,7 +3,7 @@
 #include<stdbool.h>
 
 int main() {
-    int* code = NULL, size = 0;
+  int* code = NULL, size = 0;
 
 	int a[] = {23, 45, 65, 3, 43, 23, 32, 0}, i = 0;
 
@@ -14,14 +14,14 @@ int main() {
 			code[size ++] = a[i ++];
 		} else
 			break;
-    }
+  }
 
 	printf("size = %d\n", size);
 
 	for (int i = 0; i < size; i ++)
 		printf("%-5d", code[i]);
 
-    free(code);
+  free(code);
 
 	return 0;
 }

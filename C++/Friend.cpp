@@ -3,25 +3,24 @@
 using namespace std;
 
 class Box {
-    public:
-        Box(int w);
+  public:
+    Box(int w);
         
-        friend void printWidth(Box box);
-    private:
-        int width;
+    friend void printWidth(Box box);
+  private:
+    int width;
 };
 
 void printWidth(Box box) {
-    cout << "width of box: " << box.width << endl;
+  cout << "width of box: " << box.width << endl;
 }
 
 Box::Box(int w): width(w) {}
 
-int main() {
+int main() {  
+  Box box(122);
     
-    Box box(122);
-    
-    printWidth(box);
+  printWidth(box);
 
-    return 0;
+  return 0;
 }

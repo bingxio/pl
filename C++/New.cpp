@@ -3,7 +3,7 @@
 using namespace std;
 
 class User {
-    public:
+  public:
 	string username;
 	string password;
 	
@@ -13,23 +13,22 @@ class User {
 User::User(string name, string pass): username(name), password(pass) {}
 
 int main() {
-
-    /**
-     * Use new keyword to create new reference.
-     *
-     * if there are no parameters, don't write parentheses.
-     *
-     * User* a = new User;
-     */
-    User* a = new User("turaiiao", "12345678");
+  /**
+   * Use new keyword to create new reference.
+   *
+   * if there are no parameters, don't write parentheses.
+   *
+   * User* a = new User;
+   */
+  User* a = new User("turaiiao", "12345678");
 	
-    cout << a -> username << endl;
-    cout << a -> password << endl;
+  cout << a -> username << endl;
+  cout << a -> password << endl;
 
-    /**
-     * Must use delete keyword to release memory.
-     */
-    delete a;
+  /**
+   * Must use delete keyword to release memory.
+   */
+  delete a;
 	
-    return 0;
+  return 0;
 }

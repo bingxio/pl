@@ -1,21 +1,18 @@
 
 class A {
+  init {
+    println("init A class")
+  }
 
+  inner class B {
     init {
-        println("init A class")
+      println("init B class")
     }
-
-    inner class B {
-        init {
-            println("init B class")
-        }
-    }
-
+  }
 }
 
 fun main() {
-    val a = A()
+  val a = A()
 
-    a.B() // is a class.
-
+  a.B() // is a class.
 }

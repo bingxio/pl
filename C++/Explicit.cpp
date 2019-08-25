@@ -3,38 +3,37 @@
 using namespace std;
 
 class Male {
-    public:
+  public:
     
-        /**
-         * If use explicit keyword, represents that this function is an explicit transformation.
-         */
-        explicit Male(int a);
+  /**
+   * If use explicit keyword, represents that this function is an explicit transformation.
+   */
+  explicit Male(int a);
         
-        ~Male();
+  ~Male();
 };
 
 Male::Male(int a) {
-    cout << "object is created." << endl;
+  cout << "object is created." << endl;
 }
 
 Male::~Male() {
-    cout << "object is deleted." << endl;
+  cout << "object is deleted." << endl;
 }
 
 void fun(Male* male) {
-    cout << "call fun" << endl;
+  cout << "call fun" << endl;
 }
 
 int main() {
+  Male* a = new Male("turaiiao");
 
-    Male* a = new Male("turaiiao");
-
-    /**
-     * If it's not an explicit conversion, this parameter can be passed as an integer.
-     */
-    fun(a);
+  /**
+   * If it's not an explicit conversion, this parameter can be passed as an integer.
+   */
+  fun(a);
     
-    delete a;
+  delete a;
     
-    return 0;
+  return 0;
 }

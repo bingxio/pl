@@ -4,23 +4,22 @@
 using namespace std;
 
 int main() {
+  char* username = (char *) malloc(64);
     
-    char* username = (char *) malloc(64);
+  cout << "Please input your name: ";
     
-    cout << "Please input your name: ";
+  /**
+   * turaiiao
+   */
+  cin >> username;
     
-    /**
-     * turaiiao
-     */
-    cin >> username;
+  string a = username;
     
-    string a = username;
+  /**
+   * username = turaiiao, length = 8
+   */
+  cout << "username = " << username;
+  cout << ", length = " << a.size() << endl;
     
-    /**
-     * username = turaiiao, length = 8
-     */
-    cout << "username = " << username;
-    cout << ", length = " << a.size() << endl;
-    
-    return 0;
+  return 0;
 }

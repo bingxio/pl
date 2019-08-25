@@ -3,78 +3,78 @@ use std::{cmp::Ordering, io};
 use std::io::*;
 
 mod sound {
-    pub mod instrument {
-        pub mod woodwine {
-            pub fn clarinet() {
-                println!("call at mod woodwine.");
-            }
-        }
+  pub mod instrument {
+    pub mod woodwine {
+      pub fn clarinet() {
+        println!("call at mod woodwine.");
+      }
     }
+  }
 
-    mod voice {
+  mod voice {
 
-    }
+  }
 }
 
 fn breath_in() {
-    println!("call at crate.");
+  println!("call at crate.");
 }
 
 mod a {
-    pub fn b() {
-        super::breath_in();
-    }
+  pub fn b() {
+    super::breath_in();
+  }
 }
 
 mod plant {
-    pub struct Vegetable {
-        pub name: String,
-        id: i32
-    }
+  pub struct Vegetable {
+    pub name: String,
+    id: i32
+  }
 
-    impl Vegetable {
-        pub fn new(name: &str) -> Vegetable {
-            Vegetable {
-                name: String::from(name),
-                id: 1
-            }
-        }
+  impl Vegetable {
+    pub fn new(name: &str) -> Vegetable {
+      Vegetable {
+        name: String::from(name),
+        id: 1
+      }
     }
+  }
 }
 
 mod menu {
-    pub enum Appetizer {
-        Soup,
-        Salad
-    }
+  pub enum Appetizer {
+    Soup,
+    Salad
+  }
 }
 
 fn main() {
-    // absolute path.
-    crate::sound::instrument::woodwine::clarinet();
-    // relative path.
-    sound::instrument::woodwine::clarinet();
+  // absolute path.
+  crate::sound::instrument::woodwine::clarinet();
+  // relative path.
+  sound::instrument::woodwine::clarinet();
+  
+  a::b();
 
-    a::b();
+  let mut a = plant::Vegetable::new("Squash");
 
-    let mut a = plant::Vegetable::new("Squash");
+  a.name = String::from("Butternut squash");
+  println!("a name is {}", a.name);
 
-    a.name = String::from("Butternut squash");
-    println!("a name is {}", a.name);
+  // the param id is not public.
+  // println!("a id is {}", a.id);
 
-    // the param id is not public.
-    // println!("a id is {}", a.id);
+  let a = menu::Appetizer::Soup;
+  let b = menu::Appetizer::Salad;
 
-    let a = menu::Appetizer::Soup;
-    let b = menu::Appetizer::Salad;
+  use crate::sound::instrument::woodwine;
+  // or:
+  // use self::sound::instrument::woodwine;
 
-    use crate::sound::instrument::woodwine;
-    // or:
-    // use self::sound::instrument::woodwine;
+  woodwine::clarinet();
 
-    woodwine::clarinet();
-
-    // let mut a: HashMap<i32, i32> = HashMap::new();
-    // or:
-    // let mut a: collections::HashMap<i32, i32> = collections::HashMap::new();
+  // let mut a: HashMap<i32, i32> = HashMap::new();
+  // or:
+  // let mut a: collections::HashMap<i32, i32> = collections::HashMap::new();
 }
