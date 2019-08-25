@@ -24,12 +24,11 @@ fun main() {
 
   val items = listOf(1, 2, 3, 4, 5, 6)
 
-  items.fold(0, {
-    acc: Int, i: Int ->
-      print("acc = $acc, i = $i, ")
-      println("result = ${acc + i}")
-
-      acc + i
+  items.fold(0, { acc: Int, i: Int ->
+    print("acc = $acc, i = $i, ")
+    println("result = ${acc + i}")
+                 
+    acc + i
   })
 
   val a = { i: Int -> i + 1 }
