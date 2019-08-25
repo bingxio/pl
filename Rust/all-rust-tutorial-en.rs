@@ -213,6 +213,85 @@ fn main() {
   // The original value is still there,
   // And the function just borrow to the value.
   output_name_borrow(&a.name);
+  
+  // The trait type like interface on other language.
+  // We can add `$self` parameter to get self data.
+  trait Human {
+    // The human was eating.
+    // Return the human is can eat ?
+    fn eat(&self,age: u8) -> bool;
+    // The human can sleep.
+    fn sleep(&self);
+  }
+
+  // Implement some method on User struct.
+  impl Human for User {
+    // Implement eat function with trait.
+    fn eat(&self, age: u8) -> bool {
+      // If user age greater 8 that it can eat.
+      age > 8
+    }
+    // Implement sleep function with trait.
+    fn sleep(&self) {
+      println!("{} is sleeping !", self.name)
+    }
+  }
+
+  // Call method with trait type.
+  a.sleep();
+
+  // If it can eat on 12 age.
+  if a.eat(12) {
+    println!("Eating !!");
+  }
+
+  // Defined a struct data.
+  // Both T and R are generics type.
+  struct Point<T, R> {
+    x: T,
+    y: T,
+    // Z is description.
+    z: R
+  }
+
+  // Implement Point struct.
+  impl<T, R> Point<T, R> {
+    // Get borrow for self z parameter.
+    // It return a generics type !.
+    fn desc(&self) -> &R {
+      &self.z
+    }
+  }
+
+  // Let us to defined a Point !
+  // This x and y is extend T generics, both x and y type must is T !
+  // The z parameter is R generics that can different for x and y.
+  let a = Point {
+    x: 23,
+    y: 43,
+    z: "it is a point."
+  };
+
+  println!("{} {}", a.x, a.y);
+  println!("{}", a.desc());
+  
+  // Defined a empty Test.
+  enum Test {};
+
+  // We can define some method on other data type.
+  impl Test {
+    fn show() -> String {
+      String::from("hello rust !")
+    }
+  }
+
+  println!("{}", Test::show());
+
+  // Type alias to custom my type.
+  type AnyMap = HashMap<u8, &'static str>;
+
+  // Use like HashMap !!
+  let map = AnyMap::new();
 }
 
 // Display age parameter in User struct.
