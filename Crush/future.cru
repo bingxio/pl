@@ -1,0 +1,133 @@
+import 'std' -> time | http | platform as darwin
+
+import 'test.cru'
+
+open func max (a: int, b: int) -> int ~>
+  return if (a > b) -> a else -> b
+end
+
+open var sum = (a: int, b: int) -> int => a + b
+
+open var mul = (a: int, b: int, sum: (int, int) -> int) -> int ~>
+  var sum = sum(a, b)
+
+  return if (sum > 100 & sum < 200) -> a * b
+    elif (sum > 200) -> a * b + sum
+    else -> sum
+end
+
+open const var a: int = 20
+
+magic ~>
+  var mut i = input() as int
+
+  if (a == i) ~>
+    println 'You are win !!'
+    break
+  end
+    
+  elif (a > i) ->
+    println 'Too small.'
+  elif (a < i) ->
+    println 'Too big.'
+end
+
+when (1 + 2) ~>
+  1 -> println '1'
+  2 -> println '2'
+  3 ~>
+    println '3'
+    println 'OK !!'
+  end
+  else -> println 'NO !!'
+end
+
+const var a: list<int> = [1, 2, 3, 4, 5, 6, 7, 8]
+
+for (i <- a) ~> if (i % 2 == 0) ->
+  println i
+end
+
+for (i <- 1..8) -> if (i % 2 == 0) -> println i
+
+var mut a = 0
+
+while (a < 100) ~>
+  if (a % 2 == 0) ->
+    println i
+  a += 1
+end
+
+open data Todo -> title: string, date: int
+
+open trait TodoPunchListener ~>
+  func success(todo: Todo)
+  func failed(err: string)
+end
+
+open trait TodoListener ~>
+  func punch(listener: TodoPunchListener)
+end
+
+open impl TodoImpl : TodoListener ~>
+  override func punch(listener: TodoPunchListener) ~>
+    if (1 + 1 == 2) -> listener.success(
+      new Todo('test', 23)
+    )
+    else -> listener.failed('can not punched !!')
+  end
+end
+
+open impl Test : TodoPunchListener ~>
+  init -> new TodoImpl().punch(this)
+
+  override func success(todo: Todo) => println '\(todo.title) \(todo.date)'
+
+  override func failed(err: string) => println 'Error: \(err)'
+end
+
+open enum Color -> RED, BLUE, GREEN
+
+var a = Color.RED
+
+impl A ~>
+  open func show() => println 'show !!'
+end
+
+impl B : A ~>
+  init -> super.show()
+end
+
+new B()
+
+var a = 23
+var b = 45
+var c = (a: int) => println a
+
+c(a) // name a is null, because the a is transmit to function parameter.
+
+if (a == null) ->
+  println 'a is null !!'
+
+// the c is function with a ref use parameter.
+var c = (ref a: int) => println a
+
+open const var a = (12, 43, 45, 65)
+
+println a.0 + a.1 + a.2 + a.3 // 165
+
+func max (ref a: int, ref b: int) -> int => if (a > b) -> a else -> b
+
+var mut a = 0
+var mut b = []
+
+for (i <- 1..100) ~>
+  if (i % 2 == 0) ~>
+    b.insert(i)
+    continue
+  end
+  a += 1
+end
+
+println a
+println b
