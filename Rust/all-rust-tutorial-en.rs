@@ -365,11 +365,14 @@ mod expr {
 
   // This function is add two value and return it.
   pub fn binary(l: i32, r: i32, o: Operator) -> i32 {
+    // If use enum datas that we can ellipsis the enum name.
+    use super::expr::Operator::*;
+    
     match o {
-      Operator::Add => l + r,
-      Operator::Sub => l - r,
-      Operator::Mul => l * r,
-      Operator::Div => l / r
+      Add => l + r,
+      Sub => l - r,
+      Mul => l * r,
+      Div => l / r
     }
   }
 
