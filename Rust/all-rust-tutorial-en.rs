@@ -292,6 +292,89 @@ fn main() {
 
   // Use like HashMap !!
   let map = AnyMap::new();
+  
+  // At this struct we used one life time parameter `'a`.
+  // The parameter x is borrow value,
+  // we should make sure it lives longer than the original variable.
+  // If its value was released that parameter x is wild pointer !!!
+  // Of course we can add multiply life time parameter.
+  struct Foo<'a> {
+    x: &'a i32
+  }
+
+  let y = &23;
+  // Let parameter x assign a borrow value.
+  // The compiler will help us to contrast scope length.
+  let z = Foo {
+    x: y
+  };
+
+  // This display `x = 23 y = 23`
+  println!("x = {} y = {}", z.x, y);
+
+  let a = "Hello";
+  let c;
+
+  {
+    let _b = String::from("World");
+    // At this line the compiler catch an error,
+    // The variable is allocated in other scope, current scope will released before use b.
+    /// c = longest(a, b.as_str());
+    // The variable b will released at this line.
+  }
+
+  // That's all right, it is all in the same scope.
+  c = longest(a, "World !");
+
+  // Error: The variable b lift time is not length.
+  // Because variable b was released.
+  println!("{}", c);
+
+  // Use our custom package in other package.
+  // It can write at file header or other space before use.
+   use crate::expr::{Operator, binary};
+
+  println!("{}", binary(23, 25, Operator::Add));
+  println!("{}", binary(23, 25, Operator::Sub));
+  println!("{}", binary(23, 25, Operator::Mul));
+  println!("{}", binary(23, 25, Operator::Div));
+
+  // Use closure to define a lambda function.
+  // Use `|` as function paren to set parameters.
+  // Return a i32 value.
+  let add = |x: i32, y: i32| -> i32 {
+    x + y
+  };
+
+  println!("{}", add(12, 32));
+
+  // Split string numbers with lambda expression.
+  let a: Vec<&str> = "abc3543def343".split(|c: char|
+    c.is_numeric()
+  ).collect();
+
+  // [ "abc", "def" ]
+  println!("{:?}", a);
+}
+
+// Define our custom package.
+mod expr {
+  // The enum data is public.
+  // We can use it in other package.
+  pub enum Operator { Add, Sub, Mul, Div }
+
+  // This function is add two value and return it.
+  pub fn binary(l: i32, r: i32, o: Operator) -> i32 {
+    match o {
+      Operator::Add => l + r,
+      Operator::Sub => l - r,
+      Operator::Mul => l * r,
+      Operator::Div => l / r
+    }
+  }
+
+  // We can define a empty package, its not public.
+  mod other {}
 }
 
 // Display age parameter in User struct.
@@ -307,4 +390,14 @@ fn output_name_quote(name: String) {
 // Display name parameter in User struct by borrow.
 fn output_name_borrow(name: &String) {
   println!("age = {}", name);
+}
+
+// This function used two life time parameter to keep scope length.
+// If x or y are different scope that compiler will tell us error.
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+  if x.len() > y.len() {
+    x
+  } else {
+    y
+  }
 }
