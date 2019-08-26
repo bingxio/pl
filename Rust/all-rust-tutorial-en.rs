@@ -375,6 +375,48 @@ fn main() {
   println!("{}", mul(12, 32, add));
   // -1
   println!("{}", mul(3, 4, add));
+  
+  #[derive(PartialEq, Debug)]
+  enum OS {
+    Windows,
+    Linux
+  }
+
+  // All right, also we can judge enum data one by one.
+  struct My {
+    platform: OS
+  }
+
+  // Specified for `PartialEq` type on OS enum.
+  impl std::cmp::PartialEq<OS> for My {
+    fn eq(&self, other: &OS) -> bool {
+      // Both are OS enum type, we can judge it.
+      self.platform == *other
+    }
+  }
+
+  let a = My { platform: OS::Linux };
+  let b = My { platform: OS::Windows };
+
+  // Some tests.
+  println!("{}", a.platform == b.platform);
+  println!("{}", a.platform == a.platform);
+
+  #[derive(Debug)]
+  enum Expr {
+    Literal(&'static str),
+    // We can assign enum data like struct.
+    Addition {
+      l: i32,
+      r: i32
+    }
+  }
+
+  let a = Expr::Literal("23");
+  let b = Expr::Addition { l: 34, r: 32 };
+
+  // TODO: How to get enum's field.
+  println!("{:?} {:?} {}", a, b, 11);
 }
 
 // Define our custom package.
