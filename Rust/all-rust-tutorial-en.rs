@@ -332,12 +332,12 @@ fn main() {
 
   // Use our custom package in other package.
   // It can write at file header or other space before use.
-   use crate::expr::{Operator, binary};
+  use crate::expr::{Operator::*, binary};
 
-  println!("{}", binary(23, 25, Operator::Add));
-  println!("{}", binary(23, 25, Operator::Sub));
-  println!("{}", binary(23, 25, Operator::Mul));
-  println!("{}", binary(23, 25, Operator::Div));
+  println!("{}", binary(23, 25, Add));
+  println!("{}", binary(23, 25, Sub));
+  println!("{}", binary(23, 25, Mul));
+  println!("{}", binary(23, 25, Div));
 
   // Use closure to define a lambda function.
   // Use `|` as function paren to set parameters.
