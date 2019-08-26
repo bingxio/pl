@@ -355,6 +355,26 @@ fn main() {
 
   // [ "abc", "def" ]
   println!("{:?}", a);
+  
+  let add = |a: i32, b: i32| -> String {
+    format!("{}", a + b)
+  };
+
+  // This function parameters have a fn type, its a other function.
+  // If x add y that its length greater than or equal 2 then return add.
+  // Else return x subtract y.
+  fn mul(x: i32, y: i32, add: fn(i32, i32) -> String) -> i32 {
+    if add(x, y).len() >= 2 {
+      x + y
+    } else {
+      x - y
+    }
+  }
+
+  // 44
+  println!("{}", mul(12, 32, add));
+  // -1
+  println!("{}", mul(3, 4, add));
 }
 
 // Define our custom package.
