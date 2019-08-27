@@ -213,7 +213,7 @@ fn main() {
   // The original value is still there,
   // And the function just borrow to the value.
   output_name_borrow(&a.name);
-  
+
   // The trait type like interface on other language.
   // We can add `$self` parameter to get self data.
   trait Human {
@@ -250,7 +250,7 @@ fn main() {
   struct Point<T, R> {
     x: T,
     y: T,
-    // Z is description.
+    // Z is point's description.
     z: R
   }
 
@@ -274,7 +274,7 @@ fn main() {
 
   println!("{} {}", a.x, a.y);
   println!("{}", a.desc());
-  
+
   // Defined a empty Test.
   enum Test {};
 
@@ -291,8 +291,8 @@ fn main() {
   type AnyMap = HashMap<u8, &'static str>;
 
   // Use like HashMap !!
-  let map = AnyMap::new();
-  
+  let _map = AnyMap::new();
+
   // At this struct we used one life time parameter `'a`.
   // The parameter x is borrow value,
   // we should make sure it lives longer than the original variable.
@@ -319,7 +319,7 @@ fn main() {
     let _b = String::from("World");
     // At this line the compiler catch an error,
     // The variable is allocated in other scope, current scope will released before use b.
-    /// c = longest(a, b.as_str());
+    // c = longest(a, b.as_str());
     // The variable b will released at this line.
   }
 
@@ -355,7 +355,7 @@ fn main() {
 
   // [ "abc", "def" ]
   println!("{:?}", a);
-  
+
   let add = |a: i32, b: i32| -> String {
     format!("{}", a + b)
   };
@@ -375,7 +375,7 @@ fn main() {
   println!("{}", mul(12, 32, add));
   // -1
   println!("{}", mul(3, 4, add));
-  
+
   #[derive(PartialEq, Debug)]
   enum OS {
     Windows,
@@ -415,8 +415,38 @@ fn main() {
   let a = Expr::Literal("23");
   let b = Expr::Addition { l: 34, r: 32 };
 
-  // TODO: How to get enum's field.
-  println!("{:?} {:?} {}", a, b, 11);
+  println!("{:?} {:?}", a, b);
+
+  // We can use match expression structuring it to get value.
+  match a {
+    Expr::Literal(literal) => println!("literal expr = {}", literal),
+    _ => println!()
+  }
+
+  let a = Some(3);
+
+  // We can concise control flow with if let expression.
+  // Or: `if Some(3) == a {}`
+  if let Some(3) = a {
+    println!("a = 3");
+  }
+
+  // Self and self of rust.
+  #[derive(Debug)]
+  struct Our(i32);
+
+  impl Our {
+    // This function functions as a clone of our structure.
+    // The `Self` keyword is abbreviation of ontology.
+    // (Self == Our) = true
+    fn take_clone(&self) -> Self {
+      Our(self.0)
+    }
+  }
+
+  let a = Our(18);
+  // Both are `Our` struct type.
+  println!("{:?} {:?}", a, a.take_clone());
 }
 
 // Define our custom package.
@@ -427,9 +457,9 @@ mod expr {
 
   // This function is add two value and return it.
   pub fn binary(l: i32, r: i32, o: Operator) -> i32 {
-    // If use enum datas that we can ellipsis the enum name.
+    // If use enum data that we can ellipsis the enum name.
     use super::expr::Operator::*;
-    
+
     match o {
       Add => l + r,
       Sub => l - r,
