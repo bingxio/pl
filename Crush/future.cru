@@ -1,14 +1,30 @@
-import 'std' -> time | http | platform as darwin
+// Import other module like use array and it can alias a name.
+// I very like crush language syntax and I design it.
+import 'std' -> [time, http, platform as darwin]
 
-import 'test.cru'
+// If I want import all open statement or expression.
+// Can not missing the `*` operator because I like it.
+import 'test.cru' -> *
 
-open func max (a: int, b: int) -> int ~>
+// A very simple function like this.
+// It is return the max of two numbers.
+func max (a: int, b: int) -> int ~>
   return if (a > b) -> a else -> b
 end
 
+// This is a lambda expression with function statement.
+// It is open in current module.
+// If function body only have one statement I can use `=>` operator to appoint it.
+// And the `~>` operator explain function have many statement in body.
 open var sum = (a: int, b: int) -> int => a + b
 
+// Declare a function with lambda expression and it have many stmt in body.
+// It have three parameter.
+// First and second is integer variable that easy to understand it.
+// The third parameter is a function declare !!
+// The third parameter has two integer parameters and an integer is returned.
 open var mul = (a: int, b: int, sum: (int, int) -> int) -> int ~>
+  // Call third parameter.
   var sum = sum(a, b)
 
   return if (sum > 100 & sum < 200) -> a * b
@@ -16,9 +32,14 @@ open var mul = (a: int, b: int, sum: (int, int) -> int) -> int ~>
     else -> sum
 end
 
+// The Const value explain value is fixed and can't move.
 open const var a: int = 20
 
+// Magic !!
+// Dead cycle.
 magic ~>
+  // Declare a mutable variable.
+  // It will catch user input and convert type to integer.
   var mut i = input() as int
 
   if (a == i) ~>
@@ -35,10 +56,10 @@ end
 when (1 + 2) ~>
   1 -> println '1'
   2 -> println '2'
-  3 ~>
-    println '3'
-    println 'OK !!'
-  end
+  3 ~> println '3'
+       println 'OK !!'
+    end
+  4 -> println 'what's the problem ?'
   else -> println 'NO !!'
 end
 
@@ -60,13 +81,13 @@ end
 
 open data Todo -> title: string, date: int
 
-open trait TodoPunchListener ~>
+trait TodoPunchListener ~>
   func success(todo: Todo)
   func failed(err: string)
 end
 
 open trait TodoListener ~>
-  func punch(listener: TodoPunchListener)
+  func punch(listener: TodoPunchListener) -> boolean
 end
 
 open impl TodoImpl : TodoListener ~>
@@ -74,7 +95,9 @@ open impl TodoImpl : TodoListener ~>
     if (1 + 1 == 2) -> listener.success(
       new Todo('test', 23)
     )
-    else -> listener.failed('can not punched !!')
+    else -> 
+      listener.failed('can not punched !!')
+    return true
   end
 end
 
@@ -104,12 +127,13 @@ var a = 23
 var b = 45
 var c = (a: int) => println a
 
-c(a) // name a is null, because the a is transmit to function parameter.
+c(a) // The variable a is null, because the a is transmit to function parameter.
 
 if (a == null) ->
   println 'a is null !!'
 
-// the c is function with a ref use parameter.
+// The c is function with a ref use parameter.
+// if 
 var c = (ref a: int) => println a
 
 open const var a = (12, 43, 45, 65)
