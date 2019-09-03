@@ -8,7 +8,7 @@ import 'test.cru' -> *
 
 // A very simple function like this.
 // It is return the max of two numbers.
-func max (a: int, b: int) -> int ~>
+def max (a: int, b: int) -> int ~>
   return if (a > b) -> a else -> b
 end
 
@@ -36,6 +36,7 @@ end
 
 // The Const value illustrate value is fixed and can't move.
 open const var a: int = 20
+open const var b: flo = 2.
 
 // Magic !!
 // Dead cycle.
@@ -76,6 +77,8 @@ end
 // This is a array defintion and it is const value.
 // We can appoint the type of variable just use a colon and type.
 const var a: list<int> = [1, 2, 3, 4, 5, 6, 7, 8]
+// The any object is other types.
+const var a: list<any> = [1, false, 2.3, 12, 'test']
 
 // The `for` statement usually are array iterator.
 // Use `<-` operator afferent a array or range type.
@@ -93,25 +96,24 @@ var mut a = 0
 while (a < 100) ~>
   if (a % 2 == 0) ->
     println i
-  // I like double plus expression.
-  // It will add in crush language.
+  // I like double plus expression, it will add in crush language.
   a ++
 end
 
 // The `data` statement like entity in Java.
-data Todo -> title: string, date: int
+data Todo -> title: str, date: int
 
 // The `trait` statement like interface type in other language.
 // We shoud add some function defintion in interface body.
 trait TodoPunchListener ~>
-  func success(todo: Todo)
-  func failed(err: string)
+  def success(todo: Todo)
+  def haveErr(err: str)
 end
 
 // It is public in this module.
 // It have one function defintion and will returned an boolean data.
 open trait TodoListener ~>
-  func punch(listener: TodoPunchListener) -> boolean
+  def punch(listener: TodoPunchListener) -> bool
 end
 
 // The `impl` statement is implement type.
@@ -119,12 +121,12 @@ end
 // It can define many method on other types.
 open impl TodoImpl : TodoListener ~>
   // Use `override` keyword to illustrate this function is extend on interface.
-  override func punch(listener: TodoPunchListener) ~>
+  overlap def punch(listener: TodoPunchListener) -> bool ~>
     if (1 + 1 == 2) -> listener.success(
       new Todo('test', 23)
     )
     else -> 
-      listener.failed('can not punched !!')
+      listener.haveErr('can not punched !!')
     return true
   end
 end
@@ -134,21 +136,23 @@ open impl Test : TodoPunchListener ~>
   // Use `this` keyword illustrate current context.
   init -> new TodoImpl().punch(this)
 
-  override func success(todo: Todo) => println '\(todo.title) \(todo.date)'
-
-  override func failed(err: string) => println 'Error: \(err)'
+  overlap def success(todo: Todo) => println '\(todo.title) \(todo.date)'
+  overlap def haveErr(err: str) => println 'Error: \(err) !!'
 end
 
 // Enumeration.
 enum Color -> RED, BLUE, GREEN
 // This implement is judge two `Color` enumeration type.
 // Just use the implement type to illustrate it.
-impl Color -> open func equal(x: Color, y: Color) -> boolean => x == y
+impl Color -> open def equal(x: Color, y: Color) -> bool => x == y
 
 var a = Color.RED
 
+// Error: The variable is not mutable !!
+a = Color.BLUE
+
 impl A ~>
-  open func show() => println 'show !!'
+  open def show() => println 'show !!'
 end
 
 impl B : A ~>
@@ -181,7 +185,7 @@ open const var a = (12, 43, 45, 65)
 println a.0 + a.1 + a.2 + a.3 // 165
 
 // Function have two borrow values and return the max value.
-func max (bor a: int, bor b: int) -> int => if (a > b) -> a else -> b
+def max (bor a: int, bor b: int) -> int => if (a > b) -> a else -> b
 
 var mut a = 0
 var mut b = []
@@ -196,7 +200,7 @@ for ((i, v) <- 0..100) ~>
     continue
   end
   // If is radix number the variable a plus one.
-  a += 1
+  a ++
 end
 
 println a
