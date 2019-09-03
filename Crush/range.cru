@@ -15,8 +15,9 @@ else ->
   b += 1
   
 println '\(a) even numbers and \(b) radix numbers'
-    
-func max (ref arr: list<int>) -> int ~>
+
+// This function parameter use borrowed value the original value will retain after function destroyed.
+func max (bor arr: list<int>) -> int ~>
   var mut max = arr[0]
   
   for (i <- arr) ->
