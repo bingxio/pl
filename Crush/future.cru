@@ -1,3 +1,5 @@
+// THIS FILE WAS LICENSED BY `Turaiiao` AT SEP 03 2019
+
 // Import other module like array and alias a name.
 // I very like crush language syntax and I design it.
 import 'std' -> time + http + platform as darwin
