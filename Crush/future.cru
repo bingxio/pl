@@ -144,7 +144,7 @@ end
 enum Color -> RED, BLUE, GREEN
 // This implement is judge two `Color` enumeration type.
 // Just use the implement type to illustrate it.
-impl Color -> open def equal(x: Color, y: Color) -> bool => x == y
+impl Color -> open def equal(x: Color) -> bool => this == x
 
 var a = Color.RED
 
