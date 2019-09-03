@@ -1,6 +1,6 @@
 // Import other module like array and alias a name.
 // I very like crush language syntax and I design it.
-import 'std' -> [time, http, platform as darwin]
+import 'std' -> time + http + platform as darwin
 
 // If I want import all open statement or expression.
 // Can not missing the `*` operator because I like it.
@@ -144,24 +144,23 @@ end
 enum Color -> RED, BLUE, GREEN
 // This implement is judge two `Color` enumeration type.
 // Just use the implement type to illustrate it.
-impl Color -> open def equal(x: Color) -> bool => this == x
+impl Color -> open def equal(x: Color) -> bool => self == x
 
 var a = Color.RED
 
 // Error: The variable is not mutable !!
 a = Color.BLUE
 
-impl A ~>
-  open def show() => println 'show !!'
-end
+impl A -> open def show() => println 'show on implement A'
+impl B -> open def show() => println 'show on implement B'
 
-impl B : A ~>
+impl C : A + B ~>
   // Call show method in parent implement.
   init -> super.show()
 end
 
-// There will call init method in B implement.
-new B()
+// There will call init method in A and B implement.
+new C()
 
 var a = 23
 var b = 45
