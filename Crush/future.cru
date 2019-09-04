@@ -39,9 +39,7 @@ end
 // And if I want to return a function when function called.
 // It is easy to understand I returned a anonymous function and it name is `addToStr`.
 open def addToStr() -> def (int, int) -> str ~>
-  return def (x: int, y: int) -> str ~>
-    return str(x + y)
-  end
+  return def (x: int, y: int) -> str => str(x + y)
 end
 
 // Output a string '345678'.
