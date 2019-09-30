@@ -38,16 +38,14 @@ open var mul = (a: int, b: int, sum: (int, int) -> int) -> int {
 
 // And if I want to return a function when function called.
 // It is easy to understand I returned a anonymous function and it name is `addToStr`.
-open def addToStr() -> def (int, int) -> str {
-  return def (x: int, y: int) -> str => str(x + y)
-}
+open def addToStr() -> def (int, int) -> str => def (x: int, y: int) -> str => str(x + y)
 
 // Output a string '345678'.
 println addToStr(23, 11) + '5678'
 
 // The Const value illustrate value is fixed and can't move.
-open const var a: int = 20
-open const var b: flo = 2.
+open const var a: int   = 20
+open const var b: float = 2.
 
 // Magic !!
 // Dead cycle.
