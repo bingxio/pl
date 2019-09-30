@@ -10,9 +10,9 @@ import 'test.cru' -> *
 
 // A very simple function like this.
 // It is return the max of two numbers.
-def max (a: int, b: int) -> int ~>
+def max (a: int, b: int) -> int ~> {
   return if (a > b) -> a else -> b
-end
+}
 
 // This is a lambda expression with function statement.
 // It is public in current module.
@@ -26,7 +26,7 @@ open var sum = (a: int, b: int) -> int => a + b
 // First and second is integer variable that easy to understand it.
 // The third parameter is a function type !!
 // The third parameter has two integer parameters and an integer is returned.
-open var mul = (a: int, b: int, sum: (int, int) -> int) -> int ~>
+open var mul = (a: int, b: int, sum: (int, int) -> int) -> int ~> {
   // Call third parameter.
   var sum = sum(a, b)
 
@@ -34,7 +34,7 @@ open var mul = (a: int, b: int, sum: (int, int) -> int) -> int ~>
   return if (sum > 100 & sum < 200) -> a * b
     elif (sum > 200) -> a * b + sum
     else -> sum
-end
+}
 
 // And if I want to return a function when function called.
 // It is easy to understand I returned a anonymous function and it name is `addToStr`.
