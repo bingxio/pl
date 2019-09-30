@@ -10,7 +10,7 @@ import 'test.cru' -> *
 
 // A very simple function like this.
 // It is return the max of two numbers.
-def max (a: int, b: int) -> int ~> {
+def max (a: int, b: int) -> int {
   return if (a > b) -> a else -> b
 }
 
@@ -26,21 +26,21 @@ open var sum = (a: int, b: int) -> int => a + b
 // First and second is integer variable that easy to understand it.
 // The third parameter is a function type !!
 // The third parameter has two integer parameters and an integer is returned.
-open var mul = (a: int, b: int, sum: (int, int) -> int) -> int ~> {
+open var mul = (a: int, b: int, sum: (int, int) -> int) -> int {
   // Call third parameter.
   var sum = sum(a, b)
 
   // Return with `if` expression.
-  return if (sum > 100 & sum < 200) -> a * b
+  return if (sum > 100 & sum < 200) -> a * b 
     elif (sum > 200) -> a * b + sum
     else -> sum
 }
 
 // And if I want to return a function when function called.
 // It is easy to understand I returned a anonymous function and it name is `addToStr`.
-open def addToStr() -> def (int, int) -> str ~>
+open def addToStr() -> def (int, int) -> str {
   return def (x: int, y: int) -> str => str(x + y)
-end
+}
 
 // Output a string '345678'.
 println addToStr(23, 11) + '5678'
@@ -51,39 +51,39 @@ open const var b: flo = 2.
 
 // Magic !!
 // Dead cycle.
-magic ~>
+magic {
   // Define a mutable variable.
   // It will catch user input and convert type to integer.
   var mut i = input() as int
 
   // A guess number program.
-  if (a == i) ~>
+  if (a == i) {
     println 'You are win !!'
     break
-  end
+  }
   
   elif (a > i) ->
     println 'Too small.'
   elif (a < i) ->
     println 'Too big.'
-end
+}
 
 // We can match some result and handle it.
-when (1 + 2) ~>
+when (1 + 2) {
   1 -> println '1'
   2 -> println '2'
   
-  3 ~> 
+  3 -> {
     println '3'
     println 'OK !!'
-  end
+  }
   
   4 -> println 'what's the problem ?'
   
   // If they are not the same.
   // The `else` statement like `default` in c language.
   else -> println 'NO !!'
-end
+}
 
 // This is a array defintion and it is const value.
 // We can appoint the type of variable just use a colon and type.
@@ -93,9 +93,9 @@ const var a: list<any> = [1, false, 2.3, 12, 'test']
 
 // The `for` statement usually are array iterator.
 // Use `<-` operator afferent a array or range type.
-for (i <- a) ~> if (i % 2 == 0) ->
-  println i
-end
+for (i <- a) -> 
+  if (i % 2 == 0) ->
+    println i
 
 // Output of even numbers between 0 and 10.
 for (i <- 0..10) -> if (i % 2 == 0) -> println i
@@ -104,52 +104,52 @@ var mut a = 0
 
 // Have nothing different for `while` statement in other language.
 // We just need to known if use `~>` operator that should add `end` statement in end.
-while (a < 100) ~>
+while (a < 100) {
   if (a % 2 == 0) ->
     println i
   // I like double plus expression, it will add in crush language.
   a ++
-end
+}
 
 // The `data` statement like entity in Java.
 data Todo -> title: str, date: int
 
 // The `trait` statement like interface type in other language.
 // We shoud add some function defintion in interface body.
-trait TodoPunchListener ~>
+trait TodoPunchListener {
   def success(todo: Todo)
   def haveErr(err: str)
-end
+}
 
 // It is public in this module.
 // It have one function defintion and will returned an boolean data.
-open trait TodoListener ~>
+open trait TodoListener {
   def punch(listener: TodoPunchListener) -> bool
-end
+}
 
 // The `impl` statement is implement type.
 // It can implement for other types and it can extend interface type.
 // It can define many method on other types.
-open impl TodoImpl : TodoListener ~>
+open impl TodoImpl : TodoListener {
   // Use `override` keyword to illustrate this function is extend on interface.
-  overlap def punch(listener: TodoPunchListener) -> bool ~>
+  overlap def punch(listener: TodoPunchListener) -> bool {
     if (1 + 1 == 2) -> listener.success(
       new Todo('test', 23)
     )
     else -> 
       listener.haveErr('can not punched !!')
     return true
-  end
-end
+  }
+}
 
-open impl Test : TodoPunchListener ~>
+open impl Test : TodoPunchListener {
   // First initializtion will execution this statement.
   // Use `this` keyword illustrate current context.
   init -> new TodoImpl().punch(this)
 
   overlap def success(todo: Todo) => println '\(todo.title) \(todo.date)'
   overlap def haveErr(err: str) => println 'Error: \(err) !!'
-end
+}
 
 // Enumeration.
 enum Color -> RED, BLUE, GREEN
@@ -165,10 +165,10 @@ a = Color.BLUE
 impl A -> open def show() => println 'show on implement A'
 impl B -> open def show() => println 'show on implement B'
 
-impl C : A + B ~>
+impl C : A + B {
   // Call show method in parent implement.
   init -> super.show()
-end
+}
 
 // There will call init method in A and B implement.
 new C()
@@ -202,16 +202,28 @@ var mut b = []
 
 // This `for` statement has indices and value iterator.
 // We just use brackets operator parcel it.
-for ((i, v) <- 0..100) ~>
-  if (v % 2 == 0) ~>
+for ((i, v) <- 0..100) {
+  if (v % 2 == 0) {
     // It value is even number that push it to array.
     // Else continue next loop.
     b[i] = v
     continue
-  end
+  }
   // If is radix number the variable a plus one.
   a ++
-end
+}
 
 println a
 println b
+
+var a = 20
+
+{
+  a ++
+  // Output `20`.
+  println a
+  // The variable `a` will drop here.
+}
+
+// The variable `a` is nil !!
+println a
