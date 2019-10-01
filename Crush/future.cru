@@ -124,9 +124,7 @@ trait TodoPunchListener {
 
 /// It is public in this module.
 /// It have one function defintion and will returned an boolean data.
-open trait TodoListener {
-  def punch(listener: TodoPunchListener) -> bool
-}
+open trait TodoListener -> def punch(listener: TodoPunchListener) -> bool
 
 /// The `impl` statement is implement type.
 /// It can implement for other types and it can extend interface type.
@@ -147,7 +145,7 @@ open impl Test : TodoPunchListener {
   /// First initializtion will execution this statement.
   /// Use `this` keyword illustrate current context.
   init -> new TodoImpl().punch(this)
-
+  /// There is override from super class.
   overlap def success(todo: Todo) => println '\(todo.title) \(todo.date)'
   overlap def haveErr(err: str) => println 'Error: \(err) !!'
 }
