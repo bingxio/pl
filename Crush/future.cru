@@ -1,60 +1,60 @@
-// THIS FILE WAS LICENSED BY `Turaiiao` AT SEP 03 2019
+/// THIS FILE WAS LICENSED BY `Turaiiao` AT SEP 03 2019
 
-// Import other module like array and alias a name.
-// I very like crush language syntax and I design it.
+/// Import other module like array and alias a name.
+/// I very like crush language syntax and I design it.
 import 'std' -> time + http + platform as darwin
 
-// If I want import all public statement or expression.
-// Can not missing the `*` operator because I like it.
+/// If I want import all public statement or expression.
+/// Can not missing the `*` operator because I like it.
 import 'test.cru' -> *
 
-// A very simple function like this.
-// It is return the max of two numbers.
+/// A very simple function like this.
+/// It is return the max of two numbers.
 def max (a: int, b: int) -> int {
   return if (a > b) -> a else -> b
 }
 
-// This is a lambda expression with function statement.
-// It is public in current module.
-// If function body only have one statement I can use `=>` operator to appoint it.
-// And the `~>` operator illustrate function have many statement in body.
-// We should add the `end` statement after execution body.
+/// This is a lambda expression with function statement.
+/// It is public in current module.
+/// If function body only have one statement I can use `=>` operator to appoint it.
+/// And the `~>` operator illustrate function have many statement in body.
+/// We should add the `end` statement after execution body.
 open var sum = (a: int, b: int) -> int => a + b
 
-// Define a function with lambda expression and it have many statement in body.
-// It have three parameter.
-// First and second is integer variable that easy to understand it.
-// The third parameter is a function type !!
-// The third parameter has two integer parameters and an integer is returned.
+/// Define a function with lambda expression and it have many statement in body.
+/// It have three parameter.
+/// First and second is integer variable that easy to understand it.
+/// The third parameter is a function type !!
+/// The third parameter has two integer parameters and an integer is returned.
 open var mul = (a: int, b: int, sum: (int, int) -> int) -> int {
-  // Call third parameter.
+  /// Call third parameter.
   var sum = sum(a, b)
 
-  // Return with `if` expression.
+  /// Return with `if` expression.
   return if (sum > 100 & sum < 200) -> a * b 
     elif (sum > 200) -> a * b + sum
     else -> sum
 }
 
-// And if I want to return a function when function called.
-// It is easy to understand I returned a anonymous function and it name is `addToStr`.
+/// And if I want to return a function when function called.
+/// It is easy to understand I returned a anonymous function and it name is `addToStr`.
 open def addToStr() -> def (int, int) -> str => def (x: int, y: int) -> str => str(x + y)
 
-// Output a string '345678'.
+/// Output a string '345678'.
 println addToStr(23, 11) + '5678'
 
-// The Const value illustrate value is fixed and can't move.
+/// The Const value illustrate value is fixed and can't move.
 open const var a: int   = 20
 open const var b: float = 2.
 
-// Magic !!
-// Dead cycle.
+/// Magic !!
+/// Dead cycle.
 magic {
-  // Define a mutable variable.
-  // It will catch user input and convert type to integer.
+  /// Define a mutable variable.
+  /// It will catch user input and convert type to integer.
   var mut i = input() as int
 
-  // A guess number program.
+  /// A guess number program.
   if (a == i) {
     println 'You are win !!'
     break
@@ -66,7 +66,7 @@ magic {
     println 'Too big.'
 }
 
-// We can match some result and handle it.
+/// We can match some result and handle it.
 when (1 + 2) {
   1 -> println '1'
   2 -> println '2'
@@ -78,38 +78,41 @@ when (1 + 2) {
   
   4 -> println 'what's the problem ?'
   
-  // If they are not the same.
-  // The `else` statement like `default` in c language.
+  /// If they are not the same.
+  /// The `else` statement like `default` in c language.
   else -> println 'NO !!'
 }
 
-// This is a array defintion and it is const value.
-// We can appoint the type of variable just use a colon and type.
+/// This is a array defintion and it is const value.
+/// We can appoint the type of variable just use a colon and type.
 const var a: list<int> = [1, 2, 3, 4, 5, 6, 7, 8]
-// The any object is other types.
+/// The any object is other types.
 const var a: list<any> = [1, false, 2.3, 12, 'test']
 
-// The `for` statement usually are array iterator.
-// Use `<-` operator afferent a array or range type.
+/// The `for` statement usually are array iterator.
+/// Use `<-` operator afferent a array or range type.
 for (i <- a) -> 
   if (i % 2 == 0) ->
     println i
 
-// Output of even numbers between 0 and 10.
+/// Output of even numbers between 0 and 10.
 for (i <- 0..10) -> if (i % 2 == 0) -> println i
 
 var mut a = 0
 
-// Have nothing different for `while` statement in other language.
-// We just need to known if use `~>` operator that should add `end` statement in end.
+/// Have nothing different for `while` statement in other language.
+/// We just need to known if use `~>` operator that should add `end` statement in end.
 while (a < 100) {
   if (a % 2 == 0) ->
     println i
-  // I like double plus expression, it will add in crush language.
+  /// I like double plus expression, it will add in crush language.
   a ++
 }
 
-// The `data` statement like entity in Java.
+/// Dead code.
+while (true) -> break
+
+/// The `data` statement like entity in Java.
 data Todo -> title: str, date: int
 
 // The `trait` statement like interface type in other language.
@@ -119,17 +122,17 @@ trait TodoPunchListener {
   def haveErr(err: str)
 }
 
-// It is public in this module.
-// It have one function defintion and will returned an boolean data.
+/// It is public in this module.
+/// It have one function defintion and will returned an boolean data.
 open trait TodoListener {
   def punch(listener: TodoPunchListener) -> bool
 }
 
-// The `impl` statement is implement type.
-// It can implement for other types and it can extend interface type.
-// It can define many method on other types.
+/// The `impl` statement is implement type.
+/// It can implement for other types and it can extend interface type.
+/// It can define many method on other types.
 open impl TodoImpl : TodoListener {
-  // Use `override` keyword to illustrate this function is extend on interface.
+  /// Use `override` keyword to illustrate this function is extend on interface.
   overlap def punch(listener: TodoPunchListener) -> bool {
     if (1 + 1 == 2) -> listener.success(
       new Todo('test', 23)
@@ -141,73 +144,73 @@ open impl TodoImpl : TodoListener {
 }
 
 open impl Test : TodoPunchListener {
-  // First initializtion will execution this statement.
-  // Use `this` keyword illustrate current context.
+  /// First initializtion will execution this statement.
+  /// Use `this` keyword illustrate current context.
   init -> new TodoImpl().punch(this)
 
   overlap def success(todo: Todo) => println '\(todo.title) \(todo.date)'
   overlap def haveErr(err: str) => println 'Error: \(err) !!'
 }
 
-// Enumeration.
+/// Enumeration.
 enum Color -> RED, BLUE, GREEN
-// This implement is judge two `Color` enumeration type.
-// Just use the implement type to illustrate it.
+/// This implement is judge two `Color` enumeration type.
+/// Just use the implement type to illustrate it.
 impl Color -> open def equal(x: Color) -> bool => self == x
 
 var a = Color.RED
 
-// Error: The variable is not mutable !!
+/// Error: The variable is not mutable !!
 a = Color.BLUE
 
 impl A -> open def show() => println 'show on implement A'
 impl B -> open def show() => println 'show on implement B'
 
 impl C : A + B {
-  // Call show method in parent implement.
+  /// Call show method in parent implement.
   init -> super.show()
 }
 
-// There will call init method in A and B implement.
+/// There will call init method in A and B implement.
 new C()
 
 var a = 23
 var b = 45
-// This function have one parameter and it is quote value !!
-// The parameter a and value will destroyed at function end. 
+/// This function have one parameter and it is quote value !!
+/// The parameter a and value will destroyed at function end. 
 var c = (a: int) => println a
 
-// There will output the variable a value.
-// The variable will be nil after this line.
+/// There will output the variable a value.
+/// The variable will be nil after this line.
 c(a)
 
 if (a == nil) ->
   println 'a is nil !!'
   
-// This function have a borrow parameter it will retain after function destroyed.
+/// This function have a borrow parameter it will retain after function destroyed.
 var c = (bor a: int) => println a
 
-// Tuple type.
+/// Tuple type.
 open const var a = (12, 43, 45, 65)
 
-println a.0 + a.1 + a.2 + a.3 // 165
+println a.0 + a.1 + a.2 + a.3 /// 165
 
-// Function have two borrow values and return the max value.
+/// Function have two borrow values and return the max value.
 def max (bor a: int, bor b: int) -> int => if (a > b) -> a else -> b
 
 var mut a = 0
 var mut b = []
 
-// This `for` statement has indices and value iterator.
-// We just use brackets operator parcel it.
+/// This `for` statement has indices and value iterator.
+/// We just use brackets operator parcel it.
 for ((i, v) <- 0..100) {
   if (v % 2 == 0) {
-    // It value is even number that push it to array.
-    // Else continue next loop.
+    /// It value is even number that push it to array.
+    /// Else continue next loop.
     b[i] = v
     continue
   }
-  // If is radix number the variable a plus one.
+  /// If is radix number the variable a plus one.
   a ++
 }
 
@@ -218,10 +221,10 @@ var a = 20
 
 {
   a ++
-  // Output `20`.
+  /// Output `20`.
   println a
-  // The variable `a` will drop here.
+  /// The variable `a` will drop here.
 }
 
-// The variable `a` is nil !!
+/// The variable `a` is nil !!
 println a
