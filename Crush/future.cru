@@ -115,8 +115,8 @@ while (true) -> break
 /// The `data` statement like entity in Java.
 data Todo -> title: str, date: int
 
-// The `trait` statement like interface type in other language.
-// We shoud add some function defintion in interface body.
+/// The `trait` statement like interface type in other language.
+/// We shoud add some function defintion in interface body.
 trait TodoPunchListener {
   def success(todo: Todo)
   def haveErr(err: str)
