@@ -233,7 +233,7 @@ var a = 20
   // The variable `a` will drop here.
 }
 
-// The variable `a` is nil !!
+// The variable `a` value is nil !!
 println a
 
 impl Test (x: any, y: int) {
@@ -247,3 +247,10 @@ impl Test (x: any, y: int) {
 
 new Test(1.5, 23)
 new Test(245, 23)
+
+trait Human -> def eat () -> bool
+
+impl People : Human (age: int) -> overlap def eat () -> bool => self.age >= 5
+
+println new People(3).eat()
+println new People(5).eat()
