@@ -19,14 +19,14 @@ def max (a: int, b: int) -> int {
 /// If function body only have one statement I can use `=>` operator to appoint it.
 /// And the `~>` operator illustrate function have many statement in body.
 /// We should add the `end` statement after execution body.
-open var sum = (a: int, b: int) -> int => a + b
+open var sum -> (a: int, b: int) -> int => a + b
 
 /// Define a function with lambda expression and it have many statement in body.
 /// It have three parameter.
 /// First and second is integer variable that easy to understand it.
 /// The third parameter is a function type !!
 /// The third parameter has two integer parameters and an integer is returned.
-open var mul = (a: int, b: int, sum: (int, int) -> int) -> int {
+open var mul -> (a: int, b: int, sum: (int, int) -> int) -> int {
   /// Call third parameter.
   var sum = sum(a, b)
 
