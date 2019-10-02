@@ -130,7 +130,7 @@ open trait TodoListener -> def punch(listener: TodoPunchListener) -> bool
 /// It can implement for other types and it can extend interface type.
 /// It can define many method on other types.
 open impl TodoImpl : TodoListener {
-  /// Use `override` keyword to illustrate this function is extend on interface.
+  /// Use `overlap` keyword to illustrate this function is extend on interface.
   overlap def punch(listener: TodoPunchListener) -> bool {
     if (1 + 1 == 2) -> listener.success(
       new Todo('test', 23)
@@ -143,8 +143,8 @@ open impl TodoImpl : TodoListener {
 
 open impl Test : TodoPunchListener {
   /// First initializtion will execution this statement.
-  /// Use `this` keyword illustrate current context.
-  init -> new TodoImpl().punch(this)
+  /// Use `self` keyword illustrate current context.
+  init -> new TodoImpl().punch(self)
   /// There is override from super class.
   overlap def success(todo: Todo) => println '\(todo.title) \(todo.date)'
   overlap def haveErr(err: str) => println 'Error: \(err) !!'
@@ -176,7 +176,7 @@ var a = 23
 var b = 45
 /// This function have one parameter and it is quote value !!
 /// The parameter a and value will destroyed at function end. 
-var c = (a: int) => println a
+var c -> (a: int) => println a
 
 /// There will output the variable a value.
 /// The variable will be nil after this line.
@@ -186,7 +186,7 @@ if (a == nil) ->
   println 'a is nil !!'
   
 /// This function have a borrow parameter it will retain after function destroyed.
-var c = (bor a: int) => println a
+var c -> (bor a: int) => println a
 
 /// Tuple type.
 open const var a = (12, 43, 45, 65)
@@ -226,3 +226,15 @@ var a = 20
 
 /// The variable `a` is nil !!
 println a
+
+impl Test (x: any, y: int) {
+  init {
+    println 'x is: \(typeof(x))'
+    
+    if (x is int) -> 
+      println x + y
+  }
+}
+
+new Test(1.5, 23)
+new Test(245, 23)
