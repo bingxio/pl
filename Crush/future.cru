@@ -14,6 +14,8 @@ def max (a: int, b: int) -> int {
   return if (a > b) -> a else -> b
 }
 
+def max (a: int, b: int) -> int => if (a > b) -> a else -> b
+  
 // This is a lambda expression with function statement.
 // It is public in current module.
 // If function body only have one statement I can use `=>` operator to appoint it.
