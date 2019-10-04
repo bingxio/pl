@@ -131,12 +131,14 @@ int main() {
   // The `const` keyword to explain:
   // Pointer -> Mutable && Value -> Immutable
   const int* num_ptr1 = &num;
-  // Pointer -> Mutable && Value -> Immutable
-  int const* num_ptr2 = &num;
-  // Pointer -> Mutable && Value -> Immutable
-  int* const num_ptr3 = &num;
-  // Pointer -> Immutable && Value -> Immutable
-  const int* const  num_ptr4 = &num;
+  /**
+    // Pointer -> Mutable && Value -> Immutable
+    int const* num_ptr2 = &num;
+    // Pointer -> Mutable && Value -> Immutable
+    int* const num_ptr3 = &num;
+    // Pointer -> Immutable && Value -> Immutable
+    const int* const  num_ptr4 = &num;
+  */
   // This is `switch` statement it can judge more expression than `if` statement.
   // switch (<expr>) {}
   // The conditional of switch statement is only integer and char value !!
@@ -159,7 +161,76 @@ int main() {
       printf("The switch statement will drop.");
     }
   }
+  // It mean is that do.
+  // Go to the defintion and execute it.
+  // Be careful if block is defined before `goto` statement that it will to be a loop !!.
+  goto block;
+  // Just use <identifier>: <block>.
+block:
+  printf("Called in a block with goto statement !!\n");
+  // We can use a brace block to create new scope.
+  // A new scope !!
+  {
+    // Create a new scope variable.
+    int a = 29;
+    // Be careful there can exit scope.
+    if (a > 100)
+      // If the `a` value greater than one hundred that return it.
+      // Explain exit the scope and not execute statement after there.
+      // The `main` function return type is integer so I returned a zero.
+      return 0;
+    // Not execute this output statement.
+    printf("a = %d\n", a);
+  }
+  // If the function defined after caller.
+  // We should declare the function before call !!
+  void fun_no_return ();
+  void fun_have_parameter (int a, int b);
+  // Have return value function.
+  float fun_have_parameter_return (float a, double b);
+  // Also We can only appoint the type of parameters.
+  int fun_return_max (int, int);
+  // Call my function.
+  fun_no_return();
+  // Call my function will parameter.
+  fun_have_parameter(12, 22);
+  // Call my function and return the sum of parameters.
+  float fn_ = fun_have_parameter_return(1.4, 2.5);
+  // Call my function and return the max of parameters.
+  int max = fun_return_max(100, 200);
+  // Output.
+  printf("%f\n", fn_);
+  printf("%d\n", max);
   // At main function usually returned a integer value.
   // Returned a zero value.
   return 0;
+}
+// The function return type is `void` to explain no return value.
+// Function Declare: <ReturnType> <FuncName> (<FuncParameter>) {}
+void fun_no_return () {
+  // Scope in function body.
+  printf("There is called function !!\n");
+  printf("Haha ~~\n");
+  // A new variable created in scope.
+  // It will drop on scope end.
+  int a = 20;
+  // Output.
+  printf("++ a = %d\n", ++ a);
+  // The variable `a` will drop here.
+}
+// Define function will two parameters.
+// The function will output the sum in body.
+void fun_have_parameter (int a, int b) {
+  printf("a + b = %d\n", a + b);
+}
+// Return sum of two float.
+float fun_have_parameter_return (float a, double b) {
+  return a + (float) b;
+}
+// Return max of two numbers.
+int fun_return_max (int x, int y) {
+  if (x > y) {
+    return x;
+  }
+  return y;
 }
