@@ -51,6 +51,8 @@ int main() {
   printf("%d %s %s, %d\n", number, str, str2, arr[2]);
   // Define two integer variable only line.
   int a = 20, b = 21;
+  // The `const` keyword is decorate variable value is fixed and can't changed.
+  const int c = 80;
   // `if` Control Flow Statement.
   // if (<Expr>) {}
   // If the expression value is true or greater and equal 1,
@@ -124,6 +126,17 @@ int main() {
   // The `free` method can clear the pointer value memory.
   // The `ptr` value will be NULL.
   free(ptr);
+  // This value is allocate on stack.
+  int num = 45;
+  // The `const` keyword to explain:
+  // Pointer -> Mutable && Value -> Immutable
+  const int* num_ptr1 = &num;
+  // Pointer -> Mutable && Value -> Immutable
+  int const* num_ptr2 = &num;
+  // Pointer -> Mutable && Value -> Immutable
+  int* const num_ptr3 = &num;
+  // Pointer -> Immutable && Value -> Immutable
+  const int* const  num_ptr4 = &num;
   // This is `switch` statement it can judge more expression than `if` statement.
   // switch (<expr>) {}
   // The conditional of switch statement is only integer and char value !!
