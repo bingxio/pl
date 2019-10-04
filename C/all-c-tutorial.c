@@ -16,6 +16,7 @@
 #include "stdio.h"
 // This line is import string library it have many method to handle string.
 #include <string.h>
+#include <stdlib.h>
 // This is a function in C.
 // The name is `main` and the program will start on this function.
 // It is must be define in each source program.
@@ -116,9 +117,10 @@ int main() {
   // Because the address of memory is changed that pointer value is changed.
   haha = 48;
   // Output the value of variable.
-  printf("%d %d", value, *ptr);
+  printf("%d %d\n", value, *ptr);
   // Use some method to manage memory pointer.
-  #include <stdlib.h>
+  // Be careful the `stdlib.h` must be declared on file header not `main` function.
+  // #include <stdlib.h>
   // The `free` method can clear the pointer value memory.
   // The `ptr` value will be NULL.
   free(ptr);
@@ -135,7 +137,7 @@ int main() {
       break;
     // I can judge a char value because it can judge ascii code.
     case 'g':
-      printf("The value ascii char is 'g' and integer is 103");
+      printf("The value ascii char is 'g' and integer is 103\n");
       break;
     // At end if no `case` statement was called.
     // There is a block statement in body.
