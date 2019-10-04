@@ -1,5 +1,9 @@
 #include <stdio.h>
 
+void fun (const int a) {
+  printf("a = %d\n", a);
+}
+
 int main() {
   // 最普通的常量，栈上，它的值不变
   const int a = 23;
@@ -18,6 +22,8 @@ int main() {
   printf("a = %d, b = %d, c = %d, d = %d, e = %d\n", a, *b);
   // num = 45
   printf("num = %d\n", num);
+  
+  fun(a);
 
   return 0;
 }
