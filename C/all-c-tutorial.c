@@ -108,7 +108,7 @@ int main() {
   // It value is a address for variable on memory !!
   int *ptr = &value;
   // Also I can use `*` operator to change value with not use address.
-  *ptr = 22;
+  *ptr = 103;
   // Change the address value for pointer.
   ptr = &haha;
   // This line will change the value for `haha`.
@@ -122,6 +122,28 @@ int main() {
   // The `free` method can clear the pointer value memory.
   // The `ptr` value will be NULL.
   free(ptr);
+  // This is `switch` statement it can judge more expression than `if` statement.
+  // switch (<expr>) {}
+  // The conditional of switch statement is only integer and char value !!
+  switch (value) {
+    case 1:
+    case 2:
+      // When expr value is 1 or 2 will execute here.
+      printf("The value is 1 or 2.");
+      // Usually use `break` statement to go out `switch` statement.
+      // If have not then execute next `case` body.
+      break;
+    // I can judge a char value because it can judge ascii code.
+    case 'g':
+      printf("The value ascii char is 'g' and integer is 103");
+      break;
+    // At end if no `case` statement was called.
+    // There is a block statement in body.
+    default: {
+      printf("Unknown value !!");
+      printf("The switch statement will drop.");
+    }
+  }
   // At main function usually returned a integer value.
   // Returned a zero value.
   return 0;
