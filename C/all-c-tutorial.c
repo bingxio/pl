@@ -132,13 +132,13 @@ int main() {
   // Pointer -> Mutable && Value -> Immutable
   const int* num_ptr1 = &num;
   /**
-    // Pointer -> Mutable && Value -> Immutable
-    int const* num_ptr2 = &num;
-    // Pointer -> Mutable && Value -> Immutable
-    int* const num_ptr3 = &num;
-    // Pointer -> Immutable && Value -> Immutable
-    const int* const  num_ptr4 = &num;
-  */
+   * // Pointer -> Mutable && Value -> Immutable
+   * int const* num_ptr2 = &num;
+   * // Pointer -> Mutable && Value -> Immutable
+   * int* const num_ptr3 = &num;
+   * // Pointer -> Immutable && Value -> Immutable
+   * const int* const  num_ptr4 = &num;
+   */
   // This is `switch` statement it can judge more expression than `if` statement.
   // switch (<expr>) {}
   // The conditional of switch statement is only integer and char value !!
@@ -201,6 +201,14 @@ block:
   // Output.
   printf("%f\n", fn_);
   printf("%d\n", max);
+  // This is output even number function defintion.
+  void output_even_number (int *, int);
+  // Array.
+  int list[] = { 1, 2, 3, 4, 5, 6, 7, 8 };
+  // Call.
+  output_even_number(list, 8);
+  // The end value was changed.
+  printf("end = %d\n", list[7]);
   // At main function usually returned a integer value.
   // Returned a zero value.
   return 0;
@@ -240,4 +248,14 @@ int fun_return_max (int x, int y) {
     printf("max = %d\n", max);
     return max;
   }
+}
+// Output the even number of array.
+// Be careful if parameter is array that we can change it value !!
+void output_even_number (int* arr, int len) {
+  for (int i = 0; i < len; i ++)
+    if (arr[i] % 2 == 0) 
+      printf("%d\t", arr[i]);
+  printf("\n");
+  // Replace the value at end of array.
+  *arr[len] = 88;
 }
