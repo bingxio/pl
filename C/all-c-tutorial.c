@@ -221,6 +221,9 @@ void fun_no_return () {
 // Define function will two parameters.
 // The function will output the sum in body.
 void fun_have_parameter (int a, int b) {
+  if (a < 0)
+    // This `return` keyword can exit the function.
+    return;
   printf("a + b = %d\n", a + b);
 }
 // Return sum of two float.
@@ -229,8 +232,12 @@ float fun_have_parameter_return (float a, double b) {
 }
 // Return max of two numbers.
 int fun_return_max (int x, int y) {
-  if (x > y) {
-    return x;
+  int max = x > y ? x : y;
+
+  if (max < 0)
+    return -1;
+  else {
+    printf("max = %d\n", max);
+    return max;
   }
-  return y;
 }
