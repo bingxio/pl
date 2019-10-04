@@ -60,9 +60,7 @@ magic {
   if (a == i) {
     println 'You are win !!'
     break
-  }
-  
-  elif (a > i) ->
+  } elif (a > i) ->
     println 'Too small.'
   elif (a < i) ->
     println 'Too big.'
