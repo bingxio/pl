@@ -17,6 +17,8 @@
 // This line is import string library it have many method to handle string.
 #include <string.h>
 #include <stdlib.h>
+// This is function defintion before call.
+void test_recursion (int x);
 // This is a function in C.
 // The name is `main` and the program will start on this function.
 // It is must be define in each source program.
@@ -209,6 +211,8 @@ block:
   output_even_number(list, 8);
   // The end value was changed.
   printf("end = %d\n", list[7]);
+  // I can use recursion with function.
+  test_recursion(-2);
   // At main function usually returned a integer value.
   // Returned a zero value.
   return 0;
@@ -241,7 +245,9 @@ float fun_have_parameter_return (float a, double b) {
 // Return max of two numbers.
 int fun_return_max (int x, int y) {
   int max = x > y ? x : y;
-
+  // How is `return` keyword to do ?
+  // 1.Return the scope.
+  // 2.Return the scope and an value have returned.
   if (max < 0)
     return -1;
   else {
@@ -257,5 +263,14 @@ void output_even_number (int* arr, int len) {
       printf("%d\t", arr[i]);
   printf("\n");
   // Replace the value at end of array.
-  *arr[len] = 88;
+  // *arr[len] = 88;
+}
+// The recursion for function.
+void test_recursion (int x) {
+  if (x < 0)
+    // Call self.
+    test_recursion(100);
+  else
+    // Output x value and return scope.
+    printf("x = %d and drop function.\n", x);
 }
