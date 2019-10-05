@@ -232,7 +232,10 @@ block:
   // Struct data in C.
   //
   struct Book {
+    // There is parameters in struct.
     int id;
+    // Like variable defintion.
+    // <Type> <Identifier>;
     char *name;
   };
   // Create a new struct type variable.
@@ -243,6 +246,13 @@ block:
   CPrimerPlus.name = "C Primer Plus !!";
   // Output.
   printf("id = %d, name = %s\n", CPrimerPlus.id, CPrimerPlus.name);
+  // And I can define a struct use <<typedef>> keyword.
+  typedef struct {
+    int id;
+    int st;
+  } Foo;
+
+  struct Foo foo = { 45, 11 };
   // At main function usually returned a integer value.
   // Returned a zero value.
   return 0;
