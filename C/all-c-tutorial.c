@@ -17,6 +17,18 @@
 // This line is import string library it have many method to handle string.
 #include <string.h>
 #include <stdlib.h>
+// Use macro to define a variable that compiler will replace used value.
+// Replace: printf("PI = %f\n", PI); -> printf("PI = %f\n", 3.1415926);
+#define PI 3.1415926
+// This macro will return the max of two numbers.
+// Replace: MAX(1 != 1, 2 != 2) -> MAX(1 != 1 > 1 != 2 ? 1 != 1 : 1 != 2)
+#define MAX(a, b) (a > b ? a : b)
+// We can write some statement to macro body.
+// It will replace the used program.
+// Use `\` character to explain new line.
+#define TEST(x) if (x > 0) { \
+  printf("x = %d\n", x);     \
+}                            \
 // This is function defintion before call.
 void test_recursion (int x);
 // Function was defined before call.
@@ -63,18 +75,10 @@ int main() {
   // It mean like this name.
   // It is a two dimen-sional array.
   int two_dimen[4][2] = {
-    {
-      45, 22
-    }, 
-    {
-      12, 55
-    }, 
-    {
-      78, 1
-    }, 
-    {
-      12, 19
-    }
+    {45, 22}, 
+    {12, 55}, 
+    {78, 14}, 
+    {12, 19}
   };
   // Output.
   printf("[1][1] = %d, [0][0] = %d\n", two_dimen[1][1], two_dimen[0][0]);
@@ -355,6 +359,25 @@ block:
   if (val.as.have) {
     printf("%d %f\n", val.sum, val.as.value);
   }
+  //
+  // Macro use in c.
+  //
+#define I_A 20
+  // Use `if`, 'elif' and `else` macro.
+  // It only can judge the macro value not variable !!
+#if (I_A > 20)
+  printf("I_A > 20\n");
+#elif (I_A == 20)
+  printf("I_A = 20\n");
+#else
+  printf("error code\n");
+  // At end of macro we need add `endif` macro.
+#endif
+  // If the macro was defined.
+  // Have more and more macros to study this only use there.
+#ifdef I_A
+  printf("I_A was allocated\n");
+#endif
   // At main function usually returned a integer value.
   // Returned a zero value.
   return 0;
@@ -405,7 +428,7 @@ void output_even_number (int* arr, int len) {
       printf("%d\t", arr[i]);
   printf("\n");
   // Replace the value at end of array.
-  // *arr[len] = 88;
+  arr[len - 1] = 88;
 }
 // The recursion for function.
 void test_recursion (int x) {
