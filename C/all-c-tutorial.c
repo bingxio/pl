@@ -244,15 +244,31 @@ block:
   // Use dot character to define parameters in struct data.
   CPrimerPlus.id = 23;
   CPrimerPlus.name = "C Primer Plus !!";
+  // And I can define data on allocate.
+  struct Book MyStory = { 24, "The story of me." };
   // Output.
   printf("id = %d, name = %s\n", CPrimerPlus.id, CPrimerPlus.name);
-  // And I can define a struct use <<typedef>> keyword.
+  printf("id = %d, name = %s\n", MyStory.id, MyStory.name);
+  //
+  // Typedef keyword in c。
+  //
+  typedef int integer;
+  typedef char* string;
+  // The `typedef` keyword can define a new name use same type.
+  // Like int.
+  integer int_type = 300;
+  // Like char*.
+  string str_type = "fuck !!";
+  // Like struct.
   typedef struct {
     int id;
-    int st;
   } Foo;
-
-  struct Foo foo = { 45, 11 };
+  // A struct was allocate on heap.
+  Foo *foo;
+  // Pointer to set value.
+  foo->id = 244;
+  // Output.
+  printf("%d\n", foo->id);
   // At main function usually returned a integer value.
   // Returned a zero value.
   return 0;
