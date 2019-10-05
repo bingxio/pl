@@ -31,12 +31,15 @@ int main() {
   // This is variable define statement.
   // <Type> <Name> = <Expr>;
   // The C have many variable type with std and there only use integer type.
+  //
+  // Output and array data in C.
+  //
   int number = 20;
   // At 40 years ago.
   // The C not have string literal but it have char type.
   // We can use pointer type for char to define a string literal.
   // So `str` is a pointer and it is a char array.
-  char* str = "This is a string literal chars.";
+  char *str = "This is a string literal chars.";
   // The string literal have `\0` char end of literal.
   // If use array to define string we must add a `\0` in the end to explain use memory end.
   char str2[] = { 'H', 'e', 'l', 'l', 'o', '\0' };
@@ -51,6 +54,9 @@ int main() {
   // And have '\t' and '\r' more.
   // The `arr[2]` is get the second value in array.
   printf("%d %s %s, %d\n", number, str, str2, arr[2]);
+  //
+  // Control flow in C.
+  //
   // Define two integer variable only line.
   int a = 20, b = 21;
   // The `const` keyword is decorate variable value is fixed and can't changed.
@@ -105,6 +111,9 @@ int main() {
     // Will enter a new line at last loop.
     if (i + 1 == 5) printf("\n");
   }
+  //
+  // Pointer in C.
+  //
   // This is a important concept: `Pointer`.
   // This variable is allocate in stack on memory.
   int value = 23, haha = 45;
@@ -132,7 +141,7 @@ int main() {
   int num = 45;
   // The `const` keyword to explain:
   // Pointer -> Mutable && Value -> Immutable
-  const int* num_ptr1 = &num;
+  const int *num_ptr1 = &num;
   /**
    * // Pointer -> Mutable && Value -> Immutable
    * int const* num_ptr2 = &num;
@@ -141,6 +150,9 @@ int main() {
    * // Pointer -> Immutable && Value -> Immutable
    * const int* const  num_ptr4 = &num;
    */
+  //
+  // Control flow in C.
+  //
   // This is `switch` statement it can judge more expression than `if` statement.
   // switch (<expr>) {}
   // The conditional of switch statement is only integer and char value !!
@@ -184,6 +196,9 @@ block:
     // Not execute this output statement.
     printf("a = %d\n", a);
   }
+  //
+  // Function data in C.
+  //
   // If the function defined after caller.
   // We should declare the function before call !!
   void fun_no_return ();
@@ -213,6 +228,21 @@ block:
   printf("end = %d\n", list[7]);
   // I can use recursion with function.
   test_recursion(-2);
+  //
+  // Struct data in C.
+  //
+  struct Book {
+    int id;
+    char *name;
+  };
+  // Create a new struct type variable.
+  // struct <Identifier> <Identifier>;
+  struct Book CPrimerPlus;
+  // Use dot character to define parameters in struct data.
+  CPrimerPlus.id = 23;
+  CPrimerPlus.name = "C Primer Plus !!";
+  // Output.
+  printf("id = %d, name = %s\n", CPrimerPlus.id, CPrimerPlus.name);
   // At main function usually returned a integer value.
   // Returned a zero value.
   return 0;
@@ -257,7 +287,7 @@ int fun_return_max (int x, int y) {
 }
 // Output the even number of array.
 // Be careful if parameter is array that we can change it value !!
-void output_even_number (int* arr, int len) {
+void output_even_number (int *arr, int len) {
   for (int i = 0; i < len; i ++)
     if (arr[i] % 2 == 0) 
       printf("%d\t", arr[i]);
