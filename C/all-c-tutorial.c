@@ -60,6 +60,24 @@ int main() {
   int arr[5] = { 1, 2, 3, 4, 5 };
   // Change the third value to eight in array.
   arr[3] = 8;
+  // It mean like this name.
+  // It is a two dimen-sional array.
+  int two_dimen[4][2] = {
+    {
+      45, 22
+    }, 
+    {
+      12, 55
+    }, 
+    {
+      78, 1
+    }, 
+    {
+      12, 19
+    }
+  };
+  // Output.
+  printf("[1][1] = %d, [0][0] = %d\n", two_dimen[1][1], two_dimen[0][0]);
   // The `printf` function can have format to output many variable.
   // Use `\n` char to enter a new line.
   // And have '\t' and '\r' more.
@@ -285,7 +303,7 @@ block:
   typedef char* string;
   // Return -> int
   // Parameters -> char *name, int age
-  typedef void (* function) (char *name, int age);
+  typedef void (* function) (char* name, int age);
   // The `typedef` keyword can define a new name use same type.
   // Like int.
   integer int_type = 300;
