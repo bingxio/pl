@@ -19,6 +19,17 @@
 #include <stdlib.h>
 // This is function defintion before call.
 void test_recursion (int x);
+// Function was defined before call.
+// The `static` keyword explain this function is only show in this file.
+// Not show in other file when was include.
+static void test (char* name, int age) {
+  if (strlen(name) != 0) {
+    printf("%s age = %d\n", name, age);
+  }
+}
+// Declare the inline function header.
+// Be careful the inline function can not write `inline` keyword to defintion header.
+char* test_inline (int x);
 // This is a function in C.
 // The name is `main` and the program will start on this function.
 // It is must be define in each source program.
@@ -39,7 +50,7 @@ int main() {
   // The C not have string literal but it have char type.
   // We can use pointer type for char to define a string literal.
   // So `str` is a pointer and it is a char array.
-  char *str = "This is a string literal chars.";
+  char* str = "This is a string literal chars.";
   // The string literal have `\0` char end of literal.
   // If use array to define string we must add a `\0` in the end to explain use memory end.
   char str2[] = { 'H', 'e', 'l', 'l', 'o', '\0' };
@@ -61,6 +72,10 @@ int main() {
   int a = 20, b = 21;
   // The `const` keyword is decorate variable value is fixed and can't changed.
   const int c = 80;
+  // The `static` keyword is decorate variable was allocated on heap and,
+  // not drop when scope destory !!.
+  // Usually use in function.
+  static int s_value = 200;
   // `if` Control Flow Statement.
   // if (<Expr>) {}
   // If the expression value is true or greater and equal 1,
@@ -120,7 +135,7 @@ int main() {
   // This variable is allocate in heap on memory.
   // The `*` char explain it is a pointer variable.
   // It value is a address for variable on memory !!
-  int *ptr = &value;
+  int* ptr = &value;
   // Also I can use `*` operator to change value with not use address.
   *ptr = 103;
   // Change the address value for pointer.
@@ -148,7 +163,7 @@ int main() {
    * // Pointer -> Mutable && Value -> Immutable
    * int* const num_ptr3 = &num;
    * // Pointer -> Immutable && Value -> Immutable
-   * const int* const  num_ptr4 = &num;
+   * const int* const num_ptr4 = &num;
    */
   //
   // Control flow in C.
@@ -228,6 +243,20 @@ block:
   printf("end = %d\n", list[7]);
   // I can use recursion with function.
   test_recursion(-2);
+  // Test static function declare here.
+  void test_static ();
+  // Test.
+  test_static();
+  test_static();
+  test_static();
+  // Test the inline function.
+  for (int i = 0; i < 100; i ++) {
+    // This is call inline function.
+    // The inline function will replace the call code to function body.
+    // The body statement in inline function must be mini.
+    // Replace -> printf("%s\n", i % 2 == 0 ? "radix" : "even");
+    printf("%s\n", test_inline(i));
+  }
   //
   // Struct data in C.
   //
@@ -236,7 +265,7 @@ block:
     int id;
     // Like variable defintion.
     // <Type> <Identifier>;
-    char *name;
+    char* name;
   };
   // Create a new struct type variable.
   // struct <Identifier> <Identifier>;
@@ -254,6 +283,9 @@ block:
   //
   typedef int integer;
   typedef char* string;
+  // Return -> int
+  // Parameters -> char *name, int age
+  typedef void (* function) (char *name, int age);
   // The `typedef` keyword can define a new name use same type.
   // Like int.
   integer int_type = 300;
@@ -264,11 +296,47 @@ block:
     int id;
   } Foo;
   // A struct was allocate on heap.
-  Foo *foo;
+  Foo* foo;
   // Pointer to set value.
   foo->id = 244;
   // Output.
   printf("%d\n", foo->id);
+  // The `function` type can assign a function !!
+  // That the `test_func` is `test` function !!
+  function test_func = test;
+  // Test typedef function type.
+  test_func("this author", 18);
+  //
+  // Union type in c.
+  // All parameters is sharing the same storage area !!
+  // At the same time only the value of one of its members can be saved.
+  // When the value of a union member is changed, 
+  // The value of all members of the union is actually modified.
+  // The size in memory of union is max members type in union.
+  //
+  typedef struct {
+    // This paramater self is struct.
+    int sum;
+    // The `union` type like a new struct type.
+    // It is allocated in parent struct.
+    union {
+      // Parameters.
+      bool have;
+      // It size in memory is `double` variable.
+      double value;
+      // And have a name like variable.
+    } as;
+  } Value;
+  // A new struct variable.
+  // At this line I defined two parameters in union type that,
+  // The `have` parameter value is null and the `value` is ok.
+  Value val = { 23, { .have = false, .value = 45.6 } };
+  // The `if` statement conditional is true and body will execute ??
+  // Because the `have` parameter is find out the address in memory.
+  // It is always true !!
+  if (val.as.have) {
+    printf("%d %f\n", val.sum, val.as.value);
+  }
   // At main function usually returned a integer value.
   // Returned a zero value.
   return 0;
@@ -313,7 +381,7 @@ int fun_return_max (int x, int y) {
 }
 // Output the even number of array.
 // Be careful if parameter is array that we can change it value !!
-void output_even_number (int *arr, int len) {
+void output_even_number (int* arr, int len) {
   for (int i = 0; i < len; i ++)
     if (arr[i] % 2 == 0) 
       printf("%d\t", arr[i]);
@@ -329,4 +397,16 @@ void test_recursion (int x) {
   else
     // Output x value and return scope.
     printf("x = %d and drop function.\n", x);
+}
+// Test the static function.
+void test_static () {
+  // Static variable declare in function.
+  static int a = 78;
+  // Output the variable and plus one after output.
+  printf("a = %d\n", a ++);
+}
+// Test the inline function.
+inline char* test_inline (int x) {
+  // Return a string literal.
+  return x % 2 == 0 ? "radix" : "even";
 }
