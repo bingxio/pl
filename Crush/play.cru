@@ -1,0 +1,23 @@
+import 'std' -> os + net
+
+enum VisitorCallback -> (Ok, Err)
+
+trait AstVisitor {
+  def visit () -> VisitorCallback
+}
+
+data LiteralExpr -> (tokenString: str)
+
+impl LiteralExpr : AstVisitor {
+  overlap def visit () -> VisitorCallback {
+    return if self.tokenString != '' ->
+        VisitorCallback.Ok
+      else ->
+        VisitorCallback.Err
+  }
+}
+
+var token = new LiteralExpr('def')
+
+if (token.visit() != VisitorCallback.Ok) ->
+  println 'Runtime error !!'
