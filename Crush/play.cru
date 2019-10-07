@@ -10,7 +10,7 @@ data LiteralExpr -> (tokenString: str)
 
 impl LiteralExpr : AstVisitor {
   overlap def visit () -> VisitorCallback {
-    return if self.tokenString != '' ->
+    return if (self.tokenString != '') ->
         VisitorCallback.Ok
       else ->
         VisitorCallback.Err
