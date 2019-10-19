@@ -460,6 +460,16 @@ fn main() {
   let func: TransformToString = transform;
   // Will output: `12 + 34 = 1234`.
   println!("12 + 34 = {}", func(12, 34));
+  
+  // This function is used generic type and `where` keyword.
+  // Have one generic type `term` with T that `where` statement can appoint type of it.
+  // Illustrate `term` is a function and it have two parameters that String will returned.
+  pub fn sample<T> (term: T, x: i32, y: i32) -> String where term: fn (i32, i32) -> String {
+    // Call generic type like a function and return it.
+    term(x, y)
+  }
+  // Will output: `78 + 90 = 7890`.
+  println!("78 + 90 = {}", sample(transform, 78, 90));
 }
 
 // Define our custom package.
@@ -469,7 +479,7 @@ mod expr {
   pub enum Operator { Add, Sub, Mul, Div }
 
   // This function is add two value and return it.
-  pub fn binary(l: i32, r: i32, o: Operator) -> i32 {
+  pub fn binary (l: i32, r: i32, o: Operator) -> i32 {
     // If use enum data that we can ellipsis the enum name.
     use super::expr::Operator::*;
 
@@ -486,23 +496,23 @@ mod expr {
 }
 
 // Display age parameter in User struct.
-fn output_age(age: u8) {
+fn output_age (age: u8) {
   println!("age = {}", age);
 }
 
 // Display name parameter in User struct by refers.
-fn output_name_quote(name: String) {
+fn output_name_quote (name: String) {
   println!("age = {}", name);
 }
 
 // Display name parameter in User struct by borrow.
-fn output_name_borrow(name: &String) {
+fn output_name_borrow (name: &String) {
   println!("age = {}", name);
 }
 
 // This function used two life time parameter to keep scope length.
 // If x or y are different scope that compiler will tell us error.
-fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+fn longest<'a> (x: &'a str, y: &'a str) -> &'a str {
   if x.len() > y.len() {
     x
   } else {
