@@ -1,7 +1,7 @@
 if __name__ == '__main__':
   print('The `yield` keyword for python language...')
 
-  def generate ():
+  def generate():
     for i in range(10):
       yield i * 4
 
