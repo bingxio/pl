@@ -18,7 +18,7 @@ fn main() {
     // Implement this function.
     // First parameter is Color self, Second parameter is custom formatter.
     // The function return `std::result::Result`, display errors when has some error.
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> Result<(), std::fmt::Error> {
+    fn fmt (&self, f: &mut std::fmt::Formatter) -> Result<(), std::fmt::Error> {
       // Then, match all enum data.
       match self {
         // The `write!()` is macro function, it can display on screen.
@@ -32,13 +32,13 @@ fn main() {
   // We need define a struct data to compare it.
   // Second parameter is we need compare.
   // This defined struct mode was use tuple.
-  struct Flower(u8, Color);
+  struct Flower (u8, Color);
 
   // Implement `PartialEq` for struct.
   impl std::cmp::PartialEq for Flower {
     // Two parameters part is a and b.
     // Both are reference type, return bool to compare.
-    fn eq(&self, other: &Self) -> bool {
+    fn eq (&self, other: &Self) -> bool {
       // This is point, we compare at second parameter.
       // We can not compare if both are enum data.
       self.0 == other.0
@@ -49,7 +49,7 @@ fn main() {
   let a = Flower(3, Color::BLUE);
   let b = Flower(5, Color::RED);
 
-  fn flower_color_compare(a: Flower, b: Flower) {
+  fn flower_color_compare (a: Flower, b: Flower) {
     // Look this conditional expression, Ha ha ~
     // We can use equal operator to compare it !
     println!("{}", if a == b {
@@ -74,7 +74,7 @@ fn main() {
 
   // This function can replace HashMap's get function.
   // Return a `Result`, it can custom error message.
-  fn search_map_value(a: HashMap<i32, &str>, k: i32) -> std::result::Result<&str, &'static str> {
+  fn search_map_value (a: HashMap<i32, &str>, k: i32) -> std::result::Result<&str, &'static str> {
     if a.get(&k) == None {
       // Custom error message.
       Err("can not find value for hash map.")
@@ -85,7 +85,7 @@ fn main() {
 
   // The `Result` was return Ok and Err struct.
   // We can judge it.
-  match search_map_value(a.clone(), 12) {
+  match search_map_value (a.clone(), 12) {
     // The parameter inside is value or error.
     Ok(v) => println!("{}", v),
     Err(e) => println!("{}", e)
@@ -219,20 +219,20 @@ fn main() {
   trait Human {
     // The human was eating.
     // Return the human is can eat ?
-    fn eat(&self,age: u8) -> bool;
+    fn eat (&self,age: u8) -> bool;
     // The human can sleep.
-    fn sleep(&self);
+    fn sleep (&self);
   }
 
   // Implement some method on User struct.
   impl Human for User {
     // Implement eat function with trait.
-    fn eat(&self, age: u8) -> bool {
+    fn eat (&self, age: u8) -> bool {
       // If user age greater 8 that it can eat.
       age > 8
     }
     // Implement sleep function with trait.
-    fn sleep(&self) {
+    fn sleep (&self) {
       println!("{} is sleeping !", self.name)
     }
   }
@@ -258,7 +258,7 @@ fn main() {
   impl<T, R> Point<T, R> {
     // Get borrow for self z parameter.
     // It return a generics type !.
-    fn desc(&self) -> &R {
+    fn desc (&self) -> &R {
       &self.z
     }
   }
@@ -280,7 +280,7 @@ fn main() {
 
   // We can define some method on other data type.
   impl Test {
-    fn show() -> String {
+    fn show () -> String {
       String::from("hello rust !")
     }
   }
@@ -363,7 +363,7 @@ fn main() {
   // This function parameters have a fn type, its a other function.
   // If x add y that its length greater than or equal 2 then return add.
   // Else return x subtract y.
-  fn mul(x: i32, y: i32, add: fn(i32, i32) -> String) -> i32 {
+  fn mul (x: i32, y: i32, add: fn(i32, i32) -> String) -> i32 {
     if add(x, y).len() >= 2 {
       x + y
     } else {
@@ -389,7 +389,7 @@ fn main() {
 
   // Specified for `PartialEq` type on OS enum.
   impl std::cmp::PartialEq<OS> for My {
-    fn eq(&self, other: &OS) -> bool {
+    fn eq (&self, other: &OS) -> bool {
       // Both are OS enum type, we can judge it.
       self.platform == *other
     }
@@ -439,7 +439,7 @@ fn main() {
     // This function functions as a clone of our structure.
     // The `Self` keyword is abbreviation of ontology.
     // (Self == Our) = true
-    fn take_clone(&self) -> Self {
+    fn take_clone (&self) -> Self {
       Our(self.0)
     }
   }
@@ -447,6 +447,19 @@ fn main() {
   let a = Our(18);
   // Both are `Our` struct type.
   println!("{:?} {:?}", a, a.take_clone());
+  
+  // Function defintion here.
+  // Returned two numbers to string literal.
+  pub fn transform (a: i32, b: i32) -> String {
+    format!("{}{}", a, b)
+  }
+  // Set `TransformToString` to function type.
+  // It have two parameters and String will returned.
+  type TransformToString = fn (i32, i32) -> String;
+  // Use colon variable type to appoint type is `TransformToString` and assign function name.
+  let func: TransformToString = transform;
+  // Will output: `12 + 34 = 1234`.
+  println!("12 + 34 = {}", func(12, 34));
 }
 
 // Define our custom package.
