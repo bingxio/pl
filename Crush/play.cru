@@ -2,20 +2,20 @@ import 'std' -> os + net
 
 enum VisitorCallback -> (Ok, Err)
 
-trait AstVisitor {
+trait AstVisitor ~>
   def visit () -> VisitorCallback
-}
+end
 
 data LiteralExpr -> (tokenString: str)
 
-impl LiteralExpr : AstVisitor {
-  overlap def visit () -> VisitorCallback {
+impl LiteralExpr : AstVisitor ~>
+  overlap def visit () -> VisitorCallback ~>
     return if (self.tokenString != '') ->
         VisitorCallback.Ok
       else ->
         VisitorCallback.Err
-  }
-}
+  end
+end
 
 var token = new LiteralExpr('def')
 
