@@ -470,6 +470,15 @@ fn main() {
   }
   // Will output: `78 + 90 = 7890`.
   println!("78 + 90 = {}", sample(transform, 78, 90));
+  // This function will returned a lambda function and it's closure expression.
+  pub fn add() -> impl Fn(i32, i32) -> i32 {
+    // Use `move` keyword to move ownership and return.
+    move |x: i32, y: i32| -> i32 {
+      x + y
+    }
+  }
+  // First call `add` function to return a function and call it.
+  println!("34 + 56 = {}", add()(34, 56));
 }
 
 // Define our custom package.
