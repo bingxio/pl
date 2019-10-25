@@ -15,6 +15,13 @@ def max (a: int, b: int) -> int ~>
 end
 
 def max (a: int, b: int) -> int => if (a > b) -> a else -> b
+
+// We can add two brace to define optional parameters.
+def buildThree (num: int, { name: string, range: int }) =>
+  // Output parameters of function.
+  println(num, name, range)
+// There was used `name` parameter that `range` = null.
+buildThree(12, name = 'turaiiao')
   
 // This is a lambda expression with function statement.
 // It is public in current module.
@@ -47,7 +54,7 @@ end
 
 // And if I want to return a function when function called.
 // It is easy to understand I returned a anonymous function and it name is `addToStr`.
-open def addToStr() -> def (int, int) -> str => def (x: int, y: int) -> str => str(x + y)
+open def addToStr () -> def (int, int) -> str => def (x: int, y: int) -> str => str(x + y)
 
 // Output a string '345678'.
 println(addToStr()(23, 11) + '5678')
@@ -148,7 +155,7 @@ open trait TodoListener -> def punch(listener: TodoPunchListener) -> bool
 // It can define many method on other types.
 open impl TodoImpl : TodoListener ~>
   // Use `overlap` keyword to illustrate this function is extend on interface.
-  overlap def punch(listener: TodoPunchListener) -> bool ~>
+  overlap def punch (listener: TodoPunchListener) -> bool ~>
     if (1 + 1 == 2) -> listener.success(
       new Todo('test', 23)
     )
@@ -163,23 +170,23 @@ open impl Test : TodoPunchListener ~>
   // Use `self` keyword illustrate current context.
   init -> new TodoImpl().punch(self)
   // There is override from super class.
-  overlap def success(todo: Todo) => println('\(todo.title) \(todo.date)')
-  overlap def haveErr(err: str, code: int) => println('Error: \(err) code is \(code)')
+  overlap def success (todo: Todo) => println('\(todo.title) \(todo.date)')
+  overlap def haveErr (err: str, code: int) => println('Error: \(err) code is \(code)')
 end
 
 // Enumeration.
 enum Color -> (RED, BLUE, GREEN)
 // This implement is judge two `Color` enumeration type.
 // Just use the implement type to illustrate it.
-impl Color -> open def equal(x: Color) -> bool => self == x
+impl Color -> open def equal (x: Color) -> bool => self == x
 
 var a = Color.RED
 
 // Error: The variable is not mutable !!
 a = Color.BLUE
 
-impl A -> open def show() => println('show on implement A')
-impl B -> open def show() => println('show on implement B')
+impl A -> open def show () => println('show on implement A')
+impl B -> open def show () => println('show on implement B')
 
 impl C : A + B ~>
   // Call show method in parent implement.
