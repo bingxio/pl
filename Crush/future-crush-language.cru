@@ -38,6 +38,13 @@ open var mul -> (a: int, b: int, sum: (int, int) -> int) -> int ~>
     else -> sum
 end
 
+def test <T: int, R> (term: T, x: R) -> T ~>
+  if (x is int) ->
+    return term * int(x)
+  else ->
+    return term
+end
+
 // And if I want to return a function when function called.
 // It is easy to understand I returned a anonymous function and it name is `addToStr`.
 open def addToStr() -> def (int, int) -> str => def (x: int, y: int) -> str => str(x + y)
@@ -238,7 +245,7 @@ end
 // The variable `a` value is nil !!
 println(a)
 
-// This implement have two parameters and extends trait.
+// This implement have two parameters and extend to trait.
 impl Test (x: any, y: int) : { def call () -> string } ~>
   init ~>
     println('x is: \(typeof(x))')
@@ -247,10 +254,10 @@ impl Test (x: any, y: int) : { def call () -> string } ~>
       println(x + y)
   end
   
-  overlap def call () -> string {
+  overlap def call () -> string ~>
     println('custom trait extends was called...')
     return 'OK'
-  }
+  end
 end
 
 new Test(1.5, 23)
