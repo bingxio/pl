@@ -464,14 +464,14 @@ fn main() {
   // This function is used generic type and `where` keyword.
   // Have one generic type `term` with T that `where` statement can appoint type of it.
   // Illustrate `term` is a function and it have two parameters that String will returned.
-  pub fn sample<T> (term: T, x: i32, y: i32) -> String where term: fn (i32, i32) -> String {
+  pub fn sample <T> (term: T, x: i32, y: i32) -> String where term: fn (i32, i32) -> String {
     // Call generic type like a function and return it.
     term(x, y)
   }
   // Will output: `78 + 90 = 7890`.
   println!("78 + 90 = {}", sample(transform, 78, 90));
   // This function will returned a lambda function and it's closure expression.
-  pub fn add() -> impl Fn(i32, i32) -> i32 {
+  pub fn add () -> impl Fn (i32, i32) -> i32 {
     // Use `move` keyword to move ownership and return.
     move |x: i32, y: i32| -> i32 {
       x + y
@@ -479,6 +479,19 @@ fn main() {
   }
   // First call `add` function to return a function and call it.
   println!("34 + 56 = {}", add()(34, 56));
+  
+  // This is a closure with external variables.
+  // It have two parameters and a i32 will returned.
+  let mul = |x: i32, y: i32| -> i32 {
+    // We can use `add()` like outside defintion.
+    return if add()(x, y) > x {
+      x * y
+    } else {
+      -1
+    }
+  }
+  // Will output the `-1`.
+  println!("{}", mul(12, 2));
 }
 
 // Define our custom package.
