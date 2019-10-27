@@ -45,6 +45,14 @@ open var mul -> (a: int, b: int, sum: (int, int) -> int) -> int ~>
     else -> sum
 end
 
+// The variable of `a` value is 46.
+//
+// mul(12, 34, |l: int, r: int| -> int => l + r) // And use closure function as parameter.
+//
+var a = mul(12, 34, def (l: int, r: int) -> int => l + r)
+
+// This is generic type of language.
+// There have two generic types are T and R that T is type alias.
 def test <T: int, R> (term: T, x: R) -> T ~>
   if (x is int) ->
     return term * int(x)
