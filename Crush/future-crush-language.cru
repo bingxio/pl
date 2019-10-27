@@ -248,6 +248,9 @@ println(b)
 var a = 20
 
 // There is a new scope.
+//
+// -> println('Output in new scope') // It is scope only have one statement.
+//
 ~>
   a ++
   // Output `20`.
