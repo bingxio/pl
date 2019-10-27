@@ -66,9 +66,8 @@ open const var b: float = 2.
 // Magic !!
 // Dead cycle.
 magic ~>
-  // Define a mutable variable.
   // It will catch user input and convert type to integer.
-  var mut i = input() as int
+  var i = input() as int
 
   // A guess number program.
   if (a == i) ~>
@@ -115,7 +114,7 @@ for (i <- a) ->
 // Output of even numbers between 0 and 10.
 for (i <- 0..10) -> if (i % 2 == 0) -> println(i)
 
-var mut a = 0
+var a = 0
 
 // Have nothing different for `while` statement in other language.
 // We just need to known if use `~>` operator that should add `end` statement in end.
@@ -182,7 +181,6 @@ impl Color -> open def equal (x: Color) -> bool => self == x
 
 var a = Color.RED
 
-// Error: The variable is not mutable !!
 a = Color.BLUE
 
 impl A -> open def show () => println('show on implement A')
@@ -220,8 +218,8 @@ println(a.0 + a.1 + a.2 + a.3) // 165
 // Function have two borrow values and return the max value.
 def max (bor a: int, bor b: int) -> int => if (a > b) -> a else -> b
 
-var mut a = 0
-var mut b = []
+var a = 0
+var b = []
 
 // This `for` statement has indices and value iterator.
 // We just use brackets operator parcel it.
