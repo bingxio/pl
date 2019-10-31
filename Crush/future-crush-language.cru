@@ -11,10 +11,10 @@ import 'test.cru' -> *
 // A very simple function like this.
 // It is return the max of two numbers.
 def max (a: int, b: int) -> int ~>
-  return if (a > b) -> a else -> b
+  return if a > b -> a else -> b
 end
 
-def max (a: int, b: int) -> int => if (a > b) -> a else -> b
+def max (a: int, b: int) -> int => if a > b -> a else -> b
 
 // We can add two brace to define optional parameters.
 def buildThree (num: int, { name: string, range: int }) =>
@@ -40,8 +40,8 @@ open var mul -> (a: int, b: int, sum: (int, int) -> int) -> int ~>
   var sum = sum(a, b)
 
   // Return with `if` expression.
-  return if (sum > 100 & sum < 200) -> a * b 
-    elif (sum > 200) -> a * b + sum
+  return if sum > 100 & sum < 200 -> a * b 
+    elif sum > 200 -> a * b + sum
     else -> sum
 end
 
@@ -62,7 +62,7 @@ end
 
 // And if I want to return a function when function called.
 // It is easy to understand I returned a anonymous function and it name is `addToStr`.
-open def addToStr () -> def (int, int) -> str => def (x: int, y: int) -> str => str(x + y)
+open def addToStr () -> def (int, int) -> string => def (x: int, y: int) -> string => str(x + y)
 
 // Output a string '345678'.
 println(addToStr()(23, 11) + '5678')
@@ -78,19 +78,19 @@ magic ~>
   var i = input() as int
 
   // A guess number program.
-  if (a == i) ~>
+  if a == i ~>
     println('You are win !!')
     break
   end
   
-  elif (a > i) ->
+  elif a > i ->
     println('Too small.')
-  elif (a < i) ->
+  elif a < i ->
     println('Too big.')
 end
 
 // We can match some result and handle it.
-when (1 + 2) ~>
+when 1 + 2 ~>
   1 -> println('1')
   2 -> println('2')
   
@@ -114,30 +114,30 @@ const var a: list<int> = [1, 2, 3, 4, 5, 6, 7, 8]
 const var a: list<any> = [1, false, 2.3, 12, 'test']
 
 // The `for` statement usually are array iterator.
-// Use `<-` operator afferent a array or range type.
-for (i <- a) -> 
-  if (i % 2 == 0) ->
+// Use `in` keyword to afferent a array or range type.
+for i in a -> 
+  if i % 2 == 0 ->
     println(i)
 
 // Output of even numbers between 0 and 10.
-for (i <- 0..10) -> if (i % 2 == 0) -> println(i)
+for i in 0..10 -> if i % 2 == 0 -> println(i)
 
 var a = 0
 
 // Have nothing different for `while` statement in other language.
 // We just need to known if use `~>` operator that should add `end` statement in end.
-while (a < 100) ~>
-  if (a % 2 == 0) ->
+while a < 100 ~>
+  if a % 2 == 0 ->
     println(i)
   // I like double plus expression, it will add in crush language.
   a ++
 end
 
 // Dead code.
-while (true) -> break
+while true -> break
 
 // The `data` statement like entity in Java.
-data Todo -> (title: str, date: int) ~>
+data Todo -> (title: string, date: int) ~>
   // You can choose to add this parameter.
   count: int, punch: bool
 end
@@ -150,12 +150,12 @@ a.count = 23
 // We shoud add some function defintion in interface body.
 trait TodoPunchListener ~>
   def success (todo: Todo)
-  def haveErr (err: str, code: int)
+  def haveErr (err: string, code: int)
 end
 
 // It is public in this module.
 // It have one function defintion and will returned an boolean data.
-open trait TodoListener -> def punch(listener: TodoPunchListener) -> bool
+open trait TodoListener -> def punch (listener: TodoPunchListener) -> bool
 
 // The `impl` statement is implement type.
 // It can implement for other types and it can extend interface type.
@@ -163,7 +163,7 @@ open trait TodoListener -> def punch(listener: TodoPunchListener) -> bool
 open impl TodoImpl : TodoListener ~>
   // Use `overlap` keyword to illustrate this function is extend on interface.
   overlap def punch (listener: TodoPunchListener) -> bool ~>
-    if (1 + 1 == 2) -> listener.success(
+    if 1 + 1 == 2 -> listener.success(
       new Todo('test', 23)
     )
     else -> 
@@ -178,7 +178,7 @@ open impl Test : TodoPunchListener ~>
   init -> new TodoImpl().punch(self)
   // There is override from super class.
   overlap def success (todo: Todo) => println('\(todo.title) \(todo.date)')
-  overlap def haveErr (err: str, code: int) => println('Error: \(err) code is \(code)')
+  overlap def haveErr (err: string, code: int) => println('Error: \(err) code is \(code)')
 end
 
 // Enumeration.
@@ -212,7 +212,7 @@ var c -> (a: int) => println(a)
 // The variable will be nil after this line.
 c(a)
 
-if (a == nil) ->
+if a == nil ->
   println('a is nil !!')
   
 // This function have a borrow parameter it will retain after function destroyed.
@@ -224,15 +224,15 @@ open const var a = (12, 43, 45, 65)
 println(a.0 + a.1 + a.2 + a.3) // 165
 
 // Function have two borrow values and return the max value.
-def max (bor a: int, bor b: int) -> int => if (a > b) -> a else -> b
+def max (bor a: int, bor b: int) -> int => if a > b -> a else -> b
 
 var a = 0
 var b = []
 
 // This `for` statement has indices and value iterator.
 // We just use brackets operator parcel it.
-for ((i, v) <- 0..100) ~>
-  if (v % 2 == 0) ~>
+for (i, v) in 0..100 ~>
+  if v % 2 == 0 ~>
     // It value is even number that push it to array.
     // Else continue next loop.
     b[i] = v
@@ -266,7 +266,7 @@ impl Test (x: any, y: int) : { def call () -> string } ~>
   init ~>
     println('x is: \(typeof(x))')
     
-    if (x is int) -> 
+    if x is int -> 
       println(x + y)
   end
   
