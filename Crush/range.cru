@@ -17,7 +17,7 @@ else ->
 println '\(a) even numbers and \(b) radix numbers'
 
 // This function parameter use borrowed value the original value will retain after function destroyed.
-def max (bor arr: list<int>) -> int {
+def max (bor arr: list<int>) -> int ~>
   var mut max = arr[0]
   
   for (i <- arr) ->
@@ -25,6 +25,6 @@ def max (bor arr: list<int>) -> int {
       max = i
       
   return max
-}
+end
 
 println 'The max number of list is: \(max(arr))'
