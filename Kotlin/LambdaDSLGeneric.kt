@@ -11,6 +11,11 @@ fun main() {
   println(
     12.add(34)
   )
+  val myArray = MyArray<Int>()
+  for (i in 0..10 step 3) {
+    myArray.addElement(i)
+  }
+  println(myArray.getElement(1))
 }
 
 private fun sum(term: (Int, Int) -> String, x: Int, y: Int): String = term(x, y)
@@ -36,4 +41,20 @@ class Person(private val name: String) {
   operator fun invoke() {
     println("My name is $name")
   }
+}
+
+private interface MyInterface<T> {
+  fun addElement(element: T): T
+  fun getElement(index: Int): T
+}
+
+class MyArray<T> : MyInterface<T> {
+  var list = mutableListOf<T>()
+
+  override fun addElement(element: T): T {
+    list.add(element)
+    return list.last()
+  }
+
+  override fun getElement(index: Int): T = list[index]
 }
