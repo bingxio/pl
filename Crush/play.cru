@@ -1,23 +1,14 @@
-import 'std' -> os + net
+var mut evenNumberList = []
+var mut radixNumberList = []
 
-enum VisitorCallback -> (Ok, Err)
-
-trait AstVisitor ~>
-  def visit () -> VisitorCallback
-end
-
-data LiteralExpr -> (tokenString: str)
-
-impl LiteralExpr : AstVisitor ~>
-  overlap def visit () -> VisitorCallback ~>
-    return if (self.tokenString != '') ->
-        VisitorCallback.Ok
-      else ->
-        VisitorCallback.Err
+for (i, v) <- 0..100 ~>
+  if v % 2 == 0 ~>
+    println 'Find even number = \(v) index = \(i)'
+    evenNumberList.append(v)
   end
+  
+  else ->
+    radixNumberList.append(v)
 end
 
-var token = new LiteralExpr('def')
-
-if (token.visit() != VisitorCallback.Ok) ->
-  println 'Runtime error !!'
+for i <- 0..100 -> if i % 2 == 0 -> println i
