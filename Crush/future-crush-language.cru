@@ -237,7 +237,7 @@ var b = []
 
 // This `for` statement has indices and value iterator.
 // We just use brackets operator parcel it.
-for (i, v) in 0..100 ~>
+for (i, v) <- 0..100 ~>
   if v % 2 == 0 ~>
     // It value is even number that push it to array.
     // Else continue next loop.
