@@ -3,19 +3,38 @@ fun main() {
   println(
     "${sum({ x, y -> (x + y).toString() }, 22, 66)} -> ${sum({ x, y -> (x + y).toString() }, 14, 89)}"
   )
+  
   verticalLinearLayout {
     val a = 34
     println(a)
   }
+  
   Person("turaiiao")()
   println(
     12.add(34)
   )
+  
   val myArray = MyArray<Int>()
+  
   for (i in 0..10 step 3) {
     myArray.addElement(i)
   }
+  
   println(myArray.getElement(1))
+  
+  /**
+   * The array only can be read and it's `val` immutable variable.
+   */
+  val userReadList: MutableList<out User> = mutableListOf(
+    User("turaiiao"), User("july"), User("frank")
+  )
+  /**
+   * The array only can be write
+   */
+  var userWriteList: MutableList<in User>
+  for (i in userReadList) {
+    println(i.name)
+  }
 }
 
 private fun sum(term: (Int, Int) -> String, x: Int, y: Int): String = term(x, y)
@@ -58,3 +77,5 @@ class MyArray<T> : MyInterface<T> {
 
   override fun getElement(index: Int): T = list[index]
 }
+
+data class User(val name: String)
