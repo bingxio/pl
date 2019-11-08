@@ -493,6 +493,20 @@ fn main() {
   };
   // Will output the `24`.
   println!("The value of returned lambda expression = {}", mul(12, 2));
+
+  test_async();
+}
+
+async fn login (username: &str, password: &str) -> bool {
+  username != "" && password != ""
+}
+
+async fn test_async () {
+  let callback = login("turaiiao", "12345678").await;
+
+  if callback {
+    println!("Login successfully !");
+  }
 }
 
 // Define our custom package.
