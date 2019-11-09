@@ -505,7 +505,20 @@ fn main() {
     b.join().unwrap();
   }
 
-  get_sites();
+  // get_sites();
+  // Allocate the five numbers to heap.
+  // Used with `Box` trait.
+  let array: Box<[u8; 5]> = Box::new([1, 2, 3, 4, 5]);
+  // The new future for `match` statement in 1.39 version.
+  match array {
+    // There can make a new identifier to appoint self -> `match <Expr>`.
+    nums
+    // This is like a `match` branch.
+    if nums.iter().sum::<u8>() == 15 => {
+      println!("array = {:?}", nums.iter());
+    }
+    _ => unreachable!(),
+  }
 }
 
 async fn login (username: &str, password: &str) -> bool { username != "" && password != "" }
