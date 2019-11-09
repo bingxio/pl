@@ -447,7 +447,7 @@ fn main() {
   let a = Our(18);
   // Both are `Our` struct type.
   println!("{:?} {:?}", a, a.take_clone());
-  
+
   // Function defintion here.
   // Returned two numbers to string literal.
   pub fn transform (a: i32, b: i32) -> String {
@@ -460,7 +460,7 @@ fn main() {
   let func: TransformToString = transform;
   // Will output: `12 + 34 = 1234`.
   println!("12 + 34 = {}", func(12, 34));
-  
+
   // This function is used generic type and `where` keyword.
   // Have one generic type `term` with T that `where` statement can appoint type of it.
   // Illustrate `term` is a function and it have two parameters that String will returned.
@@ -479,12 +479,12 @@ fn main() {
   }
   // First call `add` function to return a function and call it.
   println!("34 + 56 = {}", add_with_lambda_expression()(34, 56));
-  
+
   // This is a closure with external variables.
   // It have two parameters and a i32 will returned.
   let mul = |x: i32, y: i32| -> i32 {
     println!("{}", add_with_lambda_expression()(x, y));
-    // We can use `add()` like outside defintion.
+    // We can use `add()` like outside definition.
     return if add_with_lambda_expression()(x, y) > x {
       x * y
     } else {
@@ -494,17 +494,24 @@ fn main() {
   // Will output the `24`.
   println!("The value of returned lambda expression = {}", mul(12, 2));
 
-  test_async();
+  // Asynchronous code allows us to perform multiple tasks concurrently on the same system thread.
+  // If you want to download two different web pages at the same time,
+  // You must assign these two tasks to two different threads.
+  fn get_sites() {
+    let a = std::thread::spawn(|| println!("The site a is downloading..."));
+    let b = std::thread::spawn(|| println!("The site b is downloading..."));
+    // Wait they finish the task.
+    a.join().unwrap();
+    b.join().unwrap();
+  }
+
+  get_sites();
 }
 
-async fn login (username: &str, password: &str) -> bool {
-  username != "" && password != ""
-}
+async fn login (username: &str, password: &str) -> bool { username != "" && password != "" }
 
 async fn test_async () {
-  let callback = login("turaiiao", "12345678").await;
-
-  if callback {
+  if login("turaiiao", "43").await {
     println!("Login successfully !");
   }
 }
