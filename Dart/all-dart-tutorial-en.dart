@@ -89,13 +89,32 @@ main() async {
   var test = Test();
 
   test.show();
-
+  
+  // Asynchronous call.
   await login('turaiiao', '12345678').then((data) {
+    // Use `then` method to get returned data.
     if (!(data as Map<String, dynamic>).containsValue('message')) {
       print(json.encode(data));
     }
   });
 }
+
+// This function is asynchronoused.
+// I give username and password parameter to function, it will login and returned data.
+// Return object of `Future` it is async object, <Type> can be explained.
+// There explain it will returned a dynamic data also I can set `Map`.
+Future<dynamic> login(String username, String password) async {
+  if (username.isEmpty || password.isEmpty) {
+    return {
+      'message': 'BadRequest'
+    };
+  }
+  return {
+    'username': username,
+    'password': password
+  };
+}
+
 // Declare a new class object.
 class User {
   // Member variable.
@@ -177,16 +196,4 @@ class Frank implements Human {
 
   @override
   int age;
-}
-
-Future<dynamic> login(String username, String password) async {
-  if (username.isEmpty || password.isEmpty) {
-    return {
-      'message': 'BadRequest'
-    };
-  }
-  return {
-    'username': username,
-    'password': password
-  };
 }
