@@ -8,6 +8,9 @@ package app;
 public class App {
 
   public static void main(String args[]) throws Exception {
+    /**
+     * User
+     */
     IUserInformation userInfo = new UserInformationImplement();
 
     IUserBusinessObject iUserBusinessObject = (IUserBusinessObject) userInfo;
@@ -20,9 +23,18 @@ public class App {
     if (iUserBusinessLogic.deleteUser(iUserBusinessObject)) {
       System.out.println("Delete Success.");
     }
+    /**
+     * Phone
+     */
+    PhoneImplement phoneImplement = new PhoneImplement();
+
+    phoneImplement.dial("12345678998");
   }
 }
 
+/**
+ * User
+ */
 interface IUserBusinessObject {
   boolean setUserId(String userId);
   String getUserId();
@@ -32,7 +44,13 @@ interface IUserBusinessLogic {
   boolean deleteUser(IUserBusinessObject iUserBusinessObject);
 }
 
-interface IUserInformation extends IUserBusinessObject, IUserBusinessLogic {}
+interface IUserManager {
+  boolean changeUserPassword(String userId, String password);
+  boolean changeUserId(String userId);
+  boolean changeUserOfficeAddress(String userId, String officeAddress);
+}
+
+interface IUserInformation extends IUserBusinessObject, IUserBusinessLogic, IUserManager {}
 
 class UserInformationImplement implements IUserInformation {
   String userId;
@@ -51,5 +69,49 @@ class UserInformationImplement implements IUserInformation {
   @Override
   public boolean deleteUser(IUserBusinessObject iUserBo) {
     return true;
+  }
+
+  @Override
+  public boolean changeUserPassword(String userId, String password) {
+    return false;
+  }
+
+  @Override
+  public boolean changeUserId(String userId) {
+    this.userId = userId;
+    return true;
+  }
+
+  @Override
+  public boolean changeUserOfficeAddress(String userId, String officeAddress) {
+    return false;
+  }
+}
+
+/**
+ * Phone
+ */
+interface IConnectionManager {
+  void dial(String phoneNumber);
+  void hangup();
+}
+
+interface IDataTransfer {
+  void dataTransfer(IConnectionManager iConnectionManager);
+}
+
+class PhoneImplement implements IConnectionManager, IDataTransfer {
+
+  @Override
+  public void dataTransfer(IConnectionManager iConnectionManager) {}
+
+  @Override
+  public void dial(String phoneNumber) {
+    System.out.println("Call phont to: " + phoneNumber);
+  }
+
+  @Override
+  public void hangup() {
+    System.out.println("HangUp..");
   }
 }
