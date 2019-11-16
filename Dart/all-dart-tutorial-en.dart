@@ -55,6 +55,11 @@ main() async {
   // Get member variable and output.
   print('${user.age} -> ${user.ageString}');
 
+  // If I want to set object is immutable.
+  // If used on class that member variables muse be final or const.
+  // const User();
+  // const [1, 2, 3, 4, 5];
+
   int add(int a, int b) => a + b;
   // At this function we used alias parameter.
   // { <aliasParameters...> }
@@ -123,6 +128,8 @@ class User {
   String name;
   // Getter method.
   String get ageString => 'Age = ${this.age}';
+  // The static variable.
+  static int id = 435543534532;
   // Constructor function.
   User(
     /**
