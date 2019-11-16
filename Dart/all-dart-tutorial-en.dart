@@ -1,8 +1,18 @@
 // The tutorial for Dart programming language write at Nov 15 2019.
 
-// import <path> | as <alias> | show <field...> ;
+// import <path> | as <alias> | show <field...> -> as <alias> | hide <field> ;
 // The `dart:` is standard library in Dart.
 import 'dart:convert';
+
+// Declare name for custom library.
+// library name;
+
+// Explain this file is part of my library.
+// And my library can part it.
+// part of name;
+
+// Import some dart file to this.
+// part 'test.dart';
 
 // If the function not have return type I can ignore it.
 // The `main` function is can be asynchronous.
@@ -131,6 +141,7 @@ class B {
 
 // The keywords `with` can extends more class.
 class Test extends User with A, B {
+
   @override
   show() {
     super.show();
@@ -144,6 +155,8 @@ class Test extends User with A, B {
 
 // The abstract class like interface in other language.
 abstract class Human {
+  int age;
+
   void toEating();
   // Methods.
   void toSleeping();
@@ -161,6 +174,9 @@ class Frank implements Human {
   void toSleeping() {
     print('Sleeping...');
   }
+
+  @override
+  int age;
 }
 
 Future<dynamic> login(String username, String password) async {
