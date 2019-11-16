@@ -76,6 +76,10 @@ main() async {
   // The optional parameter must One-to-one correspondence.
   alert('DART !', 5);
 
+  var test = Test();
+
+  test.show();
+
   await login('turaiiao', '12345678').then((data) {
     if (!(data as Map<String, dynamic>).containsValue('message')) {
       print(json.encode(data));
@@ -87,15 +91,76 @@ class User {
   // Member variable.
   // Default to setter method.
   int age;
+  String name;
   // Getter method.
   String get ageString => 'Age = ${this.age}';
   // Constructor function.
-  User(/** construction variable can be here. */) {
+  User(
+    /**
+     * Constructor variable can be declare here.
+     * Optional or alias parameters.
+     */
+  ) {
     print("Object will be created...");
   }
+  // Redirect constructor.
+  User.test(): this();
+  // Named constructor.
+  User.fromJson(Map data) {
+    this.age = data['age'];
+  }
+  // Method.
+  show() {
+    print('Called on user class.');
+  }
   // Must be one construction method !
-  // User(int age) {
-  // }
+  // User(this.age) {}
+}
+
+class A {
+  showOnA() {
+    print('Show on class a.');
+  }
+}
+
+class B {
+  showOnB() {
+    print('Show on class b.');
+  }
+}
+
+// The keywords `with` can extends more class.
+class Test extends User with A, B {
+  @override
+  show() {
+    super.show();
+
+    print('Called on test class.');
+    // I can direct use it.
+    showOnA();
+    showOnB();
+  }
+}
+
+// The abstract class like interface in other language.
+abstract class Human {
+  void toEating();
+  // Methods.
+  void toSleeping();
+}
+
+// Use keyword `implements` to impl it.
+class Frank implements Human {
+
+  @override
+  void toEating() {
+    print('Eating...');
+  }
+
+  @override
+  void toSleeping() {
+    print('Sleeping...');
+  }
 }
 
 Future<dynamic> login(String username, String password) async {
