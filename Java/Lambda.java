@@ -1,99 +1,81 @@
-import java.util.Arrays;
-import java.util.Comparator;
+package app;
 
-interface ClickListener {
-  void onClick(int view);
-}
+import java.util.ArrayList;
 
-class TextView {
-  void setOnClickListener(int view, ClickListener clickListener) {
-    clickListener.onClick(view);
-  }
-}
+/**
+ * Lambda tutorial in Java 8.
+ * 
+ * @author Turaiiao
+ */
+public class App {
 
-public class Lambda {
-  /**
-   * (params) -> expression
-   * (params) -> statement
-   * (params) -> { statements }
-   */
-  public static void main(String[] args) {
-    var textView = new TextView();
-
-    textView.setOnClickListener(100, new ClickListener() {
-
-      @Override
-      public void onClick(int view) {
-        System.out.format("%d call click listener before Java 8 \n", view);
-      }
-    });
-
-    textView.setOnClickListener(200, view ->
-      System.out.format("%d call click listener after Java 8 \n", view));
-
-    var list = Arrays.asList(12, "hello", 4.5, false, 666);
-
-    list.forEach(System.out::println);
-    list.forEach(i -> {
-      if (i instanceof Integer) {
-        System.out.format("%d\t", i);
-      }
-    });
-
-    Greeting greeting = (int a, int b) -> System.out.println(a + b);
-
-    greeting.add(12, 32);
-
+  public static void main(final String[] args) {
+    /**
+     * Use lambda expression to create new thread.
+     */
     new Thread(() -> {
-      System.out.println("Call on thread...");
+      // There is Runnable body and it have not parameters.
+      // We can write as this `() -> <statements...>`.
+      System.out.println("Running in a new thread...");
     }).start();
-
-    class User {
-      private String name;
-
-      private User(String name) {
-        this.name = name;
+    /**
+     * Use lambda expression with interface statement.
+     * 
+     * Function not have parameters.
+     * 
+     * (<parameter...>) -> { <statements... | expression...> } | <statement> | <expression>
+     */
+    final User user = (String username) -> System.out.println("Do login -> " + username);
+    // Must call method only one.
+    user.login("turaiiao");
+    /**
+     * A new way to use click listener in android application developer.
+     */
+    new ButtonView().setOnClickListener(200, view -> {
+      if (view != 0) {
+        System.out.format("%d called click listener. \n", view);
       }
+    });
 
-      @Override
-      public String toString() {
-        return "[ name = " + this.name + " ]";
-      }
+    /**
+     * Use standard library as lambda expression.
+     */
+    ArrayList<Integer> arr = new ArrayList<Integer>();
+
+    for (int i = 0; i < 20; i ++) {
+      arr.add(i);
     }
 
-    var users = Arrays.asList(
-      new User("a"),
-      new User("c"),
-      new User("g"),
-      new User("e")
-    );
-
-    users.sort((Comparator.comparing(o -> o.name)));
-
-    System.out.println(users);
-
-    int a = 20;
-    int b = 30;
-
-    doProcess(a, i -> System.out.println(i + b));
-
-    new Thread(Lambda::printMessage).start();
+    arr.forEach(i -> {
+      if (i % 2 == 0) {
+        System.out.print(i + " ");
+      }
+    });
+    /**
+     * Use lambda expression on function parameter.
+     */
+    doLoginWithFunction((String username) -> System.out.println("Try login to: " + username));
   }
 
-  @FunctionalInterface
-  interface Greeting {
-    void add(int a, int b);
+  /**
+   * Add `@FunctionalInterface` header to interface defintine.
+   */
+  @FunctionalInterface interface User {
+    // If we want to use as lambda expression that there must have only one method.
+    void login(String username);
   }
 
-  interface Process {
-    void process(int i);
+  interface ClickListener {
+    void onClick(int view);
   }
 
-  private static void doProcess(int i, Process process) {
-    process.process(i);
+  static class ButtonView {
+    void setOnClickListener(int view, ClickListener clickListener) {
+      clickListener.onClick(view);
+    }
   }
 
-  private static void printMessage() {
-    System.out.println("Hello Lambda In Java !");
+  static void doLoginWithFunction(User user) {
+    user.login("test");
   }
 }
