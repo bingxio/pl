@@ -56,6 +56,10 @@ func main() {
   for i := 0; i < 5; i ++ {
     fmt.Println(i)
   }
+  // Dead cycle.
+  for {
+    break
+  }
   // If condition statement.
   // It's no difference in other programming language.
   if 1 > 2 {
@@ -94,15 +98,23 @@ func main() {
     time.Sleep(time.Second * 3)
     c1 <- "video data"
   }()
+  // Goroutine anonymous function..
   go func() {
     time.Sleep(time.Second * 5)
     c2 <- "audio data"
   }()
+  // Use loop to get two select statement.
   for i := 0; i < 2; i ++ {
     select {
+      // If the c1 was received and assign to variable.
       case msg := <- c1:
         fmt.Println("Received: ", msg)
-      case msg := <-c2:
+      // If the c2 was received and assign value and is ok variables.
+      case msg, ok := <-c2:
+        if !ok {
+          // Failed.
+          fmt.Println("Received Failed..")
+        }
         fmt.Println("Received: ", msg)
     }
   }
