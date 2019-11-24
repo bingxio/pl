@@ -6,7 +6,10 @@
 // The program was execute this file first.
 package main
 // I can import standard and custom library.
-import "fmt"
+import (
+  "fmt"
+  "time"
+)
 // Use `itoa` keyword to assign many const variables.
 const (
   x1 = iota   // 0
@@ -82,11 +85,25 @@ func main() {
   // Select is a control structure in go.
   // Similar to the switch statement used for communication.
   // Each case must be a communication operation, either sending or receiving.
-  var c1, c2, c3 chan int
+  c1 := make(chan string)
+  c2 := make(chan string)
   // Select randomly executes a runnable case.
   // If there is no case to run, it will block until there is a case to run.
   // A default clause should always be runnable.
-  select {
-    
+  go func() {
+    time.Sleep(time.Second * 3)
+    c1 <- "video data"
+  }()
+  go func() {
+    time.Sleep(time.Second * 5)
+    c2 <- "audio data"
+  }()
+  for i := 0; i < 2; i ++ {
+    select {
+      case msg := <- c1:
+        fmt.Println("Received: ", msg)
+      case msg := <-c2:
+        fmt.Println("Received: ", msg)
+    }
   }
 }
