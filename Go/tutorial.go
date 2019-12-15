@@ -53,10 +53,15 @@ func main() {
   fmt.Println(x1, x2, x3, x4, x5, x6)
   // Create a new array list use assign syntax.
   // <ident> := <expr>
-  arr := [] int{34, 55, 22, 12, 54, 33}
+  arr1 := []int{34, 55, 22, 12, 54, 33}
+  // Use three dot char to explain this array is random length.
+  // And this array can not append new value !
+  // Its length is fixed.
+  _ = [...]string{"Hello", "World"}
+  // Append new value to array.
   // Get iterator of array generate key and value.
   // k, v := range <array>
-  for _, v := range arr {
+  for _, v := range arr1 {
     // Call function in standard library.
     print(v, " ")
   }
@@ -194,6 +199,43 @@ LOOP:
   println(s1())
   // 3
   println(s1())
+  // Assign new struct value used anonymous title.
+  b1 := Book{1, "Go Primer"}
+  // Use title and value.
+  b2 := Book{
+    Id:   2,
+    Name: "C++ Primer",
+  }
+  // Only explain Id param and other params value is initialize value.
+  b3 := Book{Id: 5}
+  fmt.Println(b1, b2, b3, b1.ValidId())
+  b3.SetName("Python Primer")
+  fmt.Println(b3)
+  //
+  arr := []int{45, 33, 5, 23, 55, 4, 34, 22, 76, 88}
+  // All value as slice.
+  // [startIndex:endIndex]
+  fmt.Println(arr[:])
+  fmt.Println(arr[3:])
+  fmt.Println(arr[5:8])
+  fmt.Println(arr[:6])
+  //
+  names := make(map[string]int)
+  // Assign value to map.
+  names["turaiiao"] = 18
+  names["july"] = 56
+  // Range its.
+  for k, v := range names {
+    fmt.Println(k, v)
+  }
+  //
+  user := User{
+    Age: 18,
+  }
+  if user.Eat() {
+    fmt.Println("Eating...")
+  }
+  user.Sleep(time.Second)
 }
 
 // Two parameters.
@@ -219,12 +261,14 @@ func addWithError(a int, b interface{}) int {
     panic("Please follow type of function parameters.")
   }
 }
+
 // Have four parameters.
 // Returned integer and float value.
 func addTwoNumbers(a, b int, x, y float32) (int, float32) {
   // Two value was returned.
   return a + b, x + y
 }
+
 // This function have pointer parameter,
 // It will plus one and returned.
 func plusOne(x *int) int {
@@ -232,12 +276,14 @@ func plusOne(x *int) int {
   *x += 1
   return *x
 }
+
 // This function have functional parameter.
 //
 func callWithFunc(a, b int, do func(x, y int) int) int {
   // Call parameter and return value.
   return do(a, b)
 }
+
 // Closure function.
 // Returned function and call it will plus `x` every time.
 func counter() func() int {
@@ -247,4 +293,41 @@ func counter() func() int {
     x += 1
     return x
   }
+}
+
+// Structure.
+type Book struct {
+  Id   int
+  Name string
+}
+
+// This function is method on `Book` struct.
+func (book Book) ValidId() bool {
+  // If the book's id less than zero to returned false.
+  return book.Id > 0
+}
+
+// This method use pointer type.
+func (book *Book) SetName(name string) {
+  // Will changed to parent variable.
+  book.Name = name
+}
+
+// Interface.
+// Any other type that implements these methods implements this interface.
+type Human interface {
+  Eat() bool
+  Sleep(time time.Duration)
+}
+
+type User struct {
+  Age int
+}
+
+func (user User) Eat() bool {
+  return user.Age > 6
+}
+
+func (user User) Sleep(time time.Duration) {
+  fmt.Println("Sleeping at: ", time.String())
 }
