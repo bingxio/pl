@@ -149,7 +149,7 @@ LOOP:
       goto LOOP
     }
     // Output current value of variable.
-    fmt.Printf("% 2d\n", r1)
+    fmt.Printf("%2d\n", r1)
     r1--
   }
   // Call function with two parameters amd returned value.
@@ -157,11 +157,50 @@ LOOP:
   println(addWithError(23, 55))
   // This line will panic a message.
   // println(addWithError(45, 4.5))
+  x1, x2 := addTwoNumbers(34, 22, 5.6, 4.2)
+  println(x1, x2)
+  // Get pointer address on x1 and call to parameter.
+  plusOne(&x1)
+  println(x1)
+  // First kind to use function.
+  callWithFunc(34, 22, add)
+  // Second kind to use function with my defined.
+  callWithFunc(45, 22, func(x, y int) int {
+    if x < y {
+      panic("Error !")
+    }
+    return x + y
+  })
+  // Custom function define with variable.
+  add := func() {
+    println("Call custom function with variable.")
+  }
+  // Called.
+  add()
+  // Called.
+  func() {
+    println("Call custom function with anonymous function.")
+  }()
+  // Goroutine !
+  // New thread to execute function body.
+  go func() {
+    println("OK !")
+  }()
+  // Assign function to new variable.
+  s1 := counter()
+  // 1
+  println(s1())
+  // 2
+  println(s1())
+  // 3
+  println(s1())
 }
 
 // Two parameters.
 // Returned number of plus a + b.
+// I can use dot char to export two integer type.
 func add(a, b int) int {
+  // This function must return a number.
   return a + b
 }
 
@@ -178,5 +217,34 @@ func addWithError(a int, b interface{}) int {
     return a + b.(int)
   default:
     panic("Please follow type of function parameters.")
+  }
+}
+// Have four parameters.
+// Returned integer and float value.
+func addTwoNumbers(a, b int, x, y float32) (int, float32) {
+  // Two value was returned.
+  return a + b, x + y
+}
+// This function have pointer parameter,
+// It will plus one and returned.
+func plusOne(x *int) int {
+  // *ident to get value.
+  *x += 1
+  return *x
+}
+// This function have functional parameter.
+//
+func callWithFunc(a, b int, do func(x, y int) int) int {
+  // Call parameter and return value.
+  return do(a, b)
+}
+// Closure function.
+// Returned function and call it will plus `x` every time.
+func counter() func() int {
+  x := 0
+  // Returned function to plus `x`.
+  return func() int {
+    x += 1
+    return x
   }
 }
