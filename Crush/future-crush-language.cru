@@ -80,7 +80,7 @@ open const var b: float = 2.
 
 // Magic !!
 // Dead cycle.
-magic ~>
+magic {
   // It will catch user input and convert type to Integer.
   var i = input() as Int
 
@@ -94,7 +94,7 @@ magic ~>
     println 'Too small.'
   elif a < i ->
     println 'Too big.'
-end
+}
 
 // We can match some result and handle it.
 when 1 + 2 {
