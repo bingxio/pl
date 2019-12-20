@@ -11,10 +11,12 @@ import 'test' -> *
 // A very simple function like this.
 // It is return the max of two numbers.
 fn max (a: Int, b: Int) -> Int {
-  return if a > b -> a else -> b
+  if a > b -> a else -> b
 }
 
 fn max (a: Int, b: Int) -> Int => if a > b -> a else -> b
+
+fn max (a: Int, b: Int) -> Int => a > b ? a : b
 
 // We can add two brace to define optional parameters.
 fn buildThree (num: Int, { name: String, range: Int }) =>
@@ -35,29 +37,34 @@ open var sum -> (a: Int, b: Int) -> Int => a + b
 // First and second is Integer variable that easy to understand it.
 // The third parameter is a function type !!
 // The third parameter has two Integer parameters and an Integer is returned.
-open var mul -> (a: Int, b: Int, sum: (Int, Int) -> Int) -> Int ~>
+open var mul -> (a: Int, b: Int, sum: (Int, Int) -> Int) -> Int {
   // Call third parameter.
   var sum = sum(a, b)
 
   // Return with `if` expression.
-  return if sum > 100 & sum < 200 -> a * b 
-    elif sum > 200 -> a * b + sum
-    else -> sum
-end
+  if sum > 100 & sum < 200 ->
+    a * b 
+  elif sum > 200 -> 
+    a * b + sum
+  else -> 
+    sum
+}
 
 // The variable of `a` value is 46.
 //
 // mul(12, 34, |l: Int, r: Int| -> Int => l + r) // And use closure function as parameter.
 //
-var a = mul(12, 34, fn (l: Int, r: Int) -> Int => l + r)
+var a = mul(12, 34, fn (l: Int, r: Int) -> Int {
+  l + r
+})
 
 // This is generic type of language.
 // There have two generic types are T and R that T is type alias.
 fn test <T, R> (term: T, x: R) -> Int {
   if (x is Int) ->
-    return term * (x as Int)
+    term * (x as Int)
   else ->
-    return term as Int
+    term as Int
 }
 
 // And if I want to return a function when function called.
@@ -167,7 +174,7 @@ open impl TodoImpl : TodoListener {
     )
     else -> 
       listener.haveErr('can not punched !!', 0)
-    return true
+    true
   }
 }
 
@@ -180,7 +187,7 @@ open impl Test : TodoPunchListener {
   // There is override from super class.
   overlap fn success (todo: Todo) -> String {
     println '\(todo.title) \(todo.date)'
-    return 'OK !'
+    'OK !'
   }
   
   overlap fn haveErr (err: String, code: Int) {
