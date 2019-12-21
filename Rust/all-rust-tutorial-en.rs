@@ -519,7 +519,19 @@ fn main() {
     }
     _ => unreachable!(),
   }
+  
+  let a = fourth(23, 44, |a: i32, b: i32| -> i32 {
+    a + b
+  });
+
+  let div = |a: f32, b: f32| -> f32 { a / b };
+
+  let b = fourth(5.4, 2.6, div);
+
+  println!("a = {}, b = {}", a, b);
 }
+
+pub fn fourth<T, R>(a: T, b: T, term: fn(a: T, b: T) -> R) -> R { term(a, b) }
 
 async fn login (username: &str, password: &str) -> bool { username != "" && password != "" }
 
