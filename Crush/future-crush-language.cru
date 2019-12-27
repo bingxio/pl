@@ -228,7 +228,7 @@ if a == nil ->
   println 'a is nil !!'
   
 // This function have a borrow parameter it will retain after function destroyed.
-var c -> (bor a: int) => println a
+var c -> (a: *int) => println a
 
 // Tuple type.
 open const var a = (12, 43, 45, 65)
@@ -236,7 +236,7 @@ open const var a = (12, 43, 45, 65)
 println a.0 + a.1 + a.2 + a.3 // 165
 
 // Function have two borrow values and return the max value.
-def max (bor a: int, bor b: int) -> int => if a > b -> a else -> b
+def max (a: *int, b: *int) -> int => if a > b -> a else -> b
 
 var a = 0
 var b = []
