@@ -291,3 +291,9 @@ impl People (age: int) : Human -> overlap def eat () -> boolean => self.age >= 5
 
 println new People(3).eat()
 println new People(5).eat()
+
+def test() -> int => 45
+
+if var a = test(); a > 40
+  println 'The returned value of function is greater than 40'
+end
