@@ -10,9 +10,9 @@ import 'test' -> *
 
 // A very simple function like this.
 // It is return the max of two numbers.
-def max (a: int, b: int) -> int
+def max (a: int, b: int) -> int {
     if a > b -> a else -> b
-end
+}
 
 def max (a: int, b: int) -> int => if a > b -> a else -> b
 
@@ -37,7 +37,7 @@ open var sum -> (a: int, b: int) -> int => a + b
 // First and second is Integer variable that easy to understand it.
 // The third parameter is a function type !!
 // The third parameter has two Integer parameters and an Integer is returned.
-open var mul -> (a: int, b: int, sum: (int, int) -> int) -> int
+open var mul -> (a: int, b: int, sum: (int, int) -> int) -> int {
     // Call third parameter.
     var sum = sum(a, b)
 
@@ -48,7 +48,7 @@ open var mul -> (a: int, b: int, sum: (int, int) -> int) -> int
         a * b + sum
     else -> 
         sum
-end
+}
 
 // The variable of `a` value is 46.
 //
@@ -58,12 +58,12 @@ var a = mul(12, 34, def (l: int, r: int) -> int l + r end)
 
 // This is generic type of language.
 // There have two generic types are T and R that T is type alias.
-def test <T, R> (term: T, x: R) -> int
+def test <T, R> (term: T, x: R) -> int {
     if (x is int) ->
         term * (x as int)
     else ->
         term as Int
-end
+}
 
 // And if I want to return a function when function called.
 // It is easy to understand I returned a anonymous function and it name is `addToStr`.
@@ -78,39 +78,39 @@ open const var b: float = 2.
 
 // Magic !!
 // Dead cycle.
-magic
+magic {
     // It will catch user input and convert type to Integer.
     var i = input() as int
 
     // A guess number program.
-    if a == i
+    if a == i {
         println 'You are win !!'
         break
-    end
+    }
   
     elif a > i ->
         println 'Too small.'
     elif a < i ->
         println 'Too big.'
-end
+}
 
 // We can match some result and handle it.
-when 1 + 2
+when 1 + 2 {
     1 -> println '1'
     2 -> println '2'
   
     // Execute a block statement.
-    3 ->
+    3 -> {
         println '3'
         println 'OK !!'
-    end
+    }
   
     4 -> println 'what's the problem ?'
   
     // If they are not the same.
     // The `else` statement like `default` in c language.
     else -> println 'NO !!'
-end
+}
 
 // This is a array defIntion and it is const value.
 // We can appoInt the type of variable just use a colon and type.
@@ -120,10 +120,10 @@ const var a = [1, false, 2.3, 12, 'test']
 
 // The `for` statement usually are array iterator.
 // Use `in` keyword to afferent a array or range type.
-for i <- a
+for i <- a {
     if i % 2 == 0 ->
         println i
-end
+}
 
 // Output of even numbers between 0 and 10.
 for i <- 0..10 -> if i % 2 == 0 -> println i
