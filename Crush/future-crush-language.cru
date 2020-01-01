@@ -11,7 +11,7 @@ import 'test' -> *
 // A very simple function like this.
 // It is return the max of two numbers.
 def max (a: int, b: int) -> int {
-    if a > b -> a else -> b
+    return if a > b -> a else -> b
 }
 
 def max (a: int, b: int) -> int => if a > b -> a else -> b
@@ -172,7 +172,7 @@ open impl TodoImpl : TodoListener {
         )
         else -> 
             listener.haveErr('can not punched !!', 0)
-        true
+        return true
     }
 }
 
@@ -186,7 +186,7 @@ open impl Test : TodoPunchListener {
     // There is override from super class.
     override def success (todo: Todo) -> string {
         println '\(todo.title) \(todo.date)'
-        'OK !'
+        return 'OK !'
     }
   
     override def haveErr (err: string, code: int) {
