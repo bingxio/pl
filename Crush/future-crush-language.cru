@@ -132,12 +132,12 @@ var a = 0
 
 // Have nothing different for `while` statement in other language.
 // We just need to known if use `~>` operator that should add `end` statement in end.
-while a < 100
+while a < 100 {
     if a % 2 == 0 ->
         println i
     // I like double plus expression, it will add in crush language.
     a ++
-end
+}
 
 // Dead code.
 while true -> break
@@ -152,10 +152,10 @@ a.count = 23
 
 // The `trait` statement like Interface type in other language.
 // We shoud add some function defIntion in Interface body.
-trait TodoPunchListener
+trait TodoPunchListener {
     def success (todo: Todo) -> string
     def haveErr (err: string, code: int)
-end
+}
 
 // It is public in this module.
 // It have one function defIntion and will returned an Boolean data.
@@ -164,35 +164,35 @@ open trait TodoListener -> def punch (listener: TodoPunchListener) -> boolean
 // The `impl` statement is implement type.
 // It can implement for other types and it can extend Interface type.
 // It can define many method on other types.
-open impl TodoImpl : TodoListener
+open impl TodoImpl : TodoListener {
     // Use `override` keyword to illustrate this function is extend on Interface.
-    override def punch (listener: TodoPunchListener) -> boolean
+    override def punch (listener: TodoPunchListener) -> boolean {
         if 1 + 1 == 2 -> listener.success(
             new Todo('test', 23)
         )
         else -> 
             listener.haveErr('can not punched !!', 0)
         true
-    end
-end
+    }
+}
 
-open impl Test : TodoPunchListener
+open impl Test : TodoPunchListener {
     // First initializtion will execution this statement.
     // Use `self` keyword illustrate current context.
-    init
+    init {
         new TodoImpl().punch(self)
-    end
+    }
     
     // There is override from super class.
-    override def success (todo: Todo) -> string
+    override def success (todo: Todo) -> string {
         println '\(todo.title) \(todo.date)'
         'OK !'
-    end
+    }
   
-    override def haveErr (err: string, code: int)
+    override def haveErr (err: string, code: int) {
         println 'Error: \(err) code is \(code)'
-    end
-end
+    }
+}
 
 // Enumeration.
 enum Color -> (RED, BLUE, GREEN)
@@ -207,10 +207,10 @@ a = Color.BLUE
 impl A -> open def show () => println 'show on implement A'
 impl B -> open def show () => println 'show on implement B'
 
-impl C : A + B
+impl C : A + B {
     // Call show method in parent implement.
     init -> super.show()
-end
+}
 
 // There will call init method in A and B implement.
 new C()
@@ -244,16 +244,16 @@ var b = []
 
 // This `for` statement has indices and value iterator.
 // We just use brackets operator parcel it.
-for (i, v) <- 0..100
-    if v % 2 == 0
+for (i, v) <- 0..100 {
+    if v % 2 == 0 {
         // It value is even number that push it to array.
         // Else continue next loop.
         b[i] = v
         continue
-    end
+    }
     // If is radix number the variable a plus one.
     a ++
-end
+}
 
 println a
 println b
@@ -264,24 +264,24 @@ var a = 20
 //
 // -> println 'Output in new scope' // It is scope only have one statement.
 //
-->
+{
     a ++
     // Output `20`.
     println a
     // The variable `a` will drop here.
-end
+}
 
 // The variable `a` value is nil !!
 println a
 
 // This implement have two parameters and extend to trait.
-impl Test (x: void, y: int)
-    init
+impl Test (x: void, y: int) {
+    init {
         println 'x is: \(typeof(x))'
         if x is int -> 
             println x + y
-    end
-end
+    }
+}
 
 new Test(1.5, 23)
 new Test(245, 23)
@@ -295,6 +295,6 @@ println new People(5).eat()
 
 def test() -> int => 45
 
-if var a = test(); a > 40
+if var a = test(); a > 40 {
     println 'The returned value of function is greater than 40'
-end
+}
