@@ -1,6 +1,7 @@
 body, a, h1, h2, h3, h4, h5, strong, span, li, p, pre, div, code, .blob-num, .blob-code, .markdown-body {
-    font-family: Monaco, 黑体;
+    font-family: Fira Code Retina, 黑体;
     font-size: 11px;
+    font-weight: bold;
     letter-spacing: 1.3px;
     line-height: 25px;
 }
