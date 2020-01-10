@@ -1,9 +1,7 @@
 {
     "window.titleBarStyle": "custom",
-    "editor.fontFamily": "Fira Code Retina",
-    "editor.fontLigatures": true,
+    "editor.fontFamily": "Fira Code",
     "editor.fontSize": 11,
-    "editor.fontWeight": "bold",
     "editor.cursorStyle": "underline-thin",
     "editor.matchBrackets": "never",
     "editor.lineHeight": 25,
@@ -11,11 +9,10 @@
     "editor.tabSize": 4,
     "editor.renderLineHighlight": "none",
     "files.autoSave": "onFocusChange",
-    "terminal.integrated.fontFamily": "Fira Code Retina",
-    "terminal.integrated.fontWeight": "bold",
+    "terminal.integrated.fontFamily": "Fira Code",
     "terminal.integrated.fontSize": 12,
     "terminal.integrated.cursorStyle": "underline",
     "terminal.integrated.lineHeight": 1.5,
     "terminal.integrated.letterSpacing": 1.3,
-    "workbench.colorTheme": "Material Theme",
+    "workbench.colorTheme": "Snazzy Light"
 }
