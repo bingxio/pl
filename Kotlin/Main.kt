@@ -33,7 +33,62 @@ fun main() {
     sort(listOf(23, 55, 44, 22))
 //    HashMap is not Comparable type
 //    sort(listOf(HashMap<Int, Int>()))
+
+    DataProviderManager.simple()
+
+    val x: MyHandler<Int> = { x, y -> if (x > y) x else y }
+    val y: Call = {
+        println("Called !!")
+    }
+    println(x)
+    y()
 }
+
+/**
+ * 内联类
+ * 更好的优化代码性能 更好的编译目标代码
+ */
+inline class Test(val x: Any) {
+    /**
+     * 内联方法
+     */
+    fun show(x: () -> Unit) = x()
+}
+
+/**
+ * 类型别名
+ */
+typealias MyHandler<T> = (T, Int) -> Int
+typealias Call = () -> Unit
+
+/**
+ * 接口
+ */
+interface Foo {
+    fun simple()
+}
+
+/**
+ * 对象
+ */
+object DataProviderManager : Foo {
+    /**
+     * 方法
+     */
+    fun registerDataProvider() {}
+
+    /**
+     * 属性
+     */
+    val provider = -1
+
+    override fun simple() = println("对象中调用接口")
+}
+
+/**
+ * 枚举类
+ */
+enum class Direction { NORTH, SOUTH }
 
 /**
  * 函数加泛型
@@ -104,6 +159,14 @@ private fun <T> MutableList<T>.swap(a: Int, b: Int) {
  * 超类
  */
 open class Base() {
+    /**
+     * 伴生对象 可直接调用
+     */
+    companion object {
+        val name = "Base"
+        fun simple() {}
+    }
+
     /**
      * 可被重写的属性
      */
