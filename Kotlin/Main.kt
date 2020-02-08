@@ -1,3 +1,5 @@
+import kotlin.properties.Delegates
+
 fun main() {
     Derived(34).also {
         it.type()
@@ -42,11 +44,50 @@ fun main() {
     }
     println(x)
     y()
+
+    val baseImpl = BaseImpl(75)
+    DerivedImpl(baseImpl).print()
+
+    /**
+     * 委托属性 lazy lambda expression
+     */
+    val lazyValue: String by lazy {
+        println("第一次调用会调用 Lambda 表达式")
+        println("然后赋值 后面再调用会直接返回值")
+        "Hello Kotlin"
+    }
+
+    println(lazyValue)
+    println(lazyValue)
+
+    /**
+     * 标准库中的委托
+     */
+    var name: String by Delegates.observable("初始值") { _, old, new ->
+        println("旧值：$old 新值：$new")
+    }
+
+    name = "Hello"
+    name = "World"
+}
+
+interface AA {
+    fun print()
+}
+
+class BaseImpl(private val x: Int) : AA {
+    override fun print() {
+        println(x)
+    }
 }
 
 /**
- * 内联类
- * 更好的优化代码性能 更好的编译目标代码
+ * 类的委托 将其他类的属性和方法中保存到委托类中
+ */
+class DerivedImpl(a: AA) : AA by a
+
+/**
+ * 内联类 更好的优化代码性能 更好的编译目标代码
  */
 inline class Test(val x: Any) {
     /**
@@ -59,6 +100,7 @@ inline class Test(val x: Any) {
  * 类型别名
  */
 typealias MyHandler<T> = (T, Int) -> Int
+
 typealias Call = () -> Unit
 
 /**
