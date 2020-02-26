@@ -1,300 +1,184 @@
-// THIS FILE WAS LICENSED BY `Turaiiao` AT SEP 03 2019
+// THIS FILE WAS LICENSED BY Turaiiao AT 01.03.2020 ALL RIGHTS RESERVED.
 
-// Import other module like array and alias a name.
-// I very like crush language syntax and I design it.
-import 'std' -> time + http + platform as darwin
+// import <module>.<into> -> * | <mod> | <mod> as <alias> | <mod> show <ident> | + ...
+import std.iter -> *
+import std.http -> session + socket as sk + url
+import std.collection -> HashMap show MapIndexes + BinaryTree as BT
 
-// If I want import all public statement or expression.
-// Can not missing the `*` operator because I like it.
-import 'test' -> *
+// <modifier> fun <ident>(<param...>) -> <ret> | => <stmt> | <block>
+fun main() ~>
+    // var mut | ref <ident> = <expr>
+    var mut a = 45 + 4 * 3 - (3 + 5)
+    var mut a = true | false
+    var ref a = [1, 2, 3, 4, 5]
+    var ref a = (34, 4.5, "Fuck", 'h', false, [4, 3, 2, 1])
 
-// A very simple function like this.
-// It is return the max of two numbers.
-def max (a: int, b: int) -> int {
-    return if a > b -> a else -> b
-}
+    // var mut | ref <ident> -> (param...) -> <ret> | => <stmt> | <block>
+    var sum (a: int, b: int) -> int => a + b
+    var mul (a: int, b: int, term: fun (int, int) -> int) -> int ~>
+        var sum = term(a, b)
+        
+        return if sum > 100 & sum % 2 == 0 ->
+            a * b
+        else ->
+            sum += 1
+    end
+    
+    var x = mul(34, 55, fun (x: int, y: int) -> int ~>
+        return x + y * 2
+    end)
+    
+    // println "你好，${addTwoNumbers()(20, 20)}！"
+    open var ref addTwoNumbers () -> fun (int, int) -> string =>
+        fun (x: int, y: int) -> string ~>
+            if x > y ->
+                return "turaiiao"
+            else ->
+                return "$a$b"
+        end
+    end
+    
+    // println <expr>
+    // return ()
+    var ref fn = fun () -> char ~>
+        println "Called！"
+        return '#'
+    end
+    // <expr>
+    println fn()
 
-def max (a: int, b: int) -> int => if a > b -> a else -> b
+    fun add(x: int) -> int => ++ x
+    fun add(x: int) -> [int] ~>
+        // return <expr>
+        return [45, 66, 33]
+    end
 
-def max (a: int, b: int) -> int => a > b ? a : b
-
-// We can add two brace to define optional parameters.
-def buildThree (num: int, { name: string, range: int }) =>
-    // Output parameters of function.
-    println num, name, range
-// There was used `name` parameter that `range` = null.
-buildThree(12, name = 'turaiiao')
-  
-// This is a lambda expression with function statement.
-// It is public in current module.
-// If function body only have one statement I can use `=>` operator to appoInt it.
-// And the `~>` operator illustrate function have many statement in body.
-// We should add the `end` statemen t after execution body.
-open var sum -> (a: int, b: int) -> int => a + b
-
-// Define a function with lambda expression and it have many statement in body.
-// It have three parameter.
-// First and second is Integer variable that easy to understand it.
-// The third parameter is a function type !!
-// The third parameter has two Integer parameters and an Integer is returned.
-open var mul -> (a: int, b: int, sum: (int, int) -> int) -> int {
-    // Call third parameter.
-    var sum = sum(a, b)
-
-    // Return with `if` expression.
-    if sum > 100 & sum < 200 ->
-        a * b 
-    elif sum > 200 -> 
-        a * b + sum
-    else -> 
-        sum
-}
-
-// The variable of `a` value is 46.
-//
-// mul(12, 34, |l: int, r: int| -> int => l + r) // And use closure function as parameter.
-//
-var a = mul(12, 34, def (l: int, r: int) -> int l + r end)
-
-// This is generic type of language.
-// There have two generic types are T and R that T is type alias.
-def test <T, R> (term: T, x: R) -> int {
-    if (x is int) ->
-        term * (x as int)
+    // if <expr> -> <stmt> | ~> <block>
+    if 1 + 1 >= 2 ~>
+        println "Hello"
+        println "World"
+    // elif <expr> -> <stmt> | ~> <block>
+    elif false ~>
+        println "Test"
+    // else <expr> -> <stmt> | ~> <block>
     else ->
-        term as Int
-}
+        println "World"
+    end
 
-// And if I want to return a function when function called.
-// It is easy to understand I returned a anonymous function and it name is `addToStr`.
-open def addToStr () -> def (int, int) -> string => def (x: int, y: int) -> string => str(x + y)
+    // if <varDecoration>; <expr> -> <stmt> | <block>
+    if var x = 2 + 3; x > 5 ~>
+        println "What's the problem ?"
+    elif true ->
+        println "Haha !!"
+    end
+end
 
-// Output a String '345678'.
-println addToStr()(23, 11) + '5678'
+// open | static | const
 
-// The Const value illustrate value is fixed and can't move.
-open const var a: int   = 20
-open const var b: float = 2.
+// fun <ident><<generic...>>(param...) -> <ret> => <stmt> | <block>
+fun add<T>(x: int, y: T) -> (T, boolean) =>
+    if y is int == false ->
+        (nil, false)
+    else ->
+        (x + y as int, true)
 
-// Magic !!
-// Dead cycle.
-magic {
-    // It will catch user input and convert type to Integer.
-    var i = input() as int
+fun buildThree(num: int, name: string, range: int) =>
+    // Tuple
+    println (num, name, age)
+buildThree(34, range = 5, name = "turaiiao")
 
-    // A guess number program.
-    if a == i {
-        println 'You are win !!'
+// trait <ident> ~> <block<func>> | -> func
+trait TodoPunchListener ~>
+    fun success()
+    fun haveErr(message: string) -> int
+end
+
+// trait <ident> -> func | <block<func>>
+trait TodoListener -> fun punch(listener: TodoPunchListener) -> boolean
+
+// data <ident> -> (param...)
+data Future -> (name: string, count: int)
+
+enum Color -> (RED, GREEN, BLUE)
+
+impl Color -> fun equal(x: Color) -> boolean => this == x
+
+// impl <ident> : <ident> | + <ident>... <block> | -> <stmt>
+impl Future : TodoListener + TodoPunchListener ~>
+    // init -> <stmt> | <block>
+    init -> println "Init..."
+
+    // <method>
+    fun alwaysBackTrue() -> boolean => true
+
+    override fun punch(listener: TodoPunchListener) -> boolean ~>
+        if this.alwaysBackTrue() ->
+            listener.success(
+                new Future("turaiiao", 18)
+            )
+        else ->
+            listener.haveErr("Failed !")
+        return true
+    end
+
+    override fun success() => println "Success !"
+    
+    override fun haveErr(message: string) -> int ~>
+        println "Error: $message"
+        return 401
+    end
+end
+
+var mut index = 0
+
+// magic -> <stmt> | <block>
+magic ~>
+    if index > 100 ->
         break
-    }
-  
-    elif a > i ->
-        println 'Too small.'
-    elif a < i ->
-        println 'Too big.'
-}
+    index ++
+end
 
-// We can match some result and handle it.
-when 1 + 2 {
-    1 -> println '1'
-    2 -> println '2'
-  
-    // Execute a block statement.
-    3 -> {
-        println '3'
-        println 'OK !!'
-    }
-  
-    4 -> println 'what's the problem ?'
-  
-    // If they are not the same.
-    // The `else` statement like `default` in c language.
-    else -> println 'NO !!'
-}
-
-// This is a array defIntion and it is const value.
-// We can appoInt the type of variable just use a colon and type.
-const var a = [1, 2, 3, 4, 5, 6, 7, 8]
-// The Any object is other types.
-const var a = [1, false, 2.3, 12, 'test']
-
-// The `for` statement usually are array iterator.
-// Use `in` keyword to afferent a array or range type.
-for i <- a {
+// for <ident> <- <list> -> <stmt> | <block>
+for i <- [1, 2, 3, 4, 5, 6, 7, 8] ~>
     if i % 2 == 0 ->
         println i
-}
+end
 
-// Output of even numbers between 0 and 10.
-for i <- 0..10 -> if i % 2 == 0 -> println i
-
-var a = 0
-
-// Have nothing different for `while` statement in other language.
-// We just need to known if use `~>` operator that should add `end` statement in end.
-while a < 100 {
-    if a % 2 == 0 ->
-        println i
-    // I like double plus expression, it will add in crush language.
-    a ++
-}
-
-// Dead code.
+// while <expr> -> <stmt> | <block>
 while true -> break
 
-// The `data` statement like entity in Java.
-// You can choose to add the `count` and `punch` parameters.
-data Todo -> (title: string, date: int, { count: int, punch: boolean })
+// when <expr> -> <stmt> | <caseBlock>
+when 1 + 2 ~>
+    // <value> -> <stmt> | <block>
+    1 -> println "1"
+    2 -> println "2"
 
-var a = new Todo('Study Everyday.', 20191002)
-// Choose and init the `count` parameter.
-a.count = 23
+    3 ~>
+        println "3"
+        println "OK !"
+    end
 
-// The `trait` statement like Interface type in other language.
-// We shoud add some function defIntion in Interface body.
-trait TodoPunchListener {
-    def success (todo: Todo) -> string
-    def haveErr (err: string, code: int)
-}
+    4 -> println "what's the problem ?"
 
-// It is public in this module.
-// It have one function defIntion and will returned an Boolean data.
-open trait TodoListener -> def punch (listener: TodoPunchListener) -> boolean
+    else -> println "error !"
+end
 
-// The `impl` statement is implement type.
-// It can implement for other types and it can extend Interface type.
-// It can define many method on other types.
-open impl TodoImpl : TodoListener {
-    // Use `override` keyword to illustrate this function is extend on Interface.
-    override def punch (listener: TodoPunchListener) -> boolean {
-        if 1 + 1 == 2 -> listener.success(
-            new Todo('test', 23)
-        )
-        else -> 
-            listener.haveErr('can not punched !!', 0)
-        return true
-    }
-}
-
-open impl Test : TodoPunchListener {
-    // First initializtion will execution this statement.
-    // Use `self` keyword illustrate current context.
-    init {
-        new TodoImpl().punch(self)
-    }
-    
-    // There is override from super class.
-    override def success (todo: Todo) -> string {
-        println '\(todo.title) \(todo.date)'
-        return 'OK !'
-    }
-  
-    override def haveErr (err: string, code: int) {
-        println 'Error: \(err) code is \(code)'
-    }
-}
-
-// Enumeration.
-enum Color -> (RED, BLUE, GREEN)
-// This implement is judge two `Color` enumeration type.
-// Just use the implement type to illustrate it.
-impl Color -> open def equal (x: Color) -> Boolean => self == x
-
-var a = Color.RED
-
-a = Color.BLUE
-
-impl A -> open def show () => println 'show on implement A'
-impl B -> open def show () => println 'show on implement B'
-
-impl C : A + B {
-    // Call show method in parent implement.
-    init -> super.show()
-}
-
-// There will call init method in A and B implement.
-new C()
-
-var a = 23
-var b = 45
-// This function have one parameter and it is quote value !!
-// The parameter a and value will destroyed at function end. 
-var c -> (a: Int) => println a
-
-// There will output the variable a value.
-// The variable will be nil after this line.
-c(a)
-
-if a == nil ->
-    println 'a is nil !!'
-  
-// This function have a borrow parameter it will retain after function destroyed.
-var c -> (a: *int) => println a
-
-// Tuple type.
-open const var a = (12, 43, 45, 65)
-
-println a.0 + a.1 + a.2 + a.3 // 165
-
-// Function have two borrow values and return the max value.
-def max (a: *int, b: *int) -> int => if a > b -> a else -> b
-
-var a = 0
-var b = []
-
-// This `for` statement has indices and value iterator.
-// We just use brackets operator parcel it.
-for (i, v) <- 0..100 {
-    if v % 2 == 0 {
-        // It value is even number that push it to array.
-        // Else continue next loop.
-        b[i] = v
-        continue
-    }
-    // If is radix number the variable a plus one.
-    a ++
-}
-
-println a
-println b
-
-var a = 20
-
-// There is a new scope.
-//
-// -> println 'Output in new scope' // It is scope only have one statement.
-//
-{
-    a ++
-    // Output `20`.
+// try -> <stmt> | <block>
+try ~>
+    var mut a = 30
     println a
-    // The variable `a` will drop here.
-}
+// catch <ident> -> <stmt> | <block>
+catch IOException ~>
+    println "Fuck !!"
+// finally -> <stmt> | <block>
+finally ~>
+    println "End !!"
+end
 
-// The variable `a` value is nil !!
-println a
+// async <funcDecoration>
+async fun getOrder() -> Order ~>
+    return await http.backSomeOrderTest()
+end
 
-// This implement have two parameters and extend to trait.
-impl Test (x: void, y: int) {
-    init {
-        println 'x is: \(typeof(x))'
-        if x is int -> 
-            println x + y
-    }
-}
-
-new Test(1.5, 23)
-new Test(245, 23)
-
-trait Human -> def eat () -> boolean
-
-impl People (age: int) : Human -> overlap def eat () -> boolean => self.age >= 5
-
-println new People(3).eat()
-println new People(5).eat()
-
-def test() -> int => 45
-
-if var a = test(); a > 40 {
-    println 'The returned value of function is greater than 40'
-}
+// await <expr>
+await getOrder()
