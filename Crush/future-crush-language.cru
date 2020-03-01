@@ -29,14 +29,13 @@ fun main() ~>
     end)
     
     // println "你好，${addTwoNumbers()(20, 20)}！"
-    open var ref addTwoNumbers () -> fun (int, int) -> string =>
+    pub var ref addTwoNumbers () -> fun (int, int) -> string =>
         fun (x: int, y: int) -> string ~>
             if x > y ->
                 return "turaiiao"
             else ->
                 return "$a$b"
         end
-    end
     
     // println <expr>
     // return ()
@@ -47,7 +46,7 @@ fun main() ~>
     // <expr>
     println fn()
 
-    fun add(x: int) -> int => ++ x
+    fun add(x: int) -> int => x + 1
     fun add(x: int) -> [int] ~>
         // return <expr>
         return [45, 66, 33]
@@ -73,14 +72,13 @@ fun main() ~>
     end
 end
 
-// open | static | const
+// pub | static | const
 
 // fun <ident><<generic...>>(param...) -> <ret> => <stmt> | <block>
-fun add<T>(x: int, y: T) -> (T, boolean) =>
-    if y is int == false ->
-        (nil, false)
-    else ->
-        (x + y as int, true)
+fun add<T>(x: int, y: T) -> (T, boolean) => if y is int == false ->
+    (nil, false)
+else ->
+    (x + y as int, true)
 
 fun buildThree(num: int, name: string, range: int) =>
     // Tuple
@@ -131,8 +129,8 @@ end
 
 var mut index = 0
 
-// magic -> <stmt> | <block>
-magic ~>
+// loop -> <stmt> | <block>
+loop ~>
     if index > 100 ->
         break
     index ++
