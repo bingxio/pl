@@ -12,12 +12,12 @@ def ids: list<int> = []
 
 def (id: int, title + date: str) create -> Book
     if ids.hasElement(id)
-        return nil
+        ret nil
     end
-    return new Book{id, title, date}
+    ret new Book{id, title, date}
 end
 
 def () main
     let bk = create(1, "The Compilers.", "2021.02.03")
-    println(bk.toString())
+    std.println(bk.toString())
 end
