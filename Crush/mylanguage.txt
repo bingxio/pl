@@ -3,21 +3,21 @@ def Book
     def title: str
     def date: str
     
-    pub func toString() -> str
+    pub def () toString -> str
         return "Book {$id, $title, $date}"
     end
 end
 
 def ids: list<int> = []
 
-def create(id: int, title + date: str) -> Book
+def (id: int, title + date: str) create -> Book
     if ids.hasElement(id)
         return nil
     end
     return new Book{id, title, date}
 end
 
-def main()
+def () main
     let bk = create(1, "The Compilers.", "2021.02.03")
     println(bk.toString())
 end
