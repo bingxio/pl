@@ -1,0 +1,23 @@
+struct Book {
+    def id: int
+    def title: str
+    def date: str
+    
+    pub func toString() -> str {
+        return "Book {$id, $title, $date}"
+    }
+}
+
+def ids: list<int> = []
+
+func create(id: int, title + date: str) -> Book {
+    if ids.hasElement(id) {
+        return nil
+    }
+    return new Book{id, title, date}
+}
+
+func main() {
+    let bk = create(1, "The Compilers.", "2021.02.03")
+    println(bk.toString())
+}
