@@ -1,12 +1,12 @@
-struct Book {
+struct Book ~>
     def id: int
     def title: str
     def date: str
     
-    pub func toString() -> str {
+    pub func toString() -> str ~>
         return "Book {$id, $title, $date}"
-    }
-}
+    end
+end
 
 def ids: list<int> = []
 
