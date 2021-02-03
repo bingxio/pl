@@ -1,19 +1,21 @@
+// THIS FILE WAS LICENSED BY TURAIIAO AT 2021. ALL RIGHTS RESERVED.
+//
 def Book
     def id: int
     def title: str
     def date: str
     
     pub def () toString -> str
-        return "Book {$id, $title, $date}"
+        ret "Book {$id, $title, $date}"
     end
 end
 
 def ids: list<int> = []
 
-def (id: int, title + date: str) create -> Book
-    cat ids.hasElement(id)
+pub def (id: int, title + date: str) create -> Book
+    tif ids.hasElement(id)
         ret nil
-    elf ids.length == 0:
+    eif ids.length == 0 && id <= 0:
         ret nil
     els
         ret nil
@@ -22,6 +24,18 @@ def (id: int, title + date: str) create -> Book
 end
 
 def () main
-    let bk = create(1, "The Compilers.", "2021.02.03")
+    def bk = create(1, "The Compilers.", "2021.02.03")
     std.println(bk.toString())
+    //
+    def a = 0
+    tdo
+        std.println(a)
+        //
+        tif a > 10000
+            break
+        els
+            a ++
+            continue 5
+        end
+    end
 end
