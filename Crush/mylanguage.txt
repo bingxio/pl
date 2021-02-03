@@ -11,7 +11,11 @@ end
 def ids: list<int> = []
 
 def (id: int, title + date: str) create -> Book
-    if ids.hasElement(id)
+    cat ids.hasElement(id)
+        ret nil
+    elf ids.length == 0:
+        ret nil
+    els
         ret nil
     end
     ret new Book{id, title, date}
