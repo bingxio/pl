@@ -23,19 +23,123 @@ pub def (id: int, title + date: str) create -> Book
     ret new Book{id, title, date}
 end
 
+use std
+
 def () main
-    def bk = create(1, "The Compilers.", "2021.02.03")
-    std.println(bk.toString())
+    create(1, "The Compilers.", "2021.02.03") and
+        std.println(
+            it.toString()
+        )
+    end
     //
-    def a = 0
-    tdo
-        std.println(a)
+    def x: int = 0
+    for
+        println("x: ", x)
         //
-        tif a > 10000
-            break
+        tif x > 10000
+            out
         els
-            a ++
-            continue 5
+            x ++
+            tin
         end
     end
+    //
+    tdo
+        tif x != 0
+            println("START !!")
+        end
+    for x > 0
+        println("CALL..", x)
+    end
+    //
+    def arr: list<any> = ['g', 34, 9.42, nil, "OK"] and
+        it.forEach -> (
+            k: int, 
+            v: any
+        )
+            tif v.type == integer
+                print("int : ")
+            end
+            println(k, v)
+        end
+    end
+    //
+    def x = 34
+    def y = 71
+    
+    def (a + b: int) max -> (int, bol)
+        tif a > b
+            ret (a, tru)
+        els
+            ret (b, fal)
+        end
+    end
+    
+    println(max(x, y))
+    //
+    def x: map<int, str> = {}
+    
+    x[4] = "Banana"
+    x[2] = "Orange"
+    x[6] = "Apple"
+    
+    // map<int, str> -> {
+    //     4: "Banana"
+    //     2: "Orange"
+    //     6: "Apple"
+    // }
+    println(x)
+    //
+    def Human
+        pub def () sleep
+        pub def (str) say -> bol
+        
+        pub def () toString -> str
+            ret `
+                Human:
+                
+                    sleep !
+                    say, back the content of say.
+            `
+        end
+    end
+    
+    def Eat
+        pub def () eat -> bol
+    end
+    
+    def Peop <- Human + Eat
+        def name: str
+        def age: int
+        
+        pub def () sleep
+            println("$name to sleep !")
+        end
+        
+        pub def (cont: str) say -> bol
+            tif age >= 6
+                println("$name say: $cont")
+                ret tru
+            els
+                println("$name can not to say !")
+                ret fal
+            end
+        end
+        
+        pub def () eat -> bol
+            ret tru
+        end
+    end
+    
+    def x = new Peop {name: "frank", age: 18}
+    def y = new Peop {name: "july",  age: 3 }
+    
+    x.sleep()
+    y.sleep()
+    
+    x.say("Hello !")
+    y.say("Hello !")
+    
+    x.eat()
+    y.eat()
 end
