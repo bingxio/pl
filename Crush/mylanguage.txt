@@ -1,5 +1,78 @@
 // THIS FILE WAS LICENSED BY TURAIIAO AT 2021. ALL RIGHTS RESERVED.
 //
+mod main
+
+use controller tas co
+
+def x: int = 34 // int
+def x      = 45 // any
+
+// int
+// flo
+// str
+// bol
+// cha
+
+// any
+
+pub def (ip: str) defangIpAddr -> str
+    def result = ""
+    
+    ip.chars() and        
+        for
+            def c = it.next()
+        
+            tif c >= '0' & c <= '9'
+                result += str(c)
+                result += "[.]"
+            els
+                result += str(c)
+            end
+        end
+    end
+    
+    ret result
+end
+
+pub def (strs: str) toLowerCase -> str
+    def result = ""
+    
+    strs.forEach(
+        def (k: int, v: any) _
+            def c = v tas cha
+            
+            tif c >= 'A' & c <= 'Z'
+                result += (c - 32)
+            els
+                result += c
+            end
+        end
+    )
+    
+    ret result
+end
+
+// https://leetcode-cn.com/problems/backspace-string-compare
+
+pub def (x + y: str) backspaceCompare -> bol
+    def (x: str) parseStr -> str
+        def result = ""
+        
+        x.chars() and
+            def c = it.next()
+            
+            tif c == '#'
+                result.pop()
+            els
+                result += c
+            end
+        end
+        
+        ret result
+    end
+    ret parseStr(x) == parseStr(y)
+end
+
 def Book
     def id: int
     def title: str
@@ -52,16 +125,15 @@ def () main
         println("CALL..", x)
     end
     //
-    def arr: list<any> = ['g', 34, 9.42, nil, "OK"] and
-        it.forEach -> (
-            k: int, 
-            v: any
-        )
-            tif v.type == integer
-                print("int : ")
+    def arr: []<any> = ['g', 34, 9.42, nil, "OK"] and
+        it.forEach(
+            def (k: int, v: any) _
+                tif v.type == integer
+                    print("int : ")
+                end
+                println(k, v)
             end
-            println(k, v)
-        end
+        )
     end
     //
     def x = 34
