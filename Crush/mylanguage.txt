@@ -15,6 +15,16 @@ def x      = 45 // any
 
 // any
 
+def (x: int) foo
+    tif x > 0
+        println("OK")
+    end
+end
+
+def () bar
+    foo(35)
+end
+
 pub def (ip: str) defangIpAddr -> str
     def result = ""
     
