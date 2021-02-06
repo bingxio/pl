@@ -25,6 +25,14 @@ def () bar
     foo(35)
 end
 
+def x: int = 0
+
+for
+    println("x = $x")
+    x ++
+    out tif x == 9999
+end
+
 pub def (ip: str) defangIpAddr -> str
     def result = ""
     
