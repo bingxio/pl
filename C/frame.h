@@ -11,11 +11,11 @@
 #include "obj.h"
 
 typedef struct {
-    arr code;
-    arr data;
-    arr cons;
-    arr vars;
-    arr name;
+    arr code; // list
+    arr data; // stack
+    arr cons; // list
+    arr vars; // list
+    arr name; // list
 } frame;
 
 void init_frame(
