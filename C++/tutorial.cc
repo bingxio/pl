@@ -269,6 +269,15 @@ class Shape {
 
 //        pure virtual function
         virtual int some() = 0;
+
+//        == != >= <= > <
+        auto operator<=>(const Shape &shape) const {
+//            equal
+//            greater
+//            less
+//            equivalent
+            return std::strong_ordering::equivalent;
+        }
 };
 
 // polymorphic
@@ -343,8 +352,6 @@ namespace my_space {
     }
 }
 
-// template and generic
-
 // function template
 template<typename T>
 inline T const &max(T const &a, T const &b) {
@@ -392,6 +399,23 @@ T Stack<T>::top() const {
     }
     return elems.back();
 }
+
+// constant expression
+constexpr int factorial(int n) {
+//    constant expression of if statement
+//    if constexpr (100 > -1) {
+//        std::cout << "CALL" << std::endl;
+//    }
+    return n == 0 ? 1 : n * n;
+}
+
+// lambda
+/**
+ * [capture-list](params) mut(option) expr(option) attr(option) -> ret(option) { body }
+ */
+auto plus = [](int x, int y) -> int { return x + y; };
+
+// NOLINT(bugprone-macro-parentheses)
 
 // main function
 int main() {
@@ -581,12 +605,12 @@ int main() {
     }
 //    pretreatment
 #define PI 3.1415926
-#define MIN(a, b) (a < b ? a : b)
+#define MIN(a, b) ((a) < (b) ? a : b)
     std::cout << PI << std::endl;
     std::cout << MIN(5, 2) << std::endl;
 //
 #ifdef NULL
-#define A -1
+#define A (-1)
 #endif
     std::cout << A << std::endl;
 
@@ -597,13 +621,46 @@ int main() {
     std::cout << __TIME__ << std::endl;
     std::cout << __VERSION__ << std::endl;
 
-#define MKSTR(x) #x
-#define CONCAT(x, y) x ## y
+//    concatenation of literal quantities info strings
+#define MKSTR(x) #x         // x to literal
+#define CONCAT(x, y) x ## y // x + y to literal
 
     std::cout << MKSTR(HELLO C++ !!) << std::endl;
 
     int xy = 300;
     std::cout << "xy = " << CONCAT(x, y) << std::endl;
+//    constant expression
+    constexpr int k = 49 * 2 + 5;
+    std::cout << factorial(5) << std::endl;
+//    union type
+    union numeric {
+        short x;
+        long y;
+        double z;
+    };
+//    shared memory
+    numeric numerics = {20}; // x: 20
+
+    std::cout << numerics.x << std::endl; // 20
+    std::cout << numerics.y << std::endl; // 20
+    std::cout << numerics.z << std::endl; // 9.88131e-323
+//    lambda
+    struct Book {
+        int id;
+        std::string title;
+        double price;
+    };
+
+    std::vector<Book> books;
+    std::string target = "C++";
+
+    auto res = std::count_if(
+        books.begin(),
+        books.end(),
+        [&v= target](const Book &book) {
+            return book.title.find(v) != std::string::npos;
+        });
+    std::cout << res << std::endl;
 //    end
     return 0;
 }
