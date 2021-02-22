@@ -1,18 +1,25 @@
 {
-    "window.titleBarStyle": "custom",
-    "editor.fontFamily": "Monaco",
+    "editor.fontFamily": "Menlo",
     "editor.fontSize": 11,
-    "editor.cursorStyle": "underline-thin",
-    "editor.matchBrackets": "never",
-    "editor.lineHeight": 28,
-    "editor.letterSpacing": 1.3,
-    "editor.tabSize": 4,
-    "editor.renderLineHighlight": "none",
+    "editor.cursorStyle": "block",
     "files.autoSave": "onFocusChange",
     "terminal.integrated.fontFamily": "Monaco",
-    "terminal.integrated.fontSize": 12,
-    "terminal.integrated.cursorStyle": "underline",
-    "terminal.integrated.lineHeight": 1.5,
-    "terminal.integrated.letterSpacing": 1.3,
-    "workbench.colorTheme": "Snazzy Light"
+    "terminal.integrated.fontSize": 16,
+    "C_Cpp.updateChannel": "Insiders",
+    "editor.matchBrackets": "never",
+    "customizeUI.titleBar": "inline",
+    "window.titleBarStyle": "custom",
+    // PLUGIN CUSTOM UI
+    "customizeUI.font.regular": "Menlo",
+    "customizeUI.fontSizeMap": {
+        "13px": "11px",
+        "monospace": "12px"
+    },
+    // NPM INSTALL CLANG-FORMAT
+    "clang-format.executable": "${workspaceRoot}/node_modules/.bin/clang-format",
+    "workbench.activityBar.visible": false,
+    "workbench.statusBar.visible": false,
+    "editor.smoothScrolling": true,
+    "C_Cpp.default.cppStandard": "c++20",
+    "C_Cpp.default.cStandard": "c17"
 }
