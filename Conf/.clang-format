@@ -1,0 +1,14 @@
+Language: Cpp
+
+ColumnLimit: 80
+
+IndentWidth: 2
+TabWidth: 2
+
+NamespaceIndentation: All
+AccessModifierOffset: -2
+
+AllowShortIfStatementsOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
+
+PointerAlignment: Right
