@@ -1,10 +1,15 @@
 {
     "editor.fontFamily": "Menlo",
+    // "editor.fontFamily": "Ubuntu Mono",
     "editor.fontSize": 11,
-    "editor.cursorStyle": "block",
+    "editor.lineHeight": 18,
+    // "editor.cursorStyle": "block",
+    "editor.cursorSmoothCaretAnimation": true,
+    "editor.cursorBlinking": "phase",
+    "terminal.integrated.cursorStyle": "line",
     "files.autoSave": "onFocusChange",
-    "terminal.integrated.fontFamily": "Monaco",
-    "terminal.integrated.fontSize": 16,
+    "terminal.integrated.fontFamily": "Menlo",
+    "terminal.integrated.fontSize": 11,
     "C_Cpp.updateChannel": "Insiders",
     "editor.matchBrackets": "never",
     "customizeUI.titleBar": "inline",
@@ -17,9 +22,18 @@
     },
     // NPM INSTALL CLANG-FORMAT
     "clang-format.executable": "${workspaceRoot}/node_modules/.bin/clang-format",
-    "workbench.activityBar.visible": false,
-    "workbench.statusBar.visible": false,
     "editor.smoothScrolling": true,
+    "editor.scrollPredominantAxis": true,
     "C_Cpp.default.cppStandard": "c++20",
-    "C_Cpp.default.cStandard": "c17"
+    "C_Cpp.default.cStandard": "c17",
+    "[cpp]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "workbench.iconTheme": "material-icon-theme",
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "explorer.confirmDragAndDrop": false,
+    "workbench.statusBar.visible": false,
+    "workbench.activityBar.visible": false,
 }
