@@ -49,8 +49,8 @@
 (format t "x = ~a y = ~a z = ~a ~%" x y z))
 
 (let ((a '(a b c))
-	(b '(1 2 3)))
-       (format t "a = ~a b = ~a" a b))
+      (b '(1 2 3)))
+(format t "a = ~a b = ~a" a b))
 
 (defconstant PI 3.141592)
 (defun area-circle(rad)
@@ -106,8 +106,7 @@
 
 ; Loop
 (setq x 10)
-(loop
-  (write x)
+(loop(write x)
   (setq x (+ x 1))
   (terpri)
   (when (> x 20)
@@ -119,4 +118,13 @@
 (loop for x from 1 to 50
       if (evenp x)
       do (format t "~d " x))
-
+(write-line "")
+(do ((x 0 (+ 2 x))
+	(y 20 (- y 2)))
+     ((= x y) (- x y))
+     (format t "x = ~d y = ~d ~%" x y))
+(dotimes (n 11)
+  (print n) (prin1 (* n n)))
+(write-line "")
+(dolist (n '(1 2 3 4 5 6 7 8))
+  (format t "number: ~d square: ~d ~%" n (* n n)))
