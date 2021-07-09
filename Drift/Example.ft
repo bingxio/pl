@@ -1,0 +1,123 @@
+// Drift
+// GPL 3.0 License - bingxio <3106740988@qq.com>
+mod main // package
+
+// module loaded
+use := <- (
+	"fmt"
+	"os"
+	"http"
+)
+
+//	1. mod		2. func		3. if		4. else
+//	5. break	6. continue	7.return	8. struct
+//	9. trait
+
+// Entry
+main := func() {
+	a := args.parse()
+	if len(a) == 0 {
+		return
+	}
+	println(a)
+
+	x := []<int>(1, 2, 3)
+	x := ()<int>(4, 5, 6)
+
+	x := {}<int, string>(
+		1: "Hello"
+		2: "World"
+	)
+	println(len(x), len(y))
+
+	for {
+		if len(x) > 10 {
+			break
+		}
+	}
+	// Loop and range iterator
+	for
+		i := 0
+		i <= 9
+		i += 1 
+		{
+			for j := 0; j < i; j += 1 {
+				if i % 2 == 0 {
+					return
+				}
+				println(i, j)
+			}
+		}
+	for x, y := <- x {
+		println(x, y)
+	}
+
+	x := func[T](x ()<int>, y []<string>) -> T {
+		if len(x) > len(y) {
+			return x
+		} else {
+			for _, v := <- x {
+				if v > 10 {
+					return v
+				}
+			}
+		}
+	}()
+	println(x)
+
+	x int := 23
+	y char := 'p'
+
+	Foo := trait {
+		Show()
+		Login(string, string) -> bool
+	}
+
+	x := class << Foo {
+		Num int
+
+		Show := func() {
+			println("SHOW!")
+		}
+
+		Login := func(n, p string) -> bool {
+			if n != x.Name {
+				return false
+			}
+		}
+	}
+	y := class << x {
+		init := func() {
+			println(y.Num)
+		}
+	}
+}
+
+foo := func(x int, y string) -> int {
+	if x > y {
+		println("what?")
+	}
+}
+
+// Returns the max of numbers
+max := func(a, b int) -> int {
+	if a > b {
+		return a
+	} else {
+		return b
+	}
+}
+
+// Hello world!!
+// Welcome to visit my new language
+call := func(
+		term func(int, int) -> int, x, y int
+	) -> int {
+		if x > y {
+			return -1
+		} else {
+			p := x + y * 2
+			return term(p, x * 4)
+		}
+	return -2
+}
