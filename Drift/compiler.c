@@ -10,8 +10,7 @@ typedef struct { token_kind kind; const char *literal; int line; } token;
 typedef struct { int count; token *tokens[]; } lexer_result;
 
 bool is_space(char c, int i, int fsize) { 
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\r') 
-		&& i < fsize;
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\r') && i < fsize;
 }
 
 bool peek_to(char c, char p, int i, int fsize, const char *buf) {
@@ -36,19 +35,16 @@ lexer_result *lexer(const char *buf, int fsize) {
 	l->count = 0;
 	for (int i = 0, e = 1; i < fsize; i ++) {
 		char c = buf[i];
-space:
-		while (is_space(c, i, fsize)) {
+space:		while (is_space(c, i, fsize)) {
 			if (c == '\n') e ++;
 			c = buf[++ i];
 		}
-block:
-		if (peek_to(c, '*', i, fsize, buf)) {
+block:		if (peek_to(c, '*', i, fsize, buf)) {
 			i += 2;
 			while (i < fsize) {
 				c = buf[i];
 				if (c == '\n') e ++;
-				if (c == '*' && i + 1 != fsize
-						&& buf[i + 1] == '/') {
+				if (c == '*' && i + 1 != fsize && buf[i + 1] == '/') {
 					i += 2;
 					c = buf[i];
 					break;
@@ -56,8 +52,7 @@ block:
 				i ++;
 			}
 		}
-line:
-		if  (peek_to(c, '/', i, fsize, buf)) {
+line:		if  (peek_to(c, '/', i, fsize, buf)) {
 			while (i < fsize) {
 				c = buf[++ i];
 				if (c == '\n') {
@@ -101,17 +96,21 @@ int main(int argc, char **argv) {
 		printf("Failed to read buffer of file: %s\n", path);
 		exit(EXIT_FAILURE);
 	}
+
 	fseek(fp, 0, SEEK_END);
 	int fsize = ftell(fp);
 	fseek(fp, 0, SEEK_SET);
 	char *buf = (char *) malloc(fsize * sizeof(char));
+	
 	fread(buf, fsize, sizeof(char), fp);
 	buf[fsize] = '\0';
+	
 	lexer_result *l = lexer(buf, fsize);
 	for (int i = 0; i < l->count; i ++) {
 		token *tok = l->tokens[i];
 		printf("%d %s %d\n", tok->kind, tok->literal, tok->line);
 	}
+	
 	fclose(fp);
 	return 0;
 }
