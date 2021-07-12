@@ -6,12 +6,15 @@
 #include <string.h>
 
 typedef enum { 
-	EOH, LITERAL, NUMBER, STR, CHAR, FLOAT, ADD, SUB, MUL, DIV, 
-	SUR, AS_ADD, AS_SUB, AS_MUL, AS_DIV, AS_SUR, R_ARROW, L_ARROW, 
-	DOR, COMMA, COLON, EQ, SEMICOLON, GREATER, LESS, GR_EQ, LE_EQ,
-	ADDR, OR, BANG, BANG_EQ, EQ_EQ, L_BRACE, R_BRACE, L_PAREN, R_PAREN,
-	L_BRACKET, R_BRACKET, UNDERLINE, DEF, RET, FOR, AOP, IF, EF, NF,
-	NEW, OUT, GO, MOD, USE
+	EOH,	   LITERAL,   NUMBER,    STR,     CHAR,      FLOAT,   
+	ADD,       SUB,       MUL,       DIV,     SUR,       AS_ADD,
+	AS_SUB,    AS_MUL,    AS_DIV,    AS_SUR,  R_ARROW,   L_ARROW, 
+	DOR,	   COMMA,     COLON,     EQ,      SEMICOLON, GREATER, 
+	LESS,      GR_EQ,     LE_EQ,     ADDR,	  OR,        BANG,  
+	BANG_EQ,   EQ_EQ,     L_BRACE,   R_BRACE, L_PAREN,   R_PAREN,
+	L_BRACKET, R_BRACKET, UNDERLINE, DEF,     RET, 	     FOR,
+	AOP,       IF,        EF,        NF,      NEW, 	     OUT,
+	GO, 	   MOD,       USE
 } token_kind;
 
 const char *keyword[12] = {
@@ -79,34 +82,6 @@ lexer_result *lexer(const char *buf, int fsize) {
 			if (c == '\n') line ++;
 			c = buf[++ i];
 		}
-		/*
-block:		if (peek_to(c, '*', i, fsize, buf)) {
-			i += 2;
-			while (i < fsize) {
-				c = buf[i];
-				if (c == '\n') e ++;
-				if (c == '*' && i + 1 != fsize && buf[i + 1] == '/') {
-					i += 2;
-					c = buf[i];
-					break;
-				}
-				i ++;
-			}
-		}
-line:		if  (peek_to(c, '/', i, fsize, buf)) {
-			while (i < fsize) {
-				c = buf[++ i];
-				if (c == '\n') {
-					e ++;
-					i ++;
-					break;
-				}
-			}
-		}
-		if (is_space(c, i, fsize))          goto space;
-		if (peek_to(c, '*', i, fsize, buf)) goto block;
-		if (peek_to(c, '/', i, fsize, buf)) goto line;
-		*/
 		if (is_digit(c)) {
 			int p = 0;
 			bool f = false;
@@ -143,11 +118,22 @@ line:		if  (peek_to(c, '/', i, fsize, buf)) {
 			case '\n':
 			case '\0':
 				continue;
+			case '\'':
+				i ++;
+				char literal = buf[i ++];
+				c = buf[i];
+				if (c != '\'') {
+					fprintf(stderr, 
+						"<lexer %d>: missing single quotation mark to the right.\n",
+						line);
+					exit(EXIT_FAILURE);
+				} else {
+					i += 2;
+				}
+				break;
 			default:
-				fprintf(
-					stderr,
-					"<lexer>: Unknown character '%c' at line %d.\n", 
-					c, line);
+				fprintf(stderr, "<lexer %d>: Unknown character '%c'.\n",
+					line, c);
 				exit(EXIT_FAILURE);
 		}
 	}
@@ -178,7 +164,7 @@ int main(int argc, char **argv) {
 	lexer_result *lex = lexer(buf, fsize);
 	for (int i = 0; i < lex->len; i ++) {
 		token t = lex->tokens[i];
-		printf("TOKEN: %d %s %d\n", t.kind, t.literal, t.line);
+		printf("TOKEN: %-10d %-20s %d\n", t.kind, t.literal, t.line);
 	}
 	
 	fclose(fp);
