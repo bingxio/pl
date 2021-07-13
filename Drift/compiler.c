@@ -6,10 +6,10 @@
 #include <string.h>
 
 typedef enum { 
-	EOH,	   LITERAL,   NUMBER,    STR,     CHAR,      FLOAT,   
+	EOH,	   LITERAL,   NUMBER,    STRING,  CHAR,      FLOAT,   
 	ADD,       SUB,       MUL,       DIV,     SUR,       AS_ADD,
 	AS_SUB,    AS_MUL,    AS_DIV,    AS_SUR,  R_ARROW,   L_ARROW, 
-	DOR,	   COMMA,     COLON,     EQ,      SEMICOLON, GREATER, 
+	DOT,	   COMMA,     COLON,     EQ,      SEMICOLON, GREATER, 
 	LESS,      GR_EQ,     LE_EQ,     ADDR,	  OR,        BANG,  
 	BANG_EQ,   EQ_EQ,     L_BRACE,   R_BRACE, L_PAREN,   R_PAREN,
 	L_BRACKET, R_BRACKET, UNDERLINE, DEF,     RET, 	     FOR,
@@ -22,17 +22,13 @@ const char *keyword[12] = {
 	"nf",  "new", "out", "go",  "mod", "use"
 };
 
-typedef struct { token_kind kind; const char *literal; int line; } token;
+typedef struct { token_kind kind; const char *literal; int line; int off; } token;
 typedef struct { int len; int cap; token *tokens; } lexer_result;
-
-bool peek_to(char c, char p, int i, int fsize, const char *buf) {
-	return c == '/' && i + 1 != fsize && buf[i + 1] == p;
-}
 
 bool is_space(char c) { return c == ' ' || c == '\t' || c == '\n' || c == '\r'; }
 bool is_digit(char c) { return c >= '0' && c <= '9'; }
 bool is_ident(char c) {
-	return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c == '_';
+	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
 }
 
 token_kind to_keyword(const char *literal) {
@@ -49,11 +45,8 @@ token_kind to_keyword(const char *literal) {
 	return LITERAL;
 }
 
-token new_token(token_kind k, const char *literal, int line) {
-	token t;
-	t.kind = k;
-	t.literal = literal;
-	t.line = line;
+token new_token(token_kind k, const char *literal, int line, int off) {
+	token t = {.kind = k, .literal = literal, .line = line, .off = off};
 	return t;
 }
 
@@ -74,14 +67,30 @@ void append_token(lexer_result *lex, token tok) {
 	lex->tokens[lex->len++] = tok;
 }
 
+bool next(const char *buf, int *p, char c) {
+	if (buf[*p + 1] == c) {
+		*p += 2;
+		return true;
+	}
+	(*p) ++;
+	return false;
+}
+
 lexer_result *lexer(const char *buf, int fsize) {
 	lexer_result *l = (lexer_result *) malloc(sizeof(lexer_result));
-	for (int i = 0, line = 1; i < fsize;) {
+	bool new_line = true;
+	for (int i = 0, line = 1, off = 0; i < fsize;) {
 		char c = buf[i];
 		while (is_space(c)) {
-			if (c == '\n') line ++;
+			if (c == '\n') {
+				line ++;
+				off = -1;
+				new_line = true;
+			}
 			c = buf[++ i];
+			if (new_line) off ++;
 		}
+		if (new_line) new_line = false;
 		if (is_digit(c)) {
 			int p = 0;
 			bool f = false;
@@ -95,7 +104,8 @@ lexer_result *lexer(const char *buf, int fsize) {
 				literal[x] = buf[i - p];
 				p --;
 			}
-			append_token(l, new_token(f ? FLOAT : NUMBER, literal, line));
+			append_token(l, new_token(f ? FLOAT : NUMBER, literal, line, off));
+			continue;
 		}
 		if (is_ident(c)) {
 			int p = 0;
@@ -109,18 +119,62 @@ lexer_result *lexer(const char *buf, int fsize) {
 				p --;
 			}
 			append_token(l, new_token(
-						to_keyword(literal), literal, line));
+						to_keyword(literal), literal, line, off));
+			continue;
 		}
+		token t = {.line = line, .off = off};
 		switch (c) {
+			case '+':
+				if (next(buf, &i, '=')) t.kind = AS_ADD;
+				else t.kind = ADD;
+				break;
+			case '-':
+				if (next(buf, &i, '=')) t.kind = AS_SUB;
+				else {
+					if (buf[i] == '>') {
+						t.kind = R_ARROW;
+						i ++;
+					} else t.kind = SUB;
+				}
+				break;
+			case '*':
+				if (next(buf, &i, '=')) t.kind = AS_MUL;
+				else t.kind = MUL;
+				break;
+			case '/':
+				if (next(buf, &i, '=')) t.kind = AS_DIV;
+				else t.kind = DIV;
+				break;
+			case '%':
+				if (next(buf, &i, '=')) t.kind = AS_SUR;
+				else t.kind = SUR;
+				break;
+			case '<':
+				if (next(buf, &i, '=')) t.kind = LE_EQ;
+				else {
+					if (buf[i] == '-') {
+						t.kind = L_ARROW;
+						i ++;
+					} else t.kind = LESS;
+				}
+				break;
+			case '>':
+				if (next(buf, &i, '=')) t.kind = GR_EQ;
+				else t.kind = GREATER;
+				break;
 			case ' ':
 			case '\t':
 			case '\r':
 			case '\n':
 			case '\0':
 				continue;
-			case '\'':
+			case '#':
+				while (buf[++ i] != '\n');
+				continue;
+			case '\'': {
 				i ++;
-				char literal = buf[i ++];
+				char *literal = (char *) malloc(sizeof(char));
+				literal[0] = buf[i ++];
 				c = buf[i];
 				if (c != '\'') {
 					fprintf(stderr, 
@@ -130,14 +184,93 @@ lexer_result *lexer(const char *buf, int fsize) {
 				} else {
 					i += 2;
 				}
+				t.kind = CHAR; t.literal = literal;
+			}
+				break;
+			case '"': {
+				c = buf[++ i];
+				int p = 0;
+				while (c != '"') {
+					c = buf[++ i];
+					p ++;
+					if (i == fsize) {
+						fprintf(stderr,
+							"<lexer %d>: missing closing double quote.\n", line);
+						exit(EXIT_FAILURE);
+					}
+				}
+				char *literal = (char *) malloc(p * sizeof(char));
+				for (int x = 0, j = p; x < j; x ++) {
+					literal[x] = buf[i - p];
+					p --;
+				}
+				i ++;
+				t.kind = STRING, t.literal = literal;
+			}
+				break;
+			case '.':
+				i ++;
+				t.kind = DOT;
+				break;
+			case ',':
+				i ++;
+				t.kind = COMMA;
+				break;
+			case ':':
+				i ++;
+				t.kind = COLON;
+				break;
+			case '=':
+				if (next(buf, &i, '=')) t.kind = EQ_EQ;
+				else t.kind = EQ;
+			case ';':
+				i ++;
+				t.kind = SEMICOLON;
+				break;
+			case '&':
+				i ++;
+				t.kind = ADDR;
+				break;
+			case '|':
+				i ++;
+				t.kind = OR;
+				break;
+			case '!':
+				if (next(buf, &i, '=')) t.kind = BANG_EQ;
+				else t.kind = BANG;
+				break;
+			case '{':
+				i ++;
+				t.kind = L_BRACE;
+				break;
+			case '}':
+				i ++;
+				t.kind = R_BRACE;
+				break;
+			case '[':
+				i ++;
+				t.kind = L_BRACKET;
+				break;
+			case ']':
+				i ++;
+				t.kind = R_BRACKET;
+				break;
+			case '(':
+				i ++;
+				t.kind = L_PAREN;
+				break;
+			case ')':
+				i ++;
+				t.kind = R_PAREN;
 				break;
 			default:
 				fprintf(stderr, "<lexer %d>: Unknown character '%c'.\n",
 					line, c);
 				exit(EXIT_FAILURE);
 		}
+		append_token(l, t);
 	}
-	append_token(l, new_token(EOH, "EOH", l->tokens[l->len - 1].line + 1));
+	append_token(l, new_token(EOH, "EOH", l->tokens[l->len - 1].line + 1, 0));
 	return l;
 }
 
@@ -149,7 +282,7 @@ int main(int argc, char **argv) {
 	const char *path = argv[1];
 	FILE *fp = fopen(path, "r");
 	if (fp == NULL) {
-		printf("Failed to read buffer of file: %s\n", path);
+		printf("<compiler>: Failed to read buffer of file: %s\n", path);
 		exit(EXIT_FAILURE);
 	}
 
@@ -164,7 +297,7 @@ int main(int argc, char **argv) {
 	lexer_result *lex = lexer(buf, fsize);
 	for (int i = 0; i < lex->len; i ++) {
 		token t = lex->tokens[i];
-		printf("TOKEN: %-10d %-20s %d\n", t.kind, t.literal, t.line);
+		printf("[%3d] %-20d %-20s %-10d %d\n", i, t.kind, t.literal, t.line, t.off);
 	}
 	
 	fclose(fp);
