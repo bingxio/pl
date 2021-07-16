@@ -1,10 +1,14 @@
-// Drift
-// GPL 3.0 License - bingxio <3106740988@qq.com>
+/* Drift
+ * 
+ * 	- https://drift-lang.fun/
+ *
+ * GPL 3.0 License - bingxio <3106740988@qq.com> */
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 
+/* Types of all tokens */
 typedef enum { 
 	EOH,	   LITERAL,   NUMBER,    STRING,  CHAR,      FLOAT,   
 	ADD,       SUB,       MUL,       DIV,     SUR,       AS_ADD,
@@ -17,20 +21,30 @@ typedef enum {
 	GO, 	   MOD,       USE
 } token_kind;
 
+/* keywords */
 const char *keyword[12] = {
 	"def", "ret", "for", "aop", "if",  "ef", 
 	"nf",  "new", "out", "go",  "mod", "use"
 };
 
+/* Token properties */
 typedef struct { token_kind kind; const char *literal; int line; int off; } token;
+
+/* The lexical module returns and interprets the token stream */
 typedef struct { int len; int cap; token *tokens; } lexer_result;
 
+/* Whether the symbol is a space, carriage return, line feed, indent */
 bool is_space(char c) { return c == ' ' || c == '\t' || c == '\n' || c == '\r'; }
+
+/* Are the symbols numbers 0 to 9 */
 bool is_digit(char c) { return c >= '0' && c <= '9'; }
+
+/* Is the symbol a legal identifier */
 bool is_ident(char c) {
 	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
 }
 
+/* Analyze the types of strings */
 token_kind to_keyword(const char *literal) {
 	for (int i = 0; i < 12; i ++) {
 		if (strcmp(literal, keyword[i]) == 0) {
@@ -45,11 +59,14 @@ token_kind to_keyword(const char *literal) {
 	return LITERAL;
 }
 
+/* Build token */
 token new_token(token_kind k, const char *literal, int line, int off) {
 	token t = {.kind = k, .literal = literal, .line = line, .off = off};
 	return t;
 }
 
+/* Add elements,
+ * and automatically expand according to the length */
 void *append(void *ptr, int *len, int *cap, size_t size) {
 	if (*cap == 0 || *len + 1 > *cap) {
 		if (*cap == 0) {
@@ -57,16 +74,18 @@ void *append(void *ptr, int *len, int *cap, size_t size) {
 		} else {
 			*cap *= 2;
 		}
-		ptr = realloc(ptr, size * (*cap));
+		ptr = realloc(ptr, size * (*cap)); /* Double capacity */
 	}
 	return ptr;
 }
 
+/* Append token */
 void append_token(lexer_result *lex, token tok) {
 	lex->tokens = append(lex->tokens, &lex->len, &lex->cap, sizeof(token));
 	lex->tokens[lex->len++] = tok;
 }
 
+/* Determine whether the next character is the specified type */
 bool next(const char *buf, int *p, char c) {
 	if (buf[*p + 1] == c) {
 		*p += 2;
@@ -76,22 +95,25 @@ bool next(const char *buf, int *p, char c) {
 	return false;
 }
 
+/* Lexical analysis */
 lexer_result *lexer(const char *buf, int fsize) {
-	lexer_result *l = (lexer_result *) malloc(sizeof(lexer_result));
-	bool new_line = true;
+	lexer_result *l = (lexer_result *) malloc(sizeof(lexer_result)); /* Result */
+	bool new_line = true; /* Indent judgement */
 	for (int i = 0, line = 1, off = 0; i < fsize;) {
 		char c = buf[i];
-		while (is_space(c)) {
+		while (is_space(c)) { /* Space */
 			if (c == '\n') {
 				line ++;
 				off = -1;
 				new_line = true;
 			}
 			c = buf[++ i];
+			/* If it's a new line,
+			 * And it's dealing with spaces, increase indent */
 			if (new_line) off ++;
 		}
-		if (new_line) new_line = false;
-		if (is_digit(c)) {
+		if (new_line) new_line = false; /* To catch indent */
+		if (is_digit(c)) { /* Digit */
 			int p = 0;
 			bool f = false;
 			while (is_digit(c) || c == '.') {
@@ -108,7 +130,7 @@ lexer_result *lexer(const char *buf, int fsize) {
 			append_token(l, new_token(f ? FLOAT : NUMBER, literal, line, off));
 			continue;
 		}
-		if (is_ident(c)) {
+		if (is_ident(c)) { /* Ident */
 			int p = 0;
 			while (is_ident(c)) {
 				p ++;
@@ -124,7 +146,7 @@ lexer_result *lexer(const char *buf, int fsize) {
 						to_keyword(literal), literal, line, off));
 			continue;
 		}
-		token t = {.line = line, .off = off};
+		token t = {.line = line, .off = off}; /* Others */
 		switch (c) {
 			case '+':
 				if (next(buf, &i, '=')) {t.kind = AS_ADD; t.literal = "+=";}
@@ -165,7 +187,7 @@ lexer_result *lexer(const char *buf, int fsize) {
 				}
 				break;
 			case '>':
-				if (next(buf, &i, '=')) {t.kind = GR_EQ; t.literal = "=>";}
+				if (next(buf, &i, '=')) {t.kind = GR_EQ; t.literal = ">=";}
 				else {t.kind = GREATER; t.literal = ">";}
 				break;
 			case ' ':
@@ -177,7 +199,7 @@ lexer_result *lexer(const char *buf, int fsize) {
 			case '#':
 				while (buf[++ i] != '\n');
 				continue;
-			case '\'': {
+			case '\'': { /* Char */
 				i ++;
 				char *literal = (char *) malloc(sizeof(char));
 				literal[0] = buf[i ++];
@@ -193,7 +215,7 @@ lexer_result *lexer(const char *buf, int fsize) {
 				t.kind = CHAR; t.literal = literal;
 			}
 				break;
-			case '"': {
+			case '"': { /* String */
 				c = buf[++ i];
 				int p = 0;
 				while (c != '"') {
@@ -230,6 +252,7 @@ lexer_result *lexer(const char *buf, int fsize) {
 			case '=':
 				if (next(buf, &i, '=')) {t.kind = EQ_EQ; t.literal = "==";}
 				else {t.kind = EQ; t.literal = "=";}
+				break;
 			case ';':
 				i ++;
 				t.kind = SEMICOLON; t.literal = ";";
@@ -277,10 +300,12 @@ lexer_result *lexer(const char *buf, int fsize) {
 		}
 		append_token(l, t);
 	}
+	/* Terminator */
 	append_token(l, new_token(EOH, "EOH", l->tokens[l->len - 1].line + 1, 0));
 	return l;
 }
 
+/* All bytecodes */
 typedef enum {
 	LOAD_CONST,    ASSIGN_TO,  STORE_NAME, LOAD_OF,
 	INDEX_TO,      REPLACE_TO, GET_OF,     SET_TO,
@@ -302,7 +327,7 @@ comp_result *compile(lexer_result *lex) {
 		token tok = lex->tokens[i];
 		switch (tok.kind) {
 			default:
-				printf("EXPR AT %d\n", i);
+				printf("EXPR\n");
 		}
 	}
 	return com;
@@ -314,20 +339,21 @@ int main(int argc, char **argv) {
 		exit(EXIT_FAILURE);
 	}
 	const char *path = argv[1];
-	FILE *fp = fopen(path, "r");
+	FILE *fp = fopen(path, "r"); /* Open file of path */
 	if (fp == NULL) {
 		printf("<compiler>: Failed to read buffer of file: %s\n", path);
 		exit(EXIT_FAILURE);
 	}
 
 	fseek(fp, 0, SEEK_END);
-	int fsize = ftell(fp);
+	int fsize = ftell(fp); /* Returns the size of file */
 	fseek(fp, 0, SEEK_SET);
 	char *buf = (char *) malloc(fsize * sizeof(char));
 	
-	fread(buf, fsize, sizeof(char), fp);
+	fread(buf, fsize, sizeof(char), fp); /* Read file to buffer*/
 	buf[fsize] = '\0';
 
+	/* Lexical analysis */
 	lexer_result *lex = lexer(buf, fsize);
 	for (int i = 0; i < lex->len; i ++) {
 		token t = lex->tokens[i];
@@ -335,7 +361,7 @@ int main(int argc, char **argv) {
 	}
 	comp_result *com = compile(lex);
 	
-	fclose(fp);
-	free(buf);
+	fclose(fp); /* Close file */
+	free(buf); /* Close buffer */
 	return 0;
 }
