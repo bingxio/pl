@@ -565,6 +565,36 @@ fn main() {
            }                         // ----------+
        }
     */
+    struct Iter<'a> {
+        a: [i32; 3],
+        i: usize,
+        _m: std::marker::PhantomData<&'a ()>,
+    }
+
+    impl<'a> Iterator for Iter<'a> {
+        type Item = &'a i32;
+
+        fn next(&mut self) -> Option<&'a i32> {
+            if self.i < 3 {
+                unsafe {
+                    let ret = Some(&(*(self as *mut Iter)).a[self.i]);
+                    self.i += 1;
+                    ret
+                }
+            } else {
+                None
+            }
+        }
+    }
+
+    let mut it = Iter {
+        a: [34, 12, 54],
+        i: 0,
+        _m: std::marker::PhantomData,
+    };
+    for _i in 0..5 {
+        println!("{:?}", it.next());
+    }
 }
 
 mod front_of_house {
