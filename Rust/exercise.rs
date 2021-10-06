@@ -1,4 +1,10 @@
 // exercise.rs
+use std::collections::HashMap;
+use std::fmt::Debug;
+use std::fs::File;
+use std::io;
+use std::io::{ErrorKind, Read};
+
 fn main() {
     println!("Hello, Rust!");
     let a: [i32; 5] = [1, 2, 3, 4, 5];
@@ -329,5 +335,246 @@ fn main() {
         println!("State quarter from {:?}", state);
     } else {
         println!("other");
+    }
+
+    // call crate module
+    crate::front_of_house::hosting::add_to_waitlist();
+
+    let mut v = vec![1, 2, 3, 4, 5];
+    let third: &i32 = &v[2];
+
+    println!("The third element is {}", third);
+
+    match v.get(2) {
+        Some(num) => println!("{}", num),
+        None => println!("NONE"),
+    }
+
+    println!("{:?} {:?}", v.get(1), v.get(200));
+
+    for i in &mut v {
+        *i += 1;
+    }
+    for i in &v {
+        print!("{} ", i);
+    }
+    println!();
+
+    let teams = vec![String::from("Blue"), String::from("Yellow")];
+    let initial_scores = vec![10, 50];
+
+    let scores: HashMap<_, _> = teams.into_iter().zip(initial_scores.into_iter()).collect();
+    println!("{:?}", scores);
+
+    let field_name = String::from("Favorite color");
+    let field_value = String::from("Blue");
+
+    let mut map = HashMap::new();
+    map.insert(field_name, field_value);
+    map.insert(String::from("A"), String::from("123"));
+
+    map.entry(String::from("B")).or_insert(String::from("456"));
+    map.entry(String::from("C")).or_insert(String::from("789"));
+
+    for (k, v) in &map {
+        println!("{}: {}", k, v);
+    }
+
+    fn read_file() -> Result<String, io::Error> {
+        let mut f = File::open("hello.txt")?;
+        let mut s = String::new();
+        f.read_to_string(&mut s)?; // ? operator
+        Ok(s)
+    }
+
+    match read_file() {
+        Ok(content) => {
+            println!("Read {}", content);
+        }
+        Err(e) => println!("Error: {}", e),
+    }
+
+    // And use function to handle it.
+    File::open("1.txt").unwrap_or_else(|error| {
+        if error.kind() == ErrorKind::NotFound {
+            println!("not found, and will create it named 1.txt on this path");
+            File::create("1.txt").unwrap()
+        } else {
+            panic!("WHAT'S UP!");
+        }
+    });
+
+    fn largest_i32(list: &[i32]) -> i32 {
+        let mut largest = list[0];
+
+        for &item in list {
+            if item > largest {
+                largest = item;
+            }
+        }
+
+        largest
+    }
+
+    println!("largest {}", largest_i32(&vec![1, 2, 3, 4, 5]));
+
+    struct Point<T, U> {
+        x: T,
+        y: U,
+    }
+
+    impl<T, U> Point<T, U> {
+        fn mixup<V, W>(self, other: Point<V, W>) -> Point<T, W> {
+            Point {
+                x: self.x,
+                y: other.y,
+            }
+        }
+    }
+
+    let p1 = Point { x: 5, y: 10.4 };
+    let p2 = Point { x: "Hello", y: 'c' };
+
+    let p3 = p1.mixup(p2);
+    println!("p3.x = {} p3.y = {}", p3.x, p3.y);
+
+    trait Summary {
+        fn summarize_def(&self) -> String;
+
+        fn summarize(&self) -> String {
+            String::from("(Read default impl)")
+        }
+    }
+
+    struct Foo {
+        x: i32,
+    }
+
+    impl Summary for Foo {
+        fn summarize_def(&self) -> String {
+            String::from("(Read implementation)")
+        }
+    }
+
+    let f = Foo { x: 666 };
+    println!("{} {} {}", f.summarize(), f.summarize_def(), f.x);
+
+    // Trais as parameter
+    fn notify(item: &impl Summary) {
+        println!("{} {}", item.summarize(), item.summarize_def());
+    }
+    notify(&f);
+
+    // Trait bound
+    fn _notify_more<T: Summary + std::fmt::Display>(_item: &T) {}
+
+    // fn _some_func_1<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) -> i32 {}
+    // fn _some_func_2<T, U>(t: &T, u: &U) -> i32
+    // where
+    //     T: Display + Clone,
+    //     U: Clone + Debug,
+    // {
+    // }
+
+    fn return_summary() -> impl Summary {
+        // Foo was implementation of Summary trait
+        Foo { x: 9 }
+    }
+    println!("{}", return_summary().summarize());
+
+    fn largest<T: PartialOrd + Copy>(list: &[T]) -> T {
+        let mut larg = list[0];
+
+        for &item in list {
+            if item > larg {
+                larg = item;
+            }
+        }
+
+        larg
+    }
+
+    let number = vec![34, 12, 56, 88, 45, 43, 22];
+    let chars = vec!['y', 'w', 'p', 'a'];
+
+    println!("{} {}", largest(&number), largest(&chars));
+
+    struct Pair<T> {
+        a: T,
+        b: T,
+    }
+
+    impl<T> Pair<T> {
+        fn new(a: T, b: T) -> Self {
+            Self { a, b }
+        }
+    }
+
+    impl<T: std::fmt::Display + PartialOrd + Copy> Pair<T> {
+        fn cmp_display(&self) {
+            println!(
+                "largest member is {}",
+                if self.a >= self.b { self.a } else { self.b }
+            );
+        }
+    }
+
+    impl<T> ToString for Pair<T> {
+        fn to_string(&self) -> std::string::String {
+            String::from("My Pair{}")
+        }
+    }
+
+    Pair::new(34, 12).cmp_display();
+    Pair::new('p', 'q').cmp_display();
+
+    println!("{}", Pair::new(1, 2).to_string());
+
+    // References with lifetimes
+
+    // {
+    //     let r;
+    //     {
+    //         let x = 5;
+    //         r = &x;
+    //     } // r drop here
+    //     println!("{}", r);
+    // }
+
+    /* fn main() {
+        {
+            let r;                // ---------+-- 'a
+                                  //          |
+            {                     //          |
+                let x = 5;        // -+-- 'b  |
+                r = &x;           //  |       |
+            }                     // -+       |
+                                  //          |
+            println!("r: {}", r); //          |
+        }                         // ---------+
+    } */
+
+    /*     fn main() {
+           {
+               let x = 5;            // ----------+-- 'b
+                                     //           |
+               let r = &x;           // --+-- 'a  |
+                                     //   |       |
+               println!("r: {}", r); //   |       |
+                                     // --+       |
+           }                         // ----------+
+       }
+    */
+}
+
+mod front_of_house {
+    pub mod hosting {
+        pub fn add_to_waitlist() {
+            println!("CALL {}", num());
+        }
+
+        fn num() -> u8 {
+            6
+        }
     }
 }
