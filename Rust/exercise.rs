@@ -5,6 +5,8 @@ use std::fs::File;
 use std::io;
 use std::io::{ErrorKind, Read};
 
+use std::env;
+
 fn main() {
     println!("Hello, Rust!");
     let a: [i32; 5] = [1, 2, 3, 4, 5];
@@ -595,6 +597,27 @@ fn main() {
     for _i in 0..5 {
         println!("{:?}", it.next());
     }
+
+    // IO
+    let args: Vec<String> = env::args().collect();
+    println!("args: {:?}", args);
+
+    let add = |a: i32, b: i32| -> i32 { a + b };
+    println!("add {}", add(3, 2));
+}
+
+#[derive(Debug)]
+pub struct Guess {
+    value: i32,
+}
+
+impl Guess {
+    pub fn new(value: i32) -> Guess {
+        if value < 1 || value > 100 {
+            panic!("Guess value must be between 1 and 100, got {}.", value);
+        }
+        Guess { value }
+    }
 }
 
 mod front_of_house {
@@ -606,5 +629,98 @@ mod front_of_house {
         fn num() -> u8 {
             6
         }
+    }
+}
+
+pub fn add_two(x: i32) -> i32 {
+    x + x
+}
+
+pub struct Cacher<T>
+where
+    T: Fn(u32) -> u32,
+{
+    calculation: T,
+    value: Option<u32>,
+}
+
+impl<T> Cacher<T>
+where
+    T: Fn(u32) -> u32,
+{
+    fn new(calculation: T) -> Cacher<T> {
+        Cacher {
+            calculation,
+            value: None,
+        }
+    }
+
+    fn value(&mut self, arg: u32) -> u32 {
+        match self.value {
+            Some(v) => v,
+            None => {
+                let v = (self.calculation)(arg);
+                self.value = Some(v);
+                v
+            }
+        }
+    }
+}
+
+use std::thread;
+use std::time::Duration;
+
+fn generate_workout(intensity: u32, random_number: u32) {
+    let mut expensive_result = Cacher::new(|num| {
+        println!("calculating slowly...");
+        thread::sleep(Duration::from_secs(2));
+        num
+    });
+    if intensity < 25 {
+        println!("Today, do {} pushups!", expensive_result.value(intensity));
+        println!("Next, do {} situps!", expensive_result.value(intensity));
+    } else {
+        if random_number == 3 {
+            println!("Take a break today! Remember to stay hydrated!");
+        } else {
+            println!(
+                "Today, run for {} minutes!",
+                expensive_result.value(intensity)
+            );
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn greater_than_100() {
+        Guess::new(200);
+    }
+
+    #[test]
+    fn it_works() -> Result<(), String> {
+        if 2 + 2 == 4 {
+            Ok(())
+        } else {
+            Err(String::from("tow plus tow does not equal four"))
+        }
+    }
+
+    #[test]
+    fn add_test() {
+        assert_eq!(add_two(4), 8);
+    }
+
+    #[test]
+    fn call_with_different_values() {
+        let mut c = Cacher::new(|x| x);
+
+        let v1 = c.value(1);
+        let v2 = c.value(2);
+
+        assert_eq!(v2, 2);
     }
 }
