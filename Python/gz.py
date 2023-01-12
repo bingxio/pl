@@ -1,17 +1,17 @@
-from api import get_wnl
+from api import day
 
 YEAR = 2020
-FILE = open("gz.txt", "w")
+FILE = open("g", "w")
 
 if __name__ == "__main__":
     while YEAR < 2100:
+        FILE.write("\"%d\"\n" % YEAR)
         for i in range(1, 13):
-            w = get_wnl(YEAR, i, 1)
+            w = day(YEAR, i, 1)[1]
 
             FILE.write(
-                '[%d, "%s", "%s", "%s"],\n'
+                "\"%s %s %s\\n\"\n"
                 % (
-                    YEAR,
                     w[0],
                     w[1],
                     w[2],
