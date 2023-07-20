@@ -1,0 +1,44 @@
+#hashmap and (kv) data structure
+
+impl pair(k, v) {
+  func output {
+    return '<pair k=' + k + 
+      ', v=' + v +
+      '>'
+  }
+}
+
+impl HashMap {
+  var data = []
+
+  func count {
+    return len(data)
+  }
+
+  func insert(key, value) {
+    data.push(pair(key, value))
+  }
+
+  func get(key) {
+    var i = iter(data)
+    loop i.next() {
+      if i.k == key {
+        return i.v
+      }
+    }
+    return nil
+  }
+}
+
+var fruit = ['orange', 'apple', 'blackberry']
+var price = [3.5, 26, 54]
+
+var m = HashMap()
+var i = 0
+
+loop i < 3 {
+  m.insert(fruit.i, price.i)
+  i = i + 1
+}
+
+println(m.get('apple'), m.count(), m.data)
